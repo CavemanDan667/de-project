@@ -1,2 +1,7 @@
 venv
+python-db-connection
+.coverage
+.pytest_cache
+src/__pycache__
+tests/__pycache__
 .env
