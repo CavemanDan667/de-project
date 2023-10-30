@@ -22,26 +22,26 @@ requirements: create-environment
 
 ## Check for security issues with bandit
 run-bandit:
-	bandit -lll ./src/*.py ./tests/*.py
+	$(call execute_in_env, bandit -lll ./src/*.py ./tests/*.py)
 
 ## Check for security vulnerabilities with safety
 run-safety:
-	safety check -r ./requirements.txt
+	$(call execute_in_env, safety check -r ./requirements.txt)
 
 ## Run all security tests (bandit + safety)
 security-test: run-bandit run-safety
 
 ## Check code for pep8 compliance with flake8
 run-flake:
-	flake8  ./src/*.py ./tests/*.py
+	$(call execute_in_env, flake8  ./src/*.py ./tests/*.py)
 
 ## Run the unit tests
 unit-test:
-	PYTHONPATH=$(pwd) pytest -v
+	$(call execute_in_env, PYTHONPATH=$(pwd) pytest -v)
 
 ## Run the coverage check
 check-coverage:
-	PYTHONPATH=$(pwd) coverage run --omit 'venv/*' -m pytest && coverage report -m
+	$(call execute_in_env, PYTHONPATH=$(pwd) coverage run --omit 'venv/*' -m pytest && coverage report -m)
 
 ## Run all checks
 run-checks: requirements security-test run-flake unit-test check-coverage
