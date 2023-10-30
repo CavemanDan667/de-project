@@ -1,0 +1,28 @@
+<mxfile host="65bd71144e">
+    <diagram id="6-qIsg_Fr6xJB_TR5R-c" name="Page-1">
+        <mxGraphModel dx="1216" dy="827" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="4" value="Connect to Db" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="180" y="110" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Set time to 2020" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="160" y="290" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" style="edgeStyle=none;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="6" target="8">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Read S3 and find the most recently created file" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="414" y="120" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Write to S3 bucket&lt;br&gt;&lt;br&gt;Filename: &amp;lt;table name&amp;gt;/ timestamp" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="390" y="350" width="230" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="Do for each table&lt;br&gt;&lt;br&gt;query for each table based on date updated" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="420" y="240" width="140" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
