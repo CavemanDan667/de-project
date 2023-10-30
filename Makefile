@@ -10,7 +10,7 @@ create-environment:
 	    virtualenv venv; \
 	)
 
-ACTIVATE_ENV := source venv/bin/activate
+ACTIVATE_ENV := . venv/bin/activate
 
 define execute_in_env
 	$(ACTIVATE_ENV) && $1
