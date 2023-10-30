@@ -1,6 +1,14 @@
-## Create python virtual environment
+## Create python interpreter environment
 create-environment:
-	python -m venv venv
+	@echo ">>> check python3 version"
+	( \
+		python --version; \
+	)
+	@echo ">>> Setting up VirtualEnv."
+	( \
+	    pip install -q virtualenv virtualenvwrapper; \
+	    virtualenv venv; \
+	)
 
 ACTIVATE_ENV := source venv/bin/activate
 
