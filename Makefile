@@ -37,11 +37,11 @@ run-flake:
 
 ## Run the unit tests
 unit-test:
-	$(call execute_in_env, PYTHONPATH=$(pwd) pytest -v)
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v)
 
 ## Run the coverage check
 check-coverage:
-	$(call execute_in_env, PYTHONPATH=$(pwd) coverage run --omit 'venv/*' -m pytest && coverage report -m)
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) coverage run --omit 'venv/*' -m pytest && coverage report -m)
 
 ## Run all checks
 run-checks: requirements security-test run-flake unit-test check-coverage
