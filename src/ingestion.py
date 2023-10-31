@@ -1,6 +1,7 @@
 import logging
 import tempfile
-import boto3
+from utils.get_time import get_time
+from utils.get_client import get_client
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -8,6 +9,9 @@ logger.setLevel(logging.INFO)
 
 def handler(event, context):
     logger.info("Creating a file locally")
+    now = get_time()
+    print(now)
+    print('hi')
     create_text_file()
 
 
@@ -15,11 +19,6 @@ def create_text_file():
     temp = tempfile.TemporaryFile()
     temp.write(b'This is a test')
     upload_object(temp)
-
-
-def get_client(service_name):
-    client = boto3.client(service_name)
-    return client
 
 
 def upload_object(file_name):
