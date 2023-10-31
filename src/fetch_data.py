@@ -2,6 +2,7 @@ from pg8000.native import InterfaceError, DatabaseError
 import csv
 from connection import get_connection
 
+
 def fetch_data(table_name):
     """
     This function takes a string identifying the table name,
