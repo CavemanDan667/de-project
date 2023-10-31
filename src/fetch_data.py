@@ -7,12 +7,12 @@ def fetch_data(table_name):
     This function takes a string identifying the table name,
     invokes get_connection to establish a connection to the
     database. It then fetches the data from that table,
-    returning the columns and rows/
+    returning the columns and rows.
 
-    This function fetches the data by returning the columns
-    and rows from the specified table name.
+    In the case of an error, the function returns error codes
+    to the user.
 
-    
+    Then, the function closes the connection to the database.
     """
     try:
         con = get_connection()
@@ -29,7 +29,11 @@ def fetch_data(table_name):
 
 def write_data_to_csv(dictionary):
     """
-    This function extracts data from the passed in dictionary
+    This function takes a dictionary as an arguement, which
+    is passed from the response of fetch_data; a dictionary
+    of headers and rows.
+
+    The function then extracts data from the passed in dictionary
     and writes it in a csv file at the provided filepath.
     """
     filepath = 'data.csv'
