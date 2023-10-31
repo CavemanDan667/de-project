@@ -16,7 +16,7 @@ jobs:
           uses: actions/setup-python@v4
           with:
             python-version: '3.11.1'
-        - name: Install dependecies
+        - name: Install Dependencies
           run: make requirements
         - name: Run Flake
           run: make run-flake
@@ -35,10 +35,12 @@ jobs:
           uses: actions/setup-python@v4
           with:
             python-version: '3.11.1'
-        - name: Install dependecies
+        - name: Install Dependencies
           run: make requirements
         - name: Unit Tests
           run: make unit-test
+
+  # In a separate .yml:
   # deploy-terraform:
   #   name: deploy-terraform
   #   runs-on: ubuntu-latest
