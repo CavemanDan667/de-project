@@ -25,7 +25,7 @@ def get_client(service_name):
 def upload_object(file_name):
     s3 = get_client("s3")
     file_name.seek(0)
-    s3.put_object(Bucket="de-project-ingestion-bucket", Key="test_file.txt", Body=file_name)
+    s3.put_object(Bucket="de-project-ingestion-bucket",
+                  Key="test_file.txt", Body=file_name)
     logger.info("File created")
     file_name.close()
-
