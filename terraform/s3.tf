@@ -12,4 +12,3 @@ resource "aws_s3_bucket" "ingestion_bucket" {
 resource "aws_s3_bucket" "processed_bucket" {
   bucket = "de-project-processed-bucket"
 }
-

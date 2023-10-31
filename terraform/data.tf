@@ -6,3 +6,9 @@ locals {
 output "account_id" {
   value = local.account_id
 }
+
+data "archive_file" "zipit" {
+  type = "zip"
+  source_file = "../src/demo.py"
+  output_path = "./zipped/demo.zip"
+}
