@@ -1,5 +1,5 @@
 resource "aws_iam_policy" "cloudwatch_logs_policy" {
-    name = "placeholder-create-write-logs-policy"
+    name = "ingestion-create-write-logs-policy"
     path = "/"
     policy = jsonencode({
         Version = "2012-10-17",
@@ -18,8 +18,31 @@ resource "aws_iam_policy" "cloudwatch_logs_policy" {
     })
 }
 
-resource "aws_iam_role" "placeholder_lambda_role" {
-    name = "placeholder_lambda_role"
+resource "aws_iam_policy" "s3_read_write_policy" {
+    name = "ingestion-s3-read-write-policy"
+    path = "/"
+    policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ListObjectsInBucket",
+            "Effect": "Allow",
+            "Action": ["s3:ListBucket"],
+            "Resource": ["arn:aws:s3:::de-project-ingestion-bucket"]
+        },
+        {
+            "Sid": "AllObjectActions",
+            "Effect": "Allow",
+            "Action": "s3:*Object",
+            "Resource": ["arn:aws:s3:::de-project-ingestion-bucket/*"]
+        }
+    ]
+  })
+}
+
+
+resource "aws_iam_role" "ingestion_lambda_role" {
+    name = "ingestion_lambda_role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -35,7 +58,12 @@ resource "aws_iam_role" "placeholder_lambda_role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "placeholder_attach" {
-  role = aws_iam_role.placeholder_lambda_role.name
+resource "aws_iam_role_policy_attachment" "ingestion_attach" {
+  role = aws_iam_role.ingestion_lambda_role.name
   policy_arn = aws_iam_policy.cloudwatch_logs_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "s3_read_write" {
+  role = aws_iam_role.ingestion_lambda_role.name
+  policy_arn = aws_iam_policy.s3_read_write_policy.arn
 }
