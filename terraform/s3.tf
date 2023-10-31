@@ -1,4 +1,4 @@
-# Meta Data Bucket for Lambda code and other project relevent files
+# Meta Data Bucket for Lambda code and other project relevant files
 resource "aws_s3_bucket" "meta_bucket" {
   bucket = "de-project-meta-bucket"
 }
