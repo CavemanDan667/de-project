@@ -6,7 +6,6 @@ import pytest
 
 
 class TestConnection(TestCase):
-     
     @patch("src.connection.get_connection")
     def test_database(self, mock_connect):
         get_connection(
