@@ -3,7 +3,7 @@ import pytest
 from pg8000.native import Connection
 from dotenv import dotenv_values
 
-config = dotenv_values(".env.test")
+config = dotenv_values(".env")
 
 user = config["USER"]
 password = config["PASSWORD"]
