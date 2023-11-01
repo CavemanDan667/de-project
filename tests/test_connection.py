@@ -2,7 +2,6 @@ from src.connection import get_connection
 from unittest import TestCase
 from pg8000.exceptions import InterfaceError
 import pytest
-from dotenv import dotenv_values
 
 
 class TestConnection(TestCase):
