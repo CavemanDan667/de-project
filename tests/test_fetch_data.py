@@ -5,7 +5,7 @@ from dotenv import dotenv_values
 import pytest
 from datetime import datetime as dt
 
-config = dotenv_values(".env.test")
+config = dotenv_values(".env")
 
 user = config["USER"]
 password = config["PASSWORD"]
