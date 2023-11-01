@@ -37,15 +37,21 @@ pip install -r requirements.txt
 ```bash
 export PYTHONPATH=$(pwd)
 ```
-4. Check that the unit tests are passing.
+4. Seed the test database.
+```bash
+psql -f mock_database/seed.sql
+```
+5. Create a .env file and a .env.test file to hold config details for creating connections.
+-- Necessary content for these files is not available publicly.
+6. Check that the unit tests are passing.
 ```bash
 pytest -v
 ```
-5. Check that the code is PEP8 compliant.
+7. Check that the code is PEP8 compliant.
 ```bash
 flake8  src/ test/
 ```
-6. Terraform the infrastructure.
+8. Terraform the infrastructure.
 ```bash
 terraform init
 terraform plan
