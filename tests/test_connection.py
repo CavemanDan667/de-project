@@ -1,4 +1,4 @@
-from src.connection import get_connection
+from ingestion.ingestion_utils.connection import get_connection
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 from pg8000.exceptions import InterfaceError

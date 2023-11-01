@@ -2,7 +2,7 @@ import logging
 import csv
 import datetime
 import time
-from ingestion_utils.get_client import get_client
+from ingestion_utils.write_data import write_data_to_csv
 
 
 logger = logging.getLogger(__name__)
@@ -15,9 +15,9 @@ def handler(event, context):
     Args - Event, Context - currently unused
     """
     logger.info("Creating a CSV file")
-    # Now lists the number of seconds since the epoch
+    
     now = int(time.time())
-    # Table name and data should be obtained through fetch data
+    
     table_name = "currency"
     data = {
         "Headers": ["currency_id", "currency_code", "created_at", "last_updated"],
@@ -44,20 +44,4 @@ def handler(event, context):
     }
 
     write_data_to_csv(now, table_name, data)
-
-
-# These below need to extracted out into their own files
-def upload_object(now, table_name, file_name):
-    s3 = get_client("s3")
-    s3.upload_file(file_name, "de-project-ingestion-bucket", f"{table_name}/{now}.csv")
-    logger.info(f"{table_name}/{now}.csv has been created")
-
-
-def write_data_to_csv(now, table_name, data):
-    csvfile = open("/tmp/data.csv", "w", newline="")
-    csv_writer = csv.writer(csvfile)
-    csv_writer.writerow(data["Headers"])
-    csv_writer.writerows(data["Rows"])
-    csvfile.close()
-    upload_object(now, table_name, csvfile.name)
 
