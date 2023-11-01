@@ -1,5 +1,7 @@
-from dotenv import dotenv_values
+from dotenv import dotenv_values, load_dotenv
 from pg8000.native import Connection
+
+load_dotenv()
 
 if __name__ == "__main__":
     config = dotenv_values(".env")

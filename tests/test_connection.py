@@ -9,7 +9,7 @@ class TestConnection(TestCase):
     def test_connection_to_database_is_successful_with_correct_configuration(self): # noqa
         con = get_connection(user='peterkonstantynov',
                              password='password',
-                             host='localhost',
+                             host='127.0.0.1',
                              port=5432,
                              database='test')
         self.assertIsNotNone(con)
