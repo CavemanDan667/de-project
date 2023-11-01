@@ -1,6 +1,7 @@
 from pg8000.native import InterfaceError, DatabaseError
 import csv
 from connection import get_connection
+import time
 
 
 def fetch_data(table_name):
@@ -54,3 +55,4 @@ def fetch_and_write_to_csv(table_name):
 
 
 print(fetch_data(table_name='currency'))
+
