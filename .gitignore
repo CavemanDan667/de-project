@@ -3,8 +3,10 @@ python-db-connection
 .coverage
 .pytest_cache
 .env
+.env.test
 src/__pycache__
 tests/__pycache__
 **/.terraform
 **/.terraform.lock.hcl
 src/utils/__pycache__
+seed_test.txt
