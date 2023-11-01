@@ -9,11 +9,11 @@ class TestConnection(TestCase):
 
     def test_connection_to_database_is_successful_with_correct_configuration(self): # noqa
         config = dotenv_values(".env")
-        con = get_connection(user=config["USER"],
-                             password=config["PASSWORD"],
-                             host=config["HOST"],
-                             port=config["PORT"],
-                             database=config["DATABASE"])
+        con = get_connection(user='peterkonstantynov',
+                             password='password',
+                             host='localhost',
+                             port=5432,
+                             database='test')
         self.assertIsNotNone(con)
         con.close()
 
