@@ -12,15 +12,13 @@ if __name__ == "__main__":
     database = config["DATABASE"]
 
 
-def get_connection(user, password, host, port, database):
+def get_connection(
+    user=user, password=password, host=host, port=port, database=database
+):
     """
     This function connects to the PSQL totesys database using pg8000.
     """
     con = Connection(
-        user=user,
-        password=password,
-        host=host,
-        port=port,
-        database=database
+        user=user, password=password, host=host, port=port, database=database
     )
     return con
