@@ -19,13 +19,13 @@ def fetch_data(table_name):
         con = get_connection()
         data = con.run(f"SELECT * FROM {table_name}")
         headers = [c['name'] for c in con.columns]
+        con.close()
         return {'Headers': headers, 'Rows': data}
     except (InterfaceError, DatabaseError) as d:
         print(f'There was a pg8000 error: {d}')
     except Exception as e:
         print(f'There was an unexpected error: {e}')
-    finally:
-        con.close()
+
 
 
 def write_data_to_csv(dictionary):
@@ -53,4 +53,4 @@ def fetch_and_write_to_csv(table_name):
     write_data_to_csv(fecthed_data)
 
 
-print(fetch_and_write_to_csv(table_name='payment'))
+print(fetch_data(table_name='currency'))

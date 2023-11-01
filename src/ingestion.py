@@ -1,7 +1,7 @@
 import logging
-import tempfile
-from utils.get_time import get_time
-from utils.get_client import get_client
+import csv
+import datetime
+import boto3
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -9,22 +9,24 @@ logger.setLevel(logging.INFO)
 
 def handler(event, context):
     logger.info("Creating a file locally")
-    now = get_time()
-    print(now)
-    print('hi')
-    create_text_file()
-
-
-def create_text_file():
-    temp = tempfile.TemporaryFile()
-    temp.write(b'This is a test')
-    upload_object(temp)
+    write_data_to_csv({'Headers': ['currency_id', 'currency_code', 'created_at', 'last_updated'], 'Rows': [[1, 'GBP', datetime.datetime(2022, 11, 3, 14, 20, 49, 962000), datetime.datetime(2022, 11, 3, 14, 20, 49, 962000)], [2, 'USD', datetime.datetime(2022, 11, 3, 14, 20, 49, 962000), datetime.datetime(2022, 11, 3, 14, 20, 49, 962000)], [3, 'EUR', datetime.datetime(2022, 11, 3, 14, 20, 49, 962000), datetime.datetime(2022, 11, 3, 14, 20, 49, 962000)]]})
 
 
 def upload_object(file_name):
     s3 = get_client("s3")
-    file_name.seek(0)
-    s3.put_object(Bucket="de-project-ingestion-bucket",
-                  Key="test_file.txt", Body=file_name)
+    s3.upload_file(file_name, "de-project-ingestion-bucket", "test_file.csv")
     logger.info("File created")
-    file_name.close()
+
+
+def write_data_to_csv(dictionary):
+   
+    csvfile = open('/tmp/test.csv', 'w', newline="")
+    csv_writer = csv.writer(csvfile)
+    csv_writer.writerow(dictionary['Headers'])
+    csv_writer.writerows(dictionary['Rows'])
+    csvfile.close()
+    upload_object(csvfile.name)
+
+def get_client(service_name):
+    client = boto3.client(service_name)
+    return client
