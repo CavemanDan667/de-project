@@ -7,3 +7,4 @@ src/__pycache__
 tests/__pycache__
 **/.terraform
 **/.terraform.lock.hcl
+src/utils/__pycache__
