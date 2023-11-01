@@ -1,5 +1,6 @@
-from src.fetch_data import fetch_data
+from ingestion.ingestion_utils.fetch_data import fetch_data
 from pg8000.native import Connection
+
 from dotenv import dotenv_values
 import pytest
 from datetime import datetime as dt
