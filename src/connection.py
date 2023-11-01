@@ -1,14 +1,13 @@
 from dotenv import dotenv_values
 from pg8000.native import Connection
 
-
-config = dotenv_values(".env")
-
-user = config["USER"]
-password = config["PASSWORD"]
-host = config["HOST"]
-port = config["PORT"]
-database = config["DATABASE"]
+if __name__ == "__main__":
+    config = dotenv_values(".env")
+    user = config["USER"]
+    password = config["PASSWORD"]
+    host = config["HOST"]
+    port = config["PORT"]
+    database = config["DATABASE"]
 
 
 def get_connection(user, password, host, port, database):
