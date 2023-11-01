@@ -1,4 +1,4 @@
-from ingestion.ingestion_utils.fetch_data import fetch_data
+from src.ingestion.ingestion_utils.fetch_data import fetch_data
 from pg8000.native import Connection
 
 from dotenv import dotenv_values

@@ -1,9 +1,10 @@
 import csv
 import logging
-from get_client import get_client
+from src.ingestion.ingestion_utils.get_client import get_client
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
 
 def write_data_to_csv(now, table_name, data):
     """
@@ -24,5 +25,9 @@ def write_data_to_csv(now, table_name, data):
 
 def upload_object(now, table_name, file_name):
     s3 = get_client("s3")
-    s3.upload_file(file_name, "de-project-ingestion-bucket", f"{table_name}/{now}.csv")
+    s3.upload_file(
+        file_name,
+        "de-project-ingestion-bucket",
+        f"{table_name}/{now}.csv"
+    )
     logger.info(f"{table_name}/{now}.csv has been created")

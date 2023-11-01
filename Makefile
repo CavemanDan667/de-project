@@ -33,7 +33,7 @@ security-test: run-bandit run-safety
 
 ## Check code for pep8 compliance with flake8
 run-flake:
-	$(call execute_in_env, flake8  ./src/*.py ./tests/*.py)
+	$(call execute_in_env, flake8  ./src ./tests/*.py)
 
 ## Run the unit tests
 unit-test:
