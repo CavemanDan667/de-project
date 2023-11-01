@@ -1,7 +1,6 @@
 from pg8000.native import DatabaseError, identifier, literal
 
 
-
 def fetch_data(conn, table_name, newest_time, time_now):
     """
     This function takes a database connection and a table name,
@@ -33,4 +32,3 @@ def fetch_data(conn, table_name, newest_time, time_now):
     except DatabaseError as d:
         print(d)
         return f'There was a database error: {table_name}'
-
