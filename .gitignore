@@ -3,7 +3,7 @@ python-db-connection
 .coverage
 .pytest_cache
 .env
-.env.test
+.env.tote
 */__pycache__
 */*/__pycache__
 */*/*/__pycache__
