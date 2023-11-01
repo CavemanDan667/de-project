@@ -9,6 +9,6 @@ output "account_id" {
 
 data "archive_file" "zipit" {
   type = "zip"
-  source_file = "../src/ingestion.py"
+  source_dir = "../src/ingestion"
   output_path = "./zipped/ingestion.zip"
 }

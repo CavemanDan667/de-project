@@ -1,5 +1,5 @@
 from src.fetch_data import fetch_data
-from src.connection import get_connection
+from pg8000.native import Connection
 from dotenv import dotenv_values
 import pytest
 from datetime import datetime as dt
@@ -15,7 +15,12 @@ database = config["DATABASE"]
 
 @pytest.fixture
 def conn():
-    return get_connection(user, password, host, port, database)
+    return Connection(
+        user=user,
+        password=password,
+        host=host,
+        port=port,
+        database=database)
 
 
 def test_function_returns_all_data_if_newest_time_0(conn):

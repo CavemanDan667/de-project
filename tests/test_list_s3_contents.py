@@ -1,4 +1,4 @@
-from src.utils.list_s3_contents import list_contents
+from src.ingestion.ingestion_utils.list_s3_contents import list_contents
 import os
 from moto import mock_s3
 import boto3
