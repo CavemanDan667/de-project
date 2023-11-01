@@ -3,7 +3,9 @@ CREATE DATABASE mock_tote_db;
 
 \c mock_tote_db;
 
-
+DROP TABLE IF EXISTS table_3;
+DROP TABLE IF EXISTS table_2;
+DROP TABLE IF EXISTS table_1;
 
 CREATE TABLE table_1 (
     column_1 INT,
