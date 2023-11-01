@@ -1,4 +1,4 @@
-from src.utils.get_time import get_time
+from src.ingestion.ingestion_utils.get_time import get_time
 from freezegun import freeze_time
 from datetime import datetime
 

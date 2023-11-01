@@ -1,4 +1,4 @@
-from src.utils.extract_newest_time import extract_newest_time
+from src.ingestion.ingestion_utils.extract_newest_time import extract_newest_time
 import pytest
 
 
