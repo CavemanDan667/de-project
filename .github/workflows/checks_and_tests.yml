@@ -16,6 +16,14 @@ jobs:
           uses: actions/setup-python@v4
           with:
             python-version: '3.11.1'
+        - name: Make Envfile
+          uses: SpicyPizza/create-envfile@v2.0
+          with:
+            envkey_USER: ${{ secrets.DB_USER }}
+            envkey_PASSWORD: ${{ secrets.DB_PASS }}
+            envkey_HOST: ${{ secrets.DB_HOST }}
+            envkey_PORT: ${{ secrets.DB_PORT }}
+            envkey_DATABASE: ${{ secrets.DB_DATABASE }}
         - name: Install Dependencies
           run: make requirements
         - name: Run Flake
