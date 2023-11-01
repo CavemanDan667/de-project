@@ -8,7 +8,6 @@ from dotenv import dotenv_values
 class TestConnection(TestCase):
 
     def test_connection_to_database_is_successful_with_correct_configuration(self): # noqa
-        config = dotenv_values(".env")
         con = get_connection(user='peterkonstantynov',
                              password='password',
                              host='localhost',
