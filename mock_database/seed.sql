@@ -22,11 +22,5 @@ CREATE TABLE table_2 (
     column_c INT
 );
 
-INSERT INTO table_2 (column_a, column_b, column_c)
-VALUES (1, 'one', 10),
-        (2, 'two', 20),
-        (3, 'three', 30);
-
 CREATE TABLE _table_3 (
-    column_private INT
 );

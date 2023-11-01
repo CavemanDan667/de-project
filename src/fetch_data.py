@@ -1,56 +1,26 @@
-from pg8000.native import InterfaceError, DatabaseError
-import csv
-from connection import get_connection
+from pg8000.native import DatabaseError
 
 
-def fetch_data(table_name):
+def fetch_data(conn, table_name):
     """
-    This function takes a string identifying the table name,
-    invokes get_connection to establish a connection to the
-    database. It then fetches the data from that table,
-    returning the columns and rows.
+    This function takes a database connection and a table name,
+    and fetches the data from that table.
 
-    In the case of an error, the function returns error codes
-    to the user.
+    Args:
+        conn: an established connection to a database.
+        table_name(string): the name of a table within that database.
 
-    Then, the function closes the connection to the database.
+    Returns:
+        If successful, a dictionary
+        containing all headers and rows from the table.
+        In the case of an error, the function returns error codes.
+
+    Raises:
+        TypeError if parameters are missing.
     """
     try:
-        con = get_connection()
-        data = con.run(f"SELECT * FROM {table_name}")
-        headers = [c['name'] for c in con.columns]
+        data = conn.run(f"SELECT * FROM {table_name}")
+        headers = [c['name'] for c in conn.columns]
         return {'Headers': headers, 'Rows': data}
-    except (InterfaceError, DatabaseError) as d:
-        print(f'There was a pg8000 error: {d}')
-    except Exception as e:
-        print(f'There was an unexpected error: {e}')
-    finally:
-        con.close()
-
-
-def write_data_to_csv(dictionary):
-    """
-    This function takes a dictionary as an arguement, which
-    is passed from the response of fetch_data; a dictionary
-    of headers and rows.
-
-    The function then extracts data from the passed in dictionary
-    and writes it in a csv file at the provided filepath.
-    """
-    filepath = 'data.csv'
-    csvfile = open(filepath, 'w', newline="")
-    csv_writer = csv.writer(csvfile)
-    csv_writer.writerow(dictionary['Headers'])
-    csv_writer.writerows(dictionary['Rows'])
-
-
-def fetch_and_write_to_csv(table_name):
-    """
-    This function invokes the two previous functions by
-    combining data extractions and writing a CSV file
-    """
-    fecthed_data = fetch_data(table_name)
-    write_data_to_csv(fecthed_data)
-
-
-print(fetch_and_write_to_csv(table_name='payment'))
+    except DatabaseError:
+        return 'Table not found'
