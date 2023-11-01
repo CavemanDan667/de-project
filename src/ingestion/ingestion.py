@@ -4,6 +4,7 @@ import datetime
 import time
 from ingestion_utils.get_client import get_client
 
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -59,3 +60,4 @@ def write_data_to_csv(now, table_name, data):
     csv_writer.writerows(data["Rows"])
     csvfile.close()
     upload_object(now, table_name, csvfile.name)
+
