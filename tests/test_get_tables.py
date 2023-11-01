@@ -1,4 +1,4 @@
-from src.utils.get_tables import get_table_names
+from src.ingestion.ingestion_utils.get_tables import get_table_names
 import pytest
 from pg8000.native import Connection
 

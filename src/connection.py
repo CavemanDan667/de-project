@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
 
 def get_connection(
-    user=user, password=password, host=host, port=port, database=database
+    user, password, host, port, database
 ):
     """
     This function connects to the PSQL totesys database using pg8000.
