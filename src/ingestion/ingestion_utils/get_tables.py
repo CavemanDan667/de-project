@@ -2,15 +2,15 @@ def get_table_names(conn):
     """
     This function connects to a database
     and returns a list of all the tables.
-    
+
     Args:
         conn: A connection set up to a specific database,
         allowing this function to be used on any database.
-    
+
     Returns:
         A list of all table names within that database,
         if connection is successful.
-    
+
     Raises:
         TypeError if invoked without a connection.
     """

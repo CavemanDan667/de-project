@@ -1,8 +1,12 @@
 import logging
-import csv
 import datetime
 import time
+from pg8000.native import Connection
 from ingestion_utils.write_data import write_data_to_csv
+from ingestion_utils.fetch_data import fetch_data
+from ingestion_utils.get_tables import get_table_names
+from ingestion_utils.extract_newest_time import extract_newest_time
+from ingestion_utils.list_s3_contents import list_contents
 
 
 logger = logging.getLogger(__name__)
@@ -11,37 +15,24 @@ logger.setLevel(logging.INFO)
 
 def handler(event, context):
     """
-    This handler invokes write data to csv to create a csv in an s3 bucket based on the dictionary that is passed
+    This handler invokes write data to csv to create a .csv
+    in an s3 bucket based on the dictionary that is passed
+
     Args - Event, Context - currently unused
     """
     logger.info("Creating a CSV file")
-    
-    now = int(time.time())
-    
-    table_name = "currency"
-    data = {
-        "Headers": ["currency_id", "currency_code", "created_at", "last_updated"],
-        "Rows": [
-            [
-                1,
-                "GBP",
-                datetime.datetime(2022, 11, 3, 14, 20, 49, 962000),
-                datetime.datetime(2022, 11, 3, 14, 20, 49, 962000),
-            ],
-            [
-                2,
-                "USD",
-                datetime.datetime(2022, 11, 3, 14, 20, 49, 962000),
-                datetime.datetime(2022, 11, 3, 14, 20, 49, 962000),
-            ],
-            [
-                3,
-                "EUR",
-                datetime.datetime(2022, 11, 3, 14, 20, 49, 962000),
-                datetime.datetime(2022, 11, 3, 14, 20, 49, 962000),
-            ],
-        ],
-    }
 
-    write_data_to_csv(now, table_name, data)
+    unix_now = int(time.time())
+    conn = Connection()
 
+    bucket_filenames = list_contents("de-project-ingestion-bucket")
+    newest_time = extract_newest_time(bucket_filenames)
+
+    table_names = get_table_names(conn)
+
+    dt_now = datetime.datetime.fromtimestamp(unix_now)
+    dt_newest = datetime.datetime.fromtimestamp(newest_time)
+
+    for table_name in table_names:
+        data = fetch_data(conn, table_name, dt_newest, dt_now)
+        write_data_to_csv(unix_now, table_name, data)

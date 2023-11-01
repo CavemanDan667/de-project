@@ -1,4 +1,3 @@
-from src.ingestion.ingestion_utils.write_data import write_data_to_csv, upload_object
 import os
 from moto import mock_s3
 import boto3
@@ -20,5 +19,5 @@ class TestUploadObject:
         with mock_s3():
             yield boto3.client("s3")
 
-    def test_should_call_s3_upload_file_with_the_correct_parameters(): #noqa
+    def test_should_call_s3_upload_file_with_the_correct_parameters(self):  # noqa
         pass
