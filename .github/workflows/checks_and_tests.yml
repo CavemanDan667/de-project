@@ -34,12 +34,12 @@ jobs:
         #     envkey_HOST: localhost
         #     envkey_PORT: 5432
         #     envkey_DATABASE: mock_tote_db
-        - name: Use Postgres
-          uses: harmon758/postgresql-action@v1
-          with:
-            postgresql db: mock_tote_db
-            postgresql user: postgres
-            postgresql password: postgres
+        # - name: Use Postgres
+        #   uses: harmon758/postgresql-action@v1
+        #   with:
+        #     postgresql db: mock_tote_db
+        #     postgresql user: postgres
+        #     postgresql password: postgres
         - name: Install Dependencies
           run: make requirements
         - name: Run Flake
