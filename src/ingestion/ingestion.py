@@ -27,7 +27,11 @@ def handler(event, context):
     """
 
     unix_now = int(time.time())
-    conn = Connection(user=user, host=host, database=database, port=port, password=password)
+    conn = Connection(user=user,
+                      host=host,
+                      database=database,
+                      port=port,
+                      assword=password)
 
     bucket_filenames = list_contents("de-project-ingestion-bucket")
     newest_time = extract_newest_time(bucket_filenames)
@@ -41,6 +45,6 @@ def handler(event, context):
         data = fetch_data(conn, table_name, dt_newest, dt_now)
         if len(data['Rows']) != 0:
             write_data_to_csv(unix_now, table_name, data)
-            logger.info(f"[CREATED]: {table_name}/{unix_now}.csv has been created")
+            logger.info(f"[CREATED]: {table_name}/{unix_now}.csv has been created") # noqa
         else:
             logger.info(f'{table_name} had no new data')
