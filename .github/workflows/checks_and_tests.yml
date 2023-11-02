@@ -52,7 +52,7 @@ jobs:
         - name: Run Security Checks
           run: make security-test
         - name: Seed DB
-          run: psql -f mock_database/seed.sql
+          run: sudo -u postgres psql -f mock_database/seed.sql
           env: 
             POSTGRES_HOST: localhost
             POSTGRES_PORT: 5432
