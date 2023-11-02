@@ -1,4 +1,10 @@
-from ingestion_utils.get_client import get_client
+# from ingestion_utils.get_client import get_client
+import boto3
+
+
+def get_client(service_name):
+    client = boto3.client(service_name)
+    return client
 
 
 def list_contents(bucket_name):
