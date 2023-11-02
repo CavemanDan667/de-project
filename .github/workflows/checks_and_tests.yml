@@ -36,10 +36,10 @@ jobs:
           with:
             postgresql version: '11'
           run: psql -f ./mock_database/seed.sql
-        - name: Connect Empty Database
-          uses: harmon758/postgresql-action@v1
-          with:
-            postgresql version: '11'
+        # - name: Connect Empty Database
+        #   uses: harmon758/postgresql-action@v1
+        #   with:
+        #     postgresql version: '11'
           run: psql -f ./mock_database/seed_empty.sql
         - name: Check Coverage
           run: make check-coverage
