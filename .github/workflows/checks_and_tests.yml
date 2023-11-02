@@ -49,6 +49,8 @@ jobs:
           run: make run-flake
         - name: Run Security Checks
           run: make security-test
+        - name: Seed DB
+          run: psql -f curl ${{ secrets.DB_DATABASE }}
         - name: Connect to Database
           run: PG_DATABASE=${{ secrets.DB_PASS }} PG_USER=${{ secrets.DB_USER }} PG_PASSWORD=${{ secrets.DB_PASS }} PG_HOST=postgres PG_PORT=${{ secrets.DB_PORT }}
         # - name: Connect Database
