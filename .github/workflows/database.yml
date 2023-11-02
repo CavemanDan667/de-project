@@ -15,11 +15,11 @@ jobs:
       postgres:
         image: postgres:10.8
       env:
-        USER: ${{ secrets.DB_USER }}
-        PASSWORD: ${{ secrets.DB_PASS }}
-        HOST: postgres
-        DATABASE: ${{ secrets.DB_DATABASE }}
-        PORT: 5432
+        envkey_USER: ${{ secrets.DB_USER }}
+        envkey_PASSWORD: ${{ secrets.DB_PASS }}
+        envkey_HOST: postgres
+        envkey_DATABASE: ${{ secrets.DB_DATABASE }}
+        envkey_PORT: 5432
 
     steps:
       - name: Checkout Repo
