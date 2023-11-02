@@ -5,6 +5,7 @@ on:
     branches:
       - '*'
 
+
 jobs:
   test-and-security:
     name: test-and-security
