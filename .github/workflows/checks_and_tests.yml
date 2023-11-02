@@ -31,9 +31,9 @@ jobs:
         - name: Run Security Checks
           run: make security-test
         - name: Connect Database
-          run: psql -f mock_database/seed.sql
+          run: psql -f ./mock_database/seed.sql
         - name: Connect Empty Database
-          run: psql -f mock_database/seed_empty.sql
+          run: psql -f ./mock_database/seed_empty.sql
         - name: Check Coverage
           run: make check-coverage
   run-unit-tests: 
