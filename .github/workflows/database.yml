@@ -30,6 +30,8 @@ jobs:
           uses: actions/checkout@v4
         - run: -f mock_database/seed.sql
           working-directory: ./
+        - name: Unit Tests
+          run: make unit-test
 
 
 
