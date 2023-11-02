@@ -10,23 +10,21 @@ jobs:
   test-and-security:
     name: test-and-security
     runs-on: ubuntu-latest
-    container:
-      image: python:3.11
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
-          POSTGRES_DB: mock_tote_db
-          POSTGRES_PORT: 5432
-        ports: 
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    # services:
+    #   postgres:
+    #     image: postgres
+    #     env:
+    #       POSTGRES_PASSWORD: postgres
+    #       POSTGRES_USER: postgres
+    #       POSTGRES_DB: mock_tote_db
+    #       POSTGRES_PORT: 5432
+    #     ports: 
+    #       - 5432:5432
+    #     options: >-
+    #       --health-cmd pg_isready
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
     steps:
         - name: Checkout Repo
           uses: actions/checkout@v4
@@ -54,6 +52,14 @@ jobs:
           run: make run-flake
         - name: Run Security Checks
           run: make security-test
+        - name: Setup Postgres
+        - uses: ikalnytskyi/action-setup-postgres@v4
+          with:
+            username: ci
+            password: sw0rdfish
+            database: test
+            port: 34837
+          id: postgres
         - name: Seed DB
           run: sudo -u postgres psql -f mock_database/seed.sql
           env: 
