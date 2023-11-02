@@ -25,7 +25,6 @@ def handler(event, context):
 
     Args - Event, Context - currently unused
     """
-    logger.info("Creating a CSV file")
 
     unix_now = int(time.time())
     conn = Connection(user=user, host=host, database=database, port=port, password=password)
@@ -40,4 +39,8 @@ def handler(event, context):
 
     for table_name in table_names:
         data = fetch_data(conn, table_name, dt_newest, dt_now)
-        write_data_to_csv(unix_now, table_name, data)
+        if len(data['Rows']) != 0:
+            write_data_to_csv(unix_now, table_name, data)
+            logger.info(f"[CREATED]: {table_name}/{unix_now}.csv has been created")
+        else:
+            logger.info(f'{table_name} had no new data')

@@ -30,4 +30,3 @@ def upload_object(now, table_name, file_name):
         "de-project-ingestion-bucket",
         f"{table_name}/{now}.csv"
     )
-    logger.info(f"{table_name}/{now}.csv has been created")
