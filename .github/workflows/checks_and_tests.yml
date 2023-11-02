@@ -10,6 +10,8 @@ jobs:
   test-and-security:
     name: test-and-security
     runs-on: ubuntu-latest
+    container:
+      image: python:latest
     services:
       postgres:
         image: postgres
