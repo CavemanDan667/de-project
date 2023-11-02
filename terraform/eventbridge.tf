@@ -1,4 +1,3 @@
-
 resource "aws_cloudwatch_event_rule" "every_five_minutes" {
     name = "every-five-minutes"
     description = "Fires every five minutes"

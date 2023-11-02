@@ -1,6 +1,6 @@
 import csv
 import logging
-from src.ingestion.ingestion_utils.get_client import get_client
+from ingestion_utils.get_client import get_client
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
