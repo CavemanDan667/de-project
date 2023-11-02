@@ -5,6 +5,11 @@ on:
     branches:
       - '*'
 
+env:
+  DB_HOST: localhost
+  DB_USERNAME: postgres
+  DB_PASSWORD: postgres
+
 
 jobs:
   test-and-security:
@@ -15,11 +20,9 @@ jobs:
         image: postgres
         env:
           POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
           POSTGRES_DB: mock_tote_db
-          POSTGRES_PORT: 5432
         ports: 
-          - 5432:5432
+          - 5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -52,22 +55,9 @@ jobs:
           run: make run-flake
         - name: Run Security Checks
           run: make security-test
-        - name: Setup Postgres
-        - uses: ikalnytskyi/action-setup-postgres@v4
-          with:
-            username: postgres
-            password: postgres
-            database: mock_tote_db
-            port: 5432
-          id: postgres
         - name: Seed DB
-          run: sudo -u postgres psql -f mock_database/seed.sql
-          env: 
-            POSTGRES_HOST: localhost
-            POSTGRES_PORT: 5432
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: postgres
-            POSTGRES_DB: mock_tote_db
+          run: PGPASSWORD=postgres psql -f mock_database/seed.sql
+
         # - name: Seed DB
         #   run: psql -f mock_database/seed_empty.sql
         # - name: Connect to Database
