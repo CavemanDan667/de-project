@@ -5,6 +5,14 @@ resource "aws_lambda_function" "ingestion_lambda" {
   runtime       = "python3.11"
   handler = "ingestion.handler"
   layers = [aws_lambda_layer_version.ingestion_lambda_layer.arn]
+  environment {
+    variables = {
+      user = var.USER,
+      host = var.HOST,
+      database = var.DATABASE,
+      password = var.PASSWORD,
+      port = var.PORT}
+  }
 }
 
 resource "aws_lambda_layer_version" "ingestion_lambda_layer" {
