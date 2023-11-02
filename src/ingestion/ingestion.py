@@ -7,7 +7,12 @@ from ingestion_utils.fetch_data import fetch_data
 from ingestion_utils.get_tables import get_table_names
 from ingestion_utils.extract_newest_time import extract_newest_time
 from ingestion_utils.list_s3_contents import list_contents
-
+import os
+user = os.environ['user']
+host = os.environ['host']
+database = os.environ['database']
+password = os.environ['password']
+port = os.environ['port']
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -23,7 +28,7 @@ def handler(event, context):
     logger.info("Creating a CSV file")
 
     unix_now = int(time.time())
-    conn = Connection()
+    conn = Connection(user=user, host=host, database=database, port=port, password=password)
 
     bucket_filenames = list_contents("de-project-ingestion-bucket")
     newest_time = extract_newest_time(bucket_filenames)
