@@ -10,15 +10,15 @@ jobs:
   test-and-security:
     name: test-and-security
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:11
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-          POSTGRES_HOST: postgres
-        ports: ['5432:5432']
+    # services:
+    #   postgres:
+    #     image: postgres:11
+    #     env:
+    #       POSTGRES_USER: postgres
+    #       POSTGRES_PASSWORD: postgres
+    #       POSTGRES_DB: postgres
+    #       POSTGRES_HOST: postgres
+    #     ports: ['5432:5432']
     steps:
         - name: Checkout Repo
           uses: actions/checkout@v4
@@ -34,12 +34,23 @@ jobs:
             envkey_HOST: postgres
             envkey_PORT: ${{ secrets.DB_PORT }}
             envkey_DATABASE: ${{ secrets.DB_DATABASE }}
+        - name: Use Postgres
+          uses: harmon758/postgresql-action@v1
+          with:
+            postgresql db: ${{ secrets.DB_DATABASE }}
+            postgresql user: ${{ secrets.DB_USER }}
+            postgresql password: ${{ secrets.DB_PASS }}
+            postgresql host: postgres
+            postgresql port: ${{ secrets.DB_PORT }}
+
         - name: Install Dependencies
           run: make requirements
         - name: Run Flake
           run: make run-flake
         - name: Run Security Checks
           run: make security-test
+        - name: Connect to Database
+          run: PG_DATABASE=${{ secrets.DB_PASS }} PG_USER=${{ secrets.DB_USER }} PG_PASSWORD=${{ secrets.DB_PASS }} PG_HOST=postgres PG_PORT=${{ secrets.DB_PORT }}
         # - name: Connect Database
           # uses: harmon758/postgresql-action@v1
           # with:
