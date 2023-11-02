@@ -55,10 +55,10 @@ jobs:
         - name: Setup Postgres
         - uses: ikalnytskyi/action-setup-postgres@v4
           with:
-            username: ci
-            password: sw0rdfish
-            database: test
-            port: 34837
+            username: postgres
+            password: postgres
+            database: mock_tote_db
+            port: 5432
           id: postgres
         - name: Seed DB
           run: sudo -u postgres psql -f mock_database/seed.sql
