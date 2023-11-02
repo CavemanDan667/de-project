@@ -37,7 +37,7 @@ jobs:
         - name: Use Postgres
           uses: harmon758/postgresql-action@v1
           with:
-            postgresql db: postgres
+            postgresql db: mock_tote_db
             postgresql user: postgres
             postgresql password: postgres
         - name: Install Dependencies
