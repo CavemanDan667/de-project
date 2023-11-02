@@ -12,13 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:latest
+        image: postgres
         env:
-          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: mock_tote_db
-          POSTGRES_HOST: localhost
-        ports: ['5432:5432']
+        ports: 
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -51,12 +49,15 @@ jobs:
           run: make run-flake
         - name: Run Security Checks
           run: make security-test
+        - name: Connect to Database
+          run: PG_DATABASE=mock_tote_db PG_USER=postgres PG_PASSWORD=postgres       PG_HOST=localhost PG_PORT=5432
         - name: Seed DB
           run: psql -f mock_database/seed.sql
-        - name: Seed DB
-          run: psql -f mock_database/seed_empty.sql
-        - name: Connect to Database
-          run: PG_DATABASE=mock_tote_db PG_USER=postgres PG_PASSWORD=postgres PG_HOST=localhost PG_PORT=5432
+          env: 
+            POSTGRES_HOST: localhost
+            POSTGRES_PORT: 5432
+        # - name: Seed DB
+        #   run: psql -f mock_database/seed_empty.sql
         # - name: Connect Database
           # uses: harmon758/postgresql-action@v1
           # with:
