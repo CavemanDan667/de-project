@@ -11,7 +11,7 @@ jobs:
     name: test-and-security
     runs-on: ubuntu-latest
     container:
-      image: python:latest
+      image: python:3.11
     services:
       postgres:
         image: postgres
@@ -19,6 +19,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
           POSTGRES_DB: mock_tote_db
+          POSTGRES_PORT: 5432
         ports: 
           - 5432:5432
         options: >-
