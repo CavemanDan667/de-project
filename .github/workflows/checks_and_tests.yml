@@ -40,7 +40,6 @@ jobs:
             postgresql db: postgres
             postgresql user: postgres
             postgresql password: postgres
-
         - name: Install Dependencies
           run: make requirements
         - name: Run Flake
@@ -48,6 +47,7 @@ jobs:
         - name: Run Security Checks
           run: make security-test
         - name: Seed DB
+          needs: Use Postgres
           run: psql -f mock_database/seed.sql
         - name: Seed DB
           run: psql -f mock_database/seed_empty.sql
