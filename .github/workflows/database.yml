@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - '*'
-  # pull_request:
-  #   branches:
-  #     - '*'
-
 jobs:
   container-job:
     runs-on: ubuntu-latest
@@ -15,23 +11,23 @@ jobs:
     container:
       image: python:3.11
 
-      services:
-        postgres:
-          image: postgres:10.8
-        env:
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASS: ${{ secrets.DB_PASS }}
-          DB_HOST: postgres
-          DB_DATABASE: ${{ secrets.DB_DATABASE }}
-          DB_PORT: 5432
+    services:
+      postgres:
+        image: postgres:10.8
+      env:
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASS: ${{ secrets.DB_PASS }}
+        DB_HOST: postgres
+        DB_DATABASE: ${{ secrets.DB_DATABASE }}
+        DB_PORT: 5432
 
-      steps:
-        - name: Checkout Repo
-          uses: actions/checkout@v4
-        - run: -f mock_database/seed.sql
-          working-directory: ./
-        - name: Unit Tests
-          run: make unit-test
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+      - run: -f mock_database/seed.sql
+        working-directory: ./
+      - name: Unit Tests
+        run: make unit-test
 
 
 
