@@ -1,4 +1,4 @@
-from src.ingestion.ingestion_utils.get_client import get_client
+from ingestion_utils.get_client import get_client
 
 
 def list_contents(bucket_name):
