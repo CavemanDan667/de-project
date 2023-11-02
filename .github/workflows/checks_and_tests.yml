@@ -31,7 +31,7 @@ jobs:
           with:
             envkey_USER: postgres
             envkey_PASSWORD: postgres
-            envkey_HOST: postgres
+            envkey_HOST: localhost
             envkey_PORT: 5432
             envkey_DATABASE: mock_tote_db
         - name: Use Postgres
@@ -47,12 +47,11 @@ jobs:
         - name: Run Security Checks
           run: make security-test
         - name: Seed DB
-          needs: Use Postgres
           run: psql -f mock_database/seed.sql
         - name: Seed DB
           run: psql -f mock_database/seed_empty.sql
         - name: Connect to Database
-          run: PG_DATABASE=mock_tote_db PG_USER=postgres PG_PASSWORD=postgres PG_HOST=postgres PG_PORT=5432
+          run: PG_DATABASE=mock_tote_db PG_USER=postgres PG_PASSWORD=postgres PG_HOST=localhost PG_PORT=5432
         # - name: Connect Database
           # uses: harmon758/postgresql-action@v1
           # with:
