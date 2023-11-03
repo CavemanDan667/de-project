@@ -44,7 +44,9 @@ jobs:
       - name: Install dependencies
         run: make requirements
 
-    
+      - name: Install pg8000
+        run: pip install pg8000
+
       - name: Connect to PostgreSQL
         # Runs a script that creates a PostgreSQL table, populates
         # the table with data, and then retrieves the data
