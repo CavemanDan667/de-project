@@ -2,11 +2,11 @@ import logging
 import datetime
 import time
 from pg8000.native import Connection
-from ingestion_utils.write_data import write_data_to_csv
-from ingestion_utils.fetch_data import fetch_data
-from ingestion_utils.get_tables import get_table_names
-from ingestion_utils.extract_newest_time import extract_newest_time
-from ingestion_utils.list_s3_contents import list_contents
+from .ingestion_utils.write_data import write_data_to_csv
+from .ingestion_utils.fetch_data import fetch_data
+from .ingestion_utils.get_tables import get_table_names
+from .ingestion_utils.extract_newest_time import extract_newest_time
+from .ingestion_utils.list_s3_contents import list_contents
 import os
 
 user = os.environ["user"]
