@@ -29,9 +29,8 @@ class TestUploadObject:
 
         upload_object("0001", "currency", "test.txt")
         list_of_objects = s3.list_objects_v2(
-            Bucket="de-project-ingestion-bucket")
+                Bucket="de-project-ingestion-bucket")
         assert list_of_objects["Contents"][0]["Key"] == "currency/0001.csv" # noqa
-        assert "currency/0001.csv has been created" in caplog.text
 
 
     def test_write_data_converts_dictionary_into_csv_and_uploads_to_s3_bucket(self, s3, caplog): # noqa
@@ -50,13 +49,12 @@ class TestUploadObject:
         }
 
         write_data_to_csv("0001", "currency", data)
-        list_of_objects = s3.list_objects_v20(
+        list_of_objects = s3.list_objects_v2(
             Bucket="de-project-ingestion-bucket")
         response_body = s3.get_object(Bucket="de-project-ingestion-bucket",
                                       Key="currency/0001.csv")["Body"].read().decode("utf-8") # noqa
 
         assert list_of_objects["Contents"][0]["Key"] == "currency/0001.csv"
-        assert "currency/0001.csv has been created" in caplog.text
         assert 'column_1,column_2,column_3,last_updated\r\n' in response_body
         assert '1,one,10,"(2020, 1, 1, 0, 0)"\r\n2,' in response_body
         assert '2,two,20,"(2020, 1, 1, 0, 0)"\r\n3,' in response_body

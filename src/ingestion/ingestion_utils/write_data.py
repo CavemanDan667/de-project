@@ -1,6 +1,5 @@
 import csv
 import logging
-# from ingestion_utils.get_client import get_client
 import boto3
 
 
