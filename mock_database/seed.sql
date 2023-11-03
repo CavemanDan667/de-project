@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS mock_tote_db;
 CREATE DATABASE mock_tote_db;
 
-\c mock_tote_db;
+\c mock_tote_db
 
 DROP TABLE IF EXISTS table_3;
 DROP TABLE IF EXISTS table_2;
