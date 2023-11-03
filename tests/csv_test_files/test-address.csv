@@ -1,0 +1,6 @@
+address_id,address_line_1,address_line_2,district,city,postal_code,country,phone,created_at,last_updated
+1,123 Main Street,,Central,New Town,12345,England,1234 567890,2000-01-01 10:00:00.000,2020-10-10 11:30:00.000
+2,234 St. Steven's Road,,,Old Town,22222-3333,Northern Ireland,07700 100200,2000-01-01 10:00:00.000,2020-10-10 11:30:00.000
+3,Flat 12,Block A,,New South Bridge,67890,Scotland,0044 123456,2000-01-01 10:00:00.000,2020-10-10 11:30:00.000
+4,5 Far Lane,Parkway,North Shore,Castletown,AB2 3CD,Wales,1234 800900,2000-01-01 10:00:00.000,2020-10-10 11:30:00.000
+5,98 High Valley Road,,,Upbridge,XY765ZZ,Bosnia and Herzegovina,123 456 7890,2000-01-01 10:00:00.000,2020-10-10 11:30:00.000

@@ -1,0 +1,6 @@
+staff_id,first_name,last_name,department_id,email_address,created_at,last_updated
+1,NameA,SurnameA,2,namea.surnamea@terrifictotes.com,2000-01-01 10:00:00.000,2020-10-10 11:30:00.000
+2,NameB,SurnameB,1,nameb.surnameb@terrifictotes.com,2000-01-01 10:00:00.000,2020-10-10 11:30:00.000
+3,NameC,SurnameC,1,namec.surnamec@terrifictotes.com,2000-01-01 10:00:00.000,2020-10-10 11:30:00.000
+4,NameD,SurnameD,3,named.surnamed@terrifictotes.com,2000-01-01 10:00:00.000,2020-10-10 11:30:00.000
+5,NameE,SurnameE,4,namee.surnamee@terrifictotes.com,2000-01-01 10:00:00.000,2020-10-10 11:30:00.000
