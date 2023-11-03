@@ -1,4 +1,6 @@
+# flake8: noqa
 from pg8000.native import Connection
+
 
 def test_db_seeder():
     conn = Connection(user="mock_tote_db",
@@ -13,5 +15,6 @@ def test_db_seeder():
     conn.run("CREATE TABLE _table_3 ();")
     conn.run("SELECT * FROM table_1 WHERE last_updated BETWEEN '2022-01-01 00:00:00' AND '2024-01-01 00:00:00';")
     conn.run("CREATE DATABASE mock_empty_db")
-    
+
+
 test_db_seeder()
