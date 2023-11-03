@@ -1,0 +1,64 @@
+name: Security Checks and Testing
+
+on: 
+  push:
+    branches:
+      - '*'
+
+jobs:
+  
+  runner-job:
+    
+    runs-on: ubuntu-latest
+
+    
+    services:
+      
+      postgres:
+        
+        image: postgres
+        
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: "mock_tote_db"
+        
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+        
+          - 5432:5432
+
+    steps:
+      
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+            python-version: '3.11.1'
+
+      - name: Install dependencies
+        run: run make-requirements
+
+    
+      - name: Connect to PostgreSQL
+        # Runs a script that creates a PostgreSQL table, populates
+        # the table with data, and then retrieves the data
+        run: python mock_database/seed.py
+        # Environment variables used by the `client.js` script to create
+        # a new PostgreSQL table.
+        env:
+          # The hostname used to communicate with the PostgreSQL service container
+          POSTGRES_HOST: localhost
+          # The default PostgreSQL port
+          POSTGRES_PORT: 5432
+      - name: Run Flake
+        run: make run-flake
+      - name: Run Security Checks
+        run: make security-test
+
+        
