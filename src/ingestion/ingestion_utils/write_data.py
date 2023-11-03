@@ -1,7 +1,7 @@
 import csv
 import logging
 import boto3
-from botocore.exceptions import ClientError
+
 
 def get_client(service_name):
     client = boto3.client(service_name)
@@ -30,12 +30,11 @@ def write_data_to_csv(now, table_name, data):
         none
 
     Raises:
-        none
+        KeyError: KeyError: key 'Headers/Rows' not found
+        csv.Error: csv.Error: invalid data type: iterable expected
 
     """
-
     try:
-
         csvfile = open("/tmp/data.csv", "w", newline="")
         csv_writer = csv.writer(csvfile)
         csv_writer.writerow(data["Headers"])
@@ -49,33 +48,9 @@ def write_data_to_csv(now, table_name, data):
         logger.error(f"csv.Error: invalid data type: {e}")
         raise e
 
-    
-
 
 def upload_object(now, table_name, file_name):
-    try:
-
-        s3 = get_client("s3")
-        s3.upload_file(
-            file_name,
-            "de-project-ingestion-bucket",
-            f"{table_name}/{now}.csv"
-        )
-    except FileNotFoundError as e:
-        logger.error(f"File not found")
-        raise e
-
-
-    csvfile = open("/tmp/data.csv", "w", newline="")
-    csv_writer = csv.writer(csvfile)
-    csv_writer.writerow(data["Headers"])
-    csv_writer.writerows(data["Rows"])
-    csvfile.close()
-    upload_object(now, table_name, csvfile.name)
-
-
-def upload_object(now, table_name, file_name):
-    '''
+    """
     This function takes the timestamp, the table name and
     the dictionary of headers and rows as arguments, passed
     in via write_data_to_csv function.
@@ -91,13 +66,14 @@ def upload_object(now, table_name, file_name):
         none
 
     Raises:
-        none
+        FileNotFoundError: File not found
 
-    '''
-    s3 = get_client("s3")
-    s3.upload_file(
-        file_name,
-        "de-project-ingestion-bucket",
-        f"{table_name}/{now}.csv"
-    )
-
+    """
+    try:
+        s3 = get_client("s3")
+        s3.upload_file(
+            file_name, "de-project-ingestion-bucket", f"{table_name}/{now}.csv"
+        )
+    except FileNotFoundError as e:
+        logger.error("File not found")
+        raise e
