@@ -6,6 +6,7 @@ resource "aws_lambda_function" "ingestion_lambda" {
   handler = "ingestion.handler"
   timeout = 30
   layers = [aws_lambda_layer_version.ingestion_lambda_layer.arn]
+  source_code_hash = data.archive_file.zip_ingestion.output_base64sha256
   environment {
     variables = {
       user = var.USER,
