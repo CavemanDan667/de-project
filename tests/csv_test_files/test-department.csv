@@ -1,0 +1,5 @@
+department_id,department_name,location,manager,created_at,last_updated
+1,Dept1,LocationA,Name One,2000-01-01 10:00:00.000,2020-10-00 11:30:00.000
+2,Dept2,LocationA,Name Two,2000-01-01 10:00:00.000,2020-10-00 11:30:00.000
+3,Dept3,LocationB,Fakename Three,2000-01-01 10:00:00.000,2020-10-00 11:30:00.000
+4,Dept4,LocationB,Othername Four,2000-01-01 10:00:00.000,2020-10-00 11:30:00.000

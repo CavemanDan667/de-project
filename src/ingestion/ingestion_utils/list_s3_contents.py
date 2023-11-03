@@ -1,4 +1,3 @@
-# from ingestion_utils.get_client import get_client
 import boto3
 
 
@@ -13,14 +12,14 @@ def list_contents(bucket_name):
     and returns a list with all contents of that bucket
 
     Args:
-    bucket_name as a string
+        bucket_name as a string
 
     Returns:
-    list of all objects in the s3 bucket as strings
+        list of all objects in the s3 bucket as strings
 
     Raises:
-    KeyError - If the bucket has no objects then return an empty list
-    AttributeError - If the connection fails the return an empty list
+        KeyError - If the bucket has no objects then return an empty list
+        AttributeError - If the connection fails the return an empty list
 
     """
     try:
