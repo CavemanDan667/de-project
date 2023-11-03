@@ -22,7 +22,7 @@ requirements: create-environment
 
 ## Check for security issues with bandit
 run-bandit:
-	$(call execute_in_env, bandit -lll ./src/ingestion/ingestion_utils/*.py ./src/ingestion/ingestion.py ./tests/*.py ./mock_database/*.py)
+	$(call execute_in_env, bandit -lll ./src/*/*/*.py ./src/*/*.py ./tests/*.py ./mock_database/*.py)
 
 ## Check for security vulnerabilities with safety
 run-safety:

@@ -33,7 +33,7 @@ class TestUploadObject:
             CreateBucketConfiguration={"LocationConstraint": "eu-west-2"},
         )
 
-        upload_object("0001", "currency", "test.txt")
+        upload_object("0001", "currency", "tests/test.txt")
         list_of_objects = s3.list_objects_v2(
             Bucket="de-project-ingestion-bucket")
         assert list_of_objects["Contents"][0]["Key"] == "currency/0001.csv"  # noqa
