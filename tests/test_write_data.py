@@ -2,8 +2,7 @@ import os
 from moto import mock_s3
 import boto3
 import pytest
-from src.ingestion.ingestion_utils.write_data import write_data_to_csv, upload_object
-from pprint import pprint
+from src.ingestion.ingestion_utils.write_data import write_data_to_csv, upload_object # noqa
 
 
 class TestUploadObject:
@@ -27,14 +26,15 @@ class TestUploadObject:
             Bucket="de-project-ingestion-bucket",
             CreateBucketConfiguration={"LocationConstraint": "eu-west-2"},
         )
-        
-        upload_object("0001","currency","test.txt")
-        list_of_objects = s3.list_objects_v2(Bucket="de-project-ingestion-bucket")
-        assert list_of_objects["Contents"][0]["Key"] == "currency/0001.csv"
+
+        upload_object("0001", "currency", "test.txt")
+        list_of_objects = s3.list_objects_v2(
+            Bucket="de-project-ingestion-bucket")
+        assert list_of_objects["Contents"][0]["Key"] == "currency/0001.csv" # noqa
         assert "currency/0001.csv has been created" in caplog.text
 
 
-    def test_write_data_converts_dictionary_into_csv_and_uploads_to_s3_bucket(self, s3, caplog):
+    def test_write_data_converts_dictionary_into_csv_and_uploads_to_s3_bucket(self, s3, caplog): # noqa
         s3.create_bucket(
             Bucket="de-project-ingestion-bucket",
             CreateBucketConfiguration={"LocationConstraint": "eu-west-2"},
@@ -50,8 +50,10 @@ class TestUploadObject:
         }
 
         write_data_to_csv("0001", "currency", data)
-        list_of_objects = s3.list_objects_v2(Bucket="de-project-ingestion-bucket")
-        response_body = s3.get_object(Bucket="de-project-ingestion-bucket", Key="currency/0001.csv")["Body"].read().decode("utf-8")
+        list_of_objects = s3.list_objects_v20(
+            Bucket="de-project-ingestion-bucket")
+        response_body = s3.get_object(Bucket="de-project-ingestion-bucket",
+                                      Key="currency/0001.csv")["Body"].read().decode("utf-8") # noqa
 
         assert list_of_objects["Contents"][0]["Key"] == "currency/0001.csv"
         assert "currency/0001.csv has been created" in caplog.text
@@ -59,4 +61,3 @@ class TestUploadObject:
         assert '1,one,10,"(2020, 1, 1, 0, 0)"\r\n2,' in response_body
         assert '2,two,20,"(2020, 1, 1, 0, 0)"\r\n3,' in response_body
         assert '3,three,30,"(2023, 11, 1, 0, 0)"\r\n' in response_body
-
