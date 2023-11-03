@@ -1,4 +1,5 @@
 from pg8000.native import DatabaseError, identifier, literal
+import logging
 
 
 def fetch_data(conn, table_name, newest_time, time_now):
@@ -22,6 +23,8 @@ def fetch_data(conn, table_name, newest_time, time_now):
     Raises:
         TypeError if parameters are missing.
     """
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
     try:
         query = f"""SELECT * FROM {identifier(table_name)}
         WHERE last_updated BETWEEN {literal(newest_time)}
@@ -30,5 +33,5 @@ def fetch_data(conn, table_name, newest_time, time_now):
         headers = [c['name'] for c in conn.columns]
         return {'Headers': headers, 'Rows': data}
     except DatabaseError as d:
-        print(d)
-        return f'There was a database error: {table_name}'
+        logger.error(f'There was a database error: {d}')
+        raise d
