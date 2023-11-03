@@ -1,8 +1,7 @@
 import logging
-def get_table_names(conn):
 
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
+
+def get_table_names(conn):
     """
     This function connects to a database
     and returns a list of all the tables.
@@ -18,6 +17,8 @@ def get_table_names(conn):
     Raises:
         TypeError if invoked without a connection.
     """
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
     try:
         data = conn.run("""SELECT table_name
                         FROM information_schema.tables
