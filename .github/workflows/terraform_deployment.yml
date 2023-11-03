@@ -1,0 +1,38 @@
+name: Terraform Deployment
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-terraform:
+      name: Deploy Terraform
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Repo
+          uses: actions/checkout@v4
+
+        - name: Configure AWS CLI
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: eu-west-2
+
+        - name: Setup Terraform
+          uses: hashicorp/setup-terraform@v2
+
+        - name: Terraform Init
+          working-directory: terraform
+          run: terraform init
+
+        - name: Terraform Apply
+          working-directory: terraform
+          run: terraform apply --auto-approve
+          env:
+              TF_VAR_USER: ${{ secrets.TOTESYS_USER }}
+              TF_VAR_HOST: ${{ secrets.TOTESYS_HOST }}
+              TF_VAR_DATABASE: ${{ secrets.TOTESYS_DATABASE }}
+              TF_VAR_PASSWORD: ${{ secrets.TOTESYS_PASSWORD }}
+              TF_VAR_PORT: ${{ secrets.TOTESYS_PORT }}
