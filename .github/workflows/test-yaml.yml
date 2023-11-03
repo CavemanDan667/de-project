@@ -62,6 +62,15 @@ jobs:
         run: make run-flake
       - name: Run Security Checks
         run: make security-test
+
+      - name: Make Envfile
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_USER: mock_tote_db
+          envkey_PASSWORD: postgres
+          envkey_HOST: localhost
+          envkey_PORT: 5432
+          envkey_DATABASE: mock_tote_db
       - name: Unit Tests
         run: make unit-test
 
