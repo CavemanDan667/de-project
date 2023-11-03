@@ -58,10 +58,6 @@ jobs:
           POSTGRES_HOST: localhost
           # The default PostgreSQL port
           POSTGRES_PORT: 5432
-      - name: Run Flake
-        run: make run-flake
-      - name: Run Security Checks
-        run: make security-test
 
       - name: Make Envfile
         uses: SpicyPizza/create-envfile@v2.0
@@ -71,7 +67,18 @@ jobs:
           envkey_HOST: localhost
           envkey_PORT: 5432
           envkey_DATABASE: mock_tote_db
+
+      - name: Run Flake
+        run: make run-flake
+
+      - name: Run Security Checks
+        run: make security-test
+
+      - name: Check Coverage
+        run: make check-coverage
+        
       - name: Unit Tests
         run: make unit-test
+
 
 
