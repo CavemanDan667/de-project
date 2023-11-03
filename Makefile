@@ -22,7 +22,7 @@ requirements: create-environment
 
 ## Check for security issues with bandit
 run-bandit:
-	$(call execute_in_env, bandit -lll ./src/*.py ./tests/*.py)
+	$(call execute_in_env, bandit -lll ./src/*/*/*.py ./tests/*.py)
 
 ## Check for security vulnerabilities with safety
 run-safety:
