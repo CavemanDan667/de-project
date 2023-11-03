@@ -51,8 +51,3 @@ resource "aws_cloudwatch_log_metric_filter" "metric_filter" {
     value     = "1"
   }
 }
-
-
-resource "aws_cloudwatch_metric_alarm" {
-    
-}
