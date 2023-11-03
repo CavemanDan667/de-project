@@ -5,11 +5,11 @@ from dotenv import dotenv_values
 
 config = dotenv_values(".env")
 
-user = config["USER"]
-password = config["PASSWORD"]
-host = config["HOST"]
-port = config["PORT"]
-database = config["DATABASE"]
+user = config["TEST_USER"]
+password = config["TEST_PASSWORD"]
+host = config["TEST_HOST"]
+port = config["TEST_PORT"]
+database = config["TEST_DATABASE"]
 
 
 def test_function_raises_error_if_no_connection_passed():

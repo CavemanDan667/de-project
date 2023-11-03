@@ -7,11 +7,11 @@ from datetime import datetime as dt
 
 config = dotenv_values(".env")
 
-user = config["USER"]
-password = config["PASSWORD"]
-host = config["HOST"]
-port = config["PORT"]
-database = config["DATABASE"]
+user = config["TEST_USER"]
+password = config["TEST_PASSWORD"]
+host = config["TEST_HOST"]
+port = config["TEST_PORT"]
+database = config["TEST_DATABASE"]
 
 
 @pytest.fixture
