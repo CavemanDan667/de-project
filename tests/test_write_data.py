@@ -2,7 +2,14 @@ import os
 from moto import mock_s3
 import boto3
 import pytest
+
+from src.ingestion.ingestion_utils.write_data import write_data_to_csv, upload_object
+from pprint import pprint
+import csv
+from botocore.exceptions import ClientError
+
 from src.ingestion.ingestion_utils.write_data import write_data_to_csv, upload_object # noqa
+
 
 
 class TestUploadObject:
@@ -59,3 +66,39 @@ class TestUploadObject:
         assert '1,one,10,"(2020, 1, 1, 0, 0)"\r\n2,' in response_body
         assert '2,two,20,"(2020, 1, 1, 0, 0)"\r\n3,' in response_body
         assert '3,three,30,"(2023, 11, 1, 0, 0)"\r\n' in response_body
+
+
+    def test_key_error_raised_when_passed_empty_dictionary(self,caplog):
+        with pytest.raises(KeyError): # noqa
+            data = {}
+            write_data_to_csv('00001', 'test_table', data)
+        assert "KeyError: key 'Headers' not found" in caplog.text
+
+    def test_key_error_raised_when_passed_dictionary_not_containing_rows(self,caplog): # noqa
+        with pytest.raises(KeyError):
+            data = {'Headers': ['column_1', 'column_2', 'column_3', 'last_updated']}
+            write_data_to_csv('00001', 'test_table', data)
+        assert "KeyError: key 'Rows' not found" in caplog.text
+
+    def test_key_error_raised_when_passed_dictionary_without_headers(self,caplog): # noqa
+        with pytest.raises(KeyError):
+            data = {'Rows': [
+                [1, 'one', 10, (2020, 1, 1, 0, 0)],
+                [2, 'two', 20, (2020, 1, 1, 0, 0)],
+                [3, 'three', 30, (2023, 11, 1, 0, 0)]
+            ]}
+            write_data_to_csv('00001', 'test_table', data)
+        assert "KeyError: key 'Headers' not found" in caplog.text
+
+    def test_type_error_raises_when_an_there_is_an_incorrect_data_type_on_key_of_headers(self,caplog): # noqa
+        with pytest.raises(csv.Error):
+            data = { 'Headers': 123, 'Rows': [['a']] }
+            write_data_to_csv('00001', 'test_table', data)
+        assert "csv.Error: invalid data type: iterable expected" in caplog.text
+
+    def test_file_not_found_error_raises_when_uploading_passed_a_file_that_does_not_exist(self,caplog): # noqa
+        with pytest.raises(FileNotFoundError):
+            upload_object('00001', 'test_table', 'not_a_file')
+        assert "File not found" in caplog.text
+
+
