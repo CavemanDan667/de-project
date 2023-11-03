@@ -37,7 +37,6 @@ def handler(event, context):
         )
         bucket_filenames = list_contents("de-project-ingestion-bucket")
         newest_time = extract_newest_time(bucket_filenames)
-        print('Testing updates')
         table_names = get_table_names(conn)
 
         dt_now = datetime.datetime.fromtimestamp(unix_now)
