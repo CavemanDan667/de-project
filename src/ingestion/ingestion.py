@@ -50,7 +50,6 @@ def handler(event, context):
                 logger.info(
                     f"[CREATED]: {table_name}/{unix_now}.csv has been created"
                 )  # noqa
-                
             else:
                 logger.info(f"{table_name} had no new data")
     except Exception as e:
