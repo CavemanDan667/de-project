@@ -22,7 +22,7 @@ requirements: create-environment
 
 ## Check for security issues with bandit
 run-bandit:
-	$(call execute_in_env, bandit -lll ./src/*/*/*.py ./tests/*.py)
+	$(call execute_in_env, bandit -lll ./src/ingestion/ingestion_utils/*.py ./src/ingestion/ingestion.py ./tests/*.py ./mock_database/*.py)
 
 ## Check for security vulnerabilities with safety
 run-safety:
@@ -33,7 +33,7 @@ security-test: run-bandit run-safety
 
 ## Check code for pep8 compliance with flake8
 run-flake:
-	$(call execute_in_env, flake8  ./src ./tests/*.py)
+	$(call execute_in_env, flake8  ./src ./tests/*.py ./mock_database)
 
 ## Run the unit tests
 unit-test:
