@@ -36,7 +36,7 @@ class TestListS3:
             Bucket="test-bucket",
             CreateBucketConfiguration={"LocationConstraint": "eu-west-2"},
         )
-        s3.upload_file("test.txt", "test-bucket", "tablename/546530.csv")
+        s3.upload_file("tests/test.txt", "test-bucket", "tablename/546530.csv")
         response = list_contents("test-bucket")
         assert response == ["tablename/546530.csv"]
 
@@ -45,11 +45,11 @@ class TestListS3:
             Bucket="test-bucket",
             CreateBucketConfiguration={"LocationConstraint": "eu-west-2"},
         )
-        s3.upload_file("test.txt", "test-bucket", "tablename/1.csv")
-        s3.upload_file("test.txt", "test-bucket", "tablename/1000.csv")
-        s3.upload_file("test.txt", "test-bucket", "tablename/7.csv")
-        s3.upload_file("test.txt", "test-bucket", "tablename/3.csv")
-        s3.upload_file("test.txt", "test-bucket", "tablename/8.csv")
+        s3.upload_file("tests/test.txt", "test-bucket", "tablename/1000.csv")
+        s3.upload_file("tests/test.txt", "test-bucket", "tablename/1.csv")
+        s3.upload_file("tests/test.txt", "test-bucket", "tablename/7.csv")
+        s3.upload_file("tests/test.txt", "test-bucket", "tablename/3.csv")
+        s3.upload_file("tests/test.txt", "test-bucket", "tablename/8.csv")
         response = list_contents("test-bucket")
         print(response)
         assert response == [
