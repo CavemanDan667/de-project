@@ -1,5 +1,5 @@
 from src.ingestion.ingestion_utils.fetch_data import fetch_data
-from pg8000.native import Connection
+from pg8000.native import Connection, DatabaseError
 
 from dotenv import dotenv_values
 import pytest
@@ -69,24 +69,26 @@ def test_function_returns_just_headers_from_unpopulated_table(conn):
     }
 
 
-def test_function_returns_error_message_on_nonexistent_table(conn):
-    result = fetch_data(
-        conn,
-        'table_x',
-        '1970-01-01 00:00:00.000',
-        '2023-11-10 00:00:00'
-    )
-    assert result == 'There was a database error: table_x'
+def test_function_returns_error_message_on_nonexistent_table(conn, caplog):
+    with pytest.raises(DatabaseError):
+        fetch_data(
+            conn,
+            'table_x',
+            '1970-01-01 00:00:00.000',
+            '2023-11-10 00:00:00'
+        )
+    assert 'There was a database error' in caplog.text
 
 
-def test_function_returns_error_message_for_empty_table(conn):
-    result = fetch_data(
-        conn,
-        '_table_3',
-        '1970-01-01 00:00:00.000',
-        '2023-11-10 00:00:00'
-    )
-    assert result == 'There was a database error: _table_3'
+def test_function_returns_error_message_for_empty_table(conn, caplog):
+    with pytest.raises(DatabaseError):
+        fetch_data(
+            conn,
+            '_table_3',
+            '1970-01-01 00:00:00.000',
+            '2023-11-10 00:00:00'
+        )
+    assert 'There was a database error' in caplog.text
 
 
 def test_raises_error_if_parameters_incorrect_or_missing(conn):
