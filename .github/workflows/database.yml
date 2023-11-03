@@ -1,0 +1,33 @@
+# name: Postgres Database
+
+# on: 
+#   push:
+#     branches:
+#       - '*'
+# jobs:
+#   container-job:
+#     runs-on: ubuntu-latest
+
+#     container:
+#       image: python:3.11
+
+#     services:
+#       postgres:
+#         image: postgres:10.8
+#       env:
+#         envkey_USER: ${{ secrets.DB_USER }}
+#         envkey_PASSWORD: ${{ secrets.DB_PASS }}
+#         envkey_HOST: postgres
+#         envkey_DATABASE: ${{ secrets.DB_DATABASE }}
+#         envkey_PORT: 5432
+
+#     steps:
+#       - name: Checkout Repo
+#         uses: actions/checkout@v4
+#       - run: psql -f mock_database/seed.sql
+#         working-directory: ./
+#       - name: Unit Tests
+#         run: make unit-test
+
+
+

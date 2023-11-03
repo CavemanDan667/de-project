@@ -5,10 +5,29 @@ on:
     branches:
       - '*'
 
+env:
+  DB_HOST: localhost
+  DB_USERNAME: postgres
+  DB_PASSWORD: postgres
+
+
 jobs:
   test-and-security:
     name: test-and-security
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mock_tote_db
+        ports: 
+          - 5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
         - name: Checkout Repo
           uses: actions/checkout@v4
@@ -16,20 +35,43 @@ jobs:
           uses: actions/setup-python@v4
           with:
             python-version: '3.11.1'
-        - name: Make Envfile
-          uses: SpicyPizza/create-envfile@v2.0
-          with:
-            envkey_USER: ${{ secrets.DB_USER }}
-            envkey_PASSWORD: ${{ secrets.DB_PASS }}
-            envkey_HOST: ${{ secrets.DB_HOST }}
-            envkey_PORT: ${{ secrets.DB_PORT }}
-            envkey_DATABASE: ${{ secrets.DB_DATABASE }}
+        # - name: Make Envfile
+        #   uses: SpicyPizza/create-envfile@v2.0
+        #   with:
+        #     envkey_USER: postgres
+        #     envkey_PASSWORD: postgres
+        #     envkey_HOST: localhost
+        #     envkey_PORT: 5432
+        #     envkey_DATABASE: mock_tote_db
+        # - name: Use Postgres
+        #   uses: harmon758/postgresql-action@v1
+        #   with:
+        #     postgresql db: mock_tote_db
+        #     postgresql user: postgres
+        #     postgresql password: postgres
         - name: Install Dependencies
           run: make requirements
         - name: Run Flake
           run: make run-flake
         - name: Run Security Checks
           run: make security-test
+        - name: Seed DB
+          run: PGPASSWORD=postgres psql -f mock_database/seed.sql
+
+        # - name: Seed DB
+        #   run: psql -f mock_database/seed_empty.sql
+        # - name: Connect to Database
+        #   run: PG_DATABASE=mock_tote_db PG_USER=postgres PG_PASSWORD=postgres       PG_HOST=localhost PG_PORT=5432
+        # - name: Connect Database
+          # uses: harmon758/postgresql-action@v1
+          # with:
+          #   postgresql version: '11'
+          # run: psql -f ./mock_database/seed.sql
+        # - name: Connect Empty Database
+        #   uses: harmon758/postgresql-action@v1
+        #   with:
+        #     postgresql version: '11'
+          # run: psql -f ./mock_database/seed_empty.sql
         - name: Check Coverage
           run: make check-coverage
   run-unit-tests: 
@@ -47,6 +89,10 @@ jobs:
           run: make requirements
         - name: Unit Tests
           run: make unit-test
+
+  
+
+
 
   # In a separate .yml:
   # deploy-terraform:
