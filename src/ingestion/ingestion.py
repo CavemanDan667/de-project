@@ -25,26 +25,30 @@ def handler(event, context):
 
     Args - Event, Context - currently unused
     """
+    try:
+        
+        unix_now = int(time.time())
+        conn = Connection(user=user,
+                        host=host,
+                        database=database,
+                        port=port,
+                        password=password)
 
-    unix_now = int(time.time())
-    conn = Connection(user=user,
-                      host=host,
-                      database=database,
-                      port=port,
-                      password=password)
+        bucket_filenames = list_contents("de-project-ingestion-bucket")
+        newest_time = extract_newest_time(bucket_filenames)
 
-    bucket_filenames = list_contents("de-project-ingestion-bucket")
-    newest_time = extract_newest_time(bucket_filenames)
+        table_names = get_table_names(conn)
 
-    table_names = get_table_names(conn)
+        dt_now = datetime.datetime.fromtimestamp(unix_now)
+        dt_newest = datetime.datetime.fromtimestamp(newest_time)
 
-    dt_now = datetime.datetime.fromtimestamp(unix_now)
-    dt_newest = datetime.datetime.fromtimestamp(newest_time)
-
-    for table_name in table_names:
-        data = fetch_data(conn, table_name, dt_newest, dt_now)
-        if len(data['Rows']) != 0:
-            write_data_to_csv(unix_now, table_name, data)
-            logger.info(f"[CREATED]: {table_name}/{unix_now}.csv has been created") # noqa
-        else:
-            logger.info(f'{table_name} had no new data')
+        for table_name in table_names:
+            data = fetch_data(conn, table_name, dt_newest, dt_now)
+            if len(data['Rows']) != 0:
+                write_data_to_csv(unix_now, table_name, data)
+                logger.info(f"[CREATED]: {table_name}/{unix_now}.csv has been created") # noqa
+            else:
+                logger.info(f'{table_name} had no new data')
+    except Exception as e:
+        logger.error(f'handler has raised {e}')
+        raise e
