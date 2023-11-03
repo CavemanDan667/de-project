@@ -12,4 +12,5 @@ def test_db_seeder():
     conn.run("CREATE TABLE table_2 (column_a INT, column_b VARCHAR(50), column_c INT, last_updated TIMESTAMP);")
     conn.run("CREATE TABLE _table_3 ();")
     conn.run("SELECT * FROM table_1 WHERE last_updated BETWEEN '2022-01-01 00:00:00' AND '2024-01-01 00:00:00';")
+    conn.run("CREATE DATABASE mock_empty_db")
     
