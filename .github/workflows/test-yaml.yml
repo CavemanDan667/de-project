@@ -42,7 +42,7 @@ jobs:
             python-version: '3.11.1'
 
       - name: Install dependencies
-        run: run make requirements
+        run: make requirements
 
     
       - name: Connect to PostgreSQL
