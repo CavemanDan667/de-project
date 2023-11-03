@@ -57,7 +57,7 @@ jobs:
           run: make security-test
         - name: Seed DB
           run: PGPASSWORD=postgres psql -f mock_database/seed.sql
-
+#  
         # - name: Seed DB
         #   run: psql -f mock_database/seed_empty.sql
         # - name: Connect to Database
