@@ -74,6 +74,9 @@ def upload_object(now, table_name, file_name):
         s3.upload_file(
             file_name, "de-project-ingestion-bucket", f"{table_name}/{now}.csv"
         )
+        s3.upload_file(
+            file_name, "de-project-ingestion-bucket", f"{table_name}/{now}.csv"
+        )
     except FileNotFoundError as e:
         logger.error("File not found")
         raise e
