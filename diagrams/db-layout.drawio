@@ -1,0 +1,61 @@
+<mxfile host="65bd71144e">
+    <diagram id="soI8HRxatd2E1gUjllPw" name="Page-1">
+        <mxGraphModel dx="2347" dy="827" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="3" value="Fact Sales Order" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="200" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="Sales_record_id&lt;br&gt;Generated&lt;br&gt;Primary Key" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Sales Order Id&lt;br&gt;From sales order" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Created date&lt;br&gt;sales-order - Created at&lt;br&gt;foreign key dim-date" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="370" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="Created time&lt;br&gt;sales-order - Created at&lt;br&gt;foreign key dim-date" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="440" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="Updated date&lt;br&gt;sales-order - Updated at&lt;br&gt;foreign key dim-date" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="370" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="Updated time&lt;br&gt;sales-order - Updated at&lt;br&gt;foreign key dim-date" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="440" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="Sales staff id&lt;br&gt;from sales order - staff id&lt;br&gt;- Foreign key staff id" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="490" y="370" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="Counterparty id&lt;br&gt;from sales order - counterparty id&lt;br&gt;foreign key - dim-counterparty" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="490" y="450" width="120" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="Units sold&lt;br&gt;- Sales order" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="530" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="Unit price&lt;br&gt;- Sales order" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="525" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="Currency Id&lt;br&gt;From sales order&lt;br&gt;foreign key dim -currency" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="610" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="Design id&lt;br&gt;From sales order&lt;br&gt;Foreign Key - Dim design&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="610" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="Agreed payment date&lt;br&gt;from sales order&lt;br&gt;foreign key dim date" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="490" y="570" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="Agreed delivery date&lt;br&gt;from sales order&lt;br&gt;foreign key dim date" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="570" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="Agreed delivery location id&lt;br&gt;from sales order&lt;br&gt;foreign key dim location" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="650" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="&lt;div style=&quot;color: rgb(213, 206, 217); background-color: rgb(38, 42, 51); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #c74ded;&quot;&gt;create&lt;/span&gt; &lt;span style=&quot;color: #c74ded;&quot;&gt;table&lt;/span&gt; &lt;span style=&quot;color: #ffe66d;&quot;&gt;rentals&lt;/span&gt;(&lt;/div&gt;&lt;div&gt;    rental_id &lt;span style=&quot;color: #c74ded;&quot;&gt;serial&lt;/span&gt; &lt;span style=&quot;color: #c74ded;&quot;&gt;primary key&lt;/span&gt;,&lt;/div&gt;&lt;div&gt;    stock_id &lt;span style=&quot;color: #c74ded;&quot;&gt;int&lt;/span&gt; &lt;span style=&quot;color: #c74ded;&quot;&gt;references&lt;/span&gt; stock(stock_id),&lt;/div&gt;&lt;div&gt;    rental_start &lt;span style=&quot;color: #c74ded;&quot;&gt;date&lt;/span&gt;,&lt;/div&gt;&lt;div&gt;    rental_end &lt;span style=&quot;color: #c74ded;&quot;&gt;date&lt;/span&gt;,&lt;/div&gt;&lt;div&gt;    customer_id &lt;span style=&quot;color: #c74ded;&quot;&gt;int&lt;/span&gt; &lt;span style=&quot;color: #c74ded;&quot;&gt;references&lt;/span&gt; customers(customer_id)&lt;/div&gt;&lt;div&gt;);&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;color: #c74ded;&quot;&gt;insert into&lt;/span&gt; rentals&lt;/div&gt;&lt;div&gt;(stock_id, rental_start, rental_end, customer_id)&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #c74ded;&quot;&gt;values&lt;/span&gt;&lt;/div&gt;&lt;div&gt;(&lt;span style=&quot;color: #f39c12;&quot;&gt;1&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230901'&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230908'&lt;/span&gt;, &lt;span style=&quot;color: #f39c12;&quot;&gt;1&lt;/span&gt;),&lt;/div&gt;&lt;div&gt;(&lt;span style=&quot;color: #f39c12;&quot;&gt;2&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230905'&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230910'&lt;/span&gt;, &lt;span style=&quot;color: #f39c12;&quot;&gt;2&lt;/span&gt;),&lt;/div&gt;&lt;div&gt;(&lt;span style=&quot;color: #f39c12;&quot;&gt;3&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230905'&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230910'&lt;/span&gt;, &lt;span style=&quot;color: #f39c12;&quot;&gt;2&lt;/span&gt;),&lt;/div&gt;&lt;div&gt;(&lt;span style=&quot;color: #f39c12;&quot;&gt;4&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230905'&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230910'&lt;/span&gt;, &lt;span style=&quot;color: #f39c12;&quot;&gt;3&lt;/span&gt;),&lt;/div&gt;&lt;div&gt;(&lt;span style=&quot;color: #f39c12;&quot;&gt;1&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20231001'&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20231009'&lt;/span&gt;, &lt;span style=&quot;color: #f39c12;&quot;&gt;4&lt;/span&gt;),&lt;/div&gt;&lt;div&gt;(&lt;span style=&quot;color: #f39c12;&quot;&gt;5&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20231001'&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20231009'&lt;/span&gt;, &lt;span style=&quot;color: #f39c12;&quot;&gt;5&lt;/span&gt;),&lt;/div&gt;&lt;div&gt;(&lt;span style=&quot;color: #f39c12;&quot;&gt;30&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20231001'&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20231009'&lt;/span&gt;, &lt;span style=&quot;color: #f39c12;&quot;&gt;2&lt;/span&gt;),&lt;/div&gt;&lt;div&gt;(&lt;span style=&quot;color: #f39c12;&quot;&gt;30&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20231001'&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20231009'&lt;/span&gt;, &lt;span style=&quot;color: #f39c12;&quot;&gt;2&lt;/span&gt;),&lt;/div&gt;&lt;div&gt;(&lt;span style=&quot;color: #f39c12;&quot;&gt;1&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230801'&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230807'&lt;/span&gt;, &lt;span style=&quot;color: #f39c12;&quot;&gt;2&lt;/span&gt;),&lt;/div&gt;&lt;div&gt;(&lt;span style=&quot;color: #f39c12;&quot;&gt;1&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230808'&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230813'&lt;/span&gt;, &lt;span style=&quot;color: #f39c12;&quot;&gt;3&lt;/span&gt;),&lt;/div&gt;&lt;div&gt;(&lt;span style=&quot;color: #f39c12;&quot;&gt;1&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230815'&lt;/span&gt;, &lt;span style=&quot;color: #96e072;&quot;&gt;'20230823'&lt;/span&gt;, &lt;span style=&quot;color: #f39c12;&quot;&gt;5&lt;/span&gt;)&lt;/div&gt;&lt;div&gt;returning &lt;span style=&quot;color: #ee5d43;&quot;&gt;*&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-450" y="700" width="510" height="520" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
