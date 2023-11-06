@@ -14,7 +14,7 @@ database = config["TEST_DATABASE"]
 
 def test_function_raises_error_if_no_connection_passed():
     with pytest.raises(TypeError):
-        get_table_names()
+        get_table_names(None)
 
 
 def test_function_returns_table_names_in_a_list():
