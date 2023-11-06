@@ -11,7 +11,7 @@ resource "aws_cloudwatch_metric_alarm" "error_alarm" {
   threshold = 0
   period = 600
   metric_name = "ErrorCount"
-  statistic = "Sum"
+  statistic = "SampleCount"
   alarm_actions = [aws_sns_topic.ingestion_alerts.arn]
   namespace = "CustomLambdaMetrics"
   treat_missing_data = "notBreaching"
@@ -22,10 +22,11 @@ resource "aws_cloudwatch_metric_alarm" "created_alarm" {
   alarm_name = "CreatedAlarm"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods = 6
+  datapoints_to_alarm = 4
   threshold = 0
   period = 600
   metric_name = "CreatedCount"
-  statistic = "Sum"
+  statistic = "SampleCount"
   alarm_actions = [aws_sns_topic.ingestion_alerts.arn]
   namespace = "CustomLambdaMetrics"
   treat_missing_data = "notBreaching"
