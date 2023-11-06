@@ -34,8 +34,11 @@ resource "aws_cloudwatch_metric_alarm" "created_alarm" {
 # Provides a resource for subscribing to the SNS topic.
 resource "aws_sns_topic_subscription" "sns_subscription" {
   for_each	= toset([
-    "helenlyttle@live.co.uk",
-    "dancox82@gmail.com"])
+    var.EMAIL_1, 
+    var.EMAIL_2, 
+    var.EMAIL_3, 
+    var.EMAIL_4, 
+    var.EMAIL_5])
   topic_arn = aws_sns_topic.ingestion_alerts.arn
   protocol  = "email"
   endpoint  = each.value
