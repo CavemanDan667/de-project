@@ -36,3 +36,8 @@ jobs:
               TF_VAR_DATABASE: ${{ secrets.TOTESYS_DATABASE }}
               TF_VAR_PASSWORD: ${{ secrets.TOTESYS_PASSWORD }}
               TF_VAR_PORT: ${{ secrets.TOTESYS_PORT }}
+              TF_VAR_EMAIL_1: ${{ secrets.EMAIL_1 }}
+              TF_VAR_EMAIL_2: ${{ secrets.EMAIL_2 }}
+              TF_VAR_EMAIL_3: ${{ secrets.EMAIL_3 }}
+              TF_VAR_EMAIL_4: ${{ secrets.EMAIL_4 }}
+              TF_VAR_EMAIL_5: ${{ secrets.EMAIL_5 }}
