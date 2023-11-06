@@ -1,3 +1,9 @@
+# Creates an SNS topic thread
+resource "aws_sns_topic" "ingestion_alerts" {
+  name = "ingestion_alerts"
+}
+
+# Sets an alarm monitoring the Error metric
 resource "aws_cloudwatch_metric_alarm" "error_alarm" {
   alarm_name = "ErrorAlarm"
   comparison_operator = "GreaterThanThreshold"
@@ -8,9 +14,10 @@ resource "aws_cloudwatch_metric_alarm" "error_alarm" {
   statistic = "Sum"
   alarm_actions = [aws_sns_topic.ingestion_alerts.arn]
   namespace = "CustomLambdaMetrics"
+  treat_missing_data = "notBreaching"
 }
 
-
+# Sets an alarm monitoring the Created metric
 resource "aws_cloudwatch_metric_alarm" "created_alarm" {
   alarm_name = "CreatedAlarm"
   comparison_operator = "GreaterThanThreshold"
@@ -21,16 +28,10 @@ resource "aws_cloudwatch_metric_alarm" "created_alarm" {
   statistic = "Sum"
   alarm_actions = [aws_sns_topic.ingestion_alerts.arn]
   namespace = "CustomLambdaMetrics"
+  treat_missing_data = "notBreaching"
 }
 
-
-resource "aws_sns_topic" "ingestion_alerts" {
-  name = "ingestion_alerts"
-}
-
-
-# Provides a resource for subscribing to SNS topics. 
-# Requires that an SNS topic exist for the subscription to attach to. 
+# Provides a resource for subscribing to the SNS topic.
 resource "aws_sns_topic_subscription" "sns_subscription" {
   for_each	= toset([
     "helenlyttle@live.co.uk",
@@ -41,16 +42,7 @@ resource "aws_sns_topic_subscription" "sns_subscription" {
 }
 
 
-# # Use this data source to get the ARN of a topic in AWS Simple Notification Service (SNS). 
-# # By using this data source, you can reference SNS topics without having to hard code the ARNs as input.
-# data "aws_sns_topic" "sns_topic_data" {
-#   name = "user-updates-topic"
-# }
-
-
-
-
-# CloudWatch Log Metric Filter resource - 'Error' Filter
+# Creates a CloudWatch Log Metric Filter resource - 'Error' Filter
 resource "aws_cloudwatch_log_metric_filter" "error_filter" {
   name           = "ErrorFilter"
   pattern        = "ERROR"
@@ -64,7 +56,7 @@ resource "aws_cloudwatch_log_metric_filter" "error_filter" {
 }
 
 
-# CloudWatch Log Metric Filter resource - 'Created' Filter
+# Creates a CloudWatch Log Metric Filter resource - 'Created' Filter
 resource "aws_cloudwatch_log_metric_filter" "created_filter" {
   name           = "CreatedFilter"
   pattern        = "CREATED"
