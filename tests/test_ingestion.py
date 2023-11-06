@@ -1,9 +1,9 @@
-# from src.ingestion.ingestion import handler
+from ingestion.ingestion import handler
 from pg8000.native import Connection
 
 from dotenv import dotenv_values
 import pytest
-# import unittest
+import unittest
 config = dotenv_values(".env")
 
 user = config["TEST_USER"]
@@ -24,8 +24,7 @@ def conn():
 
 
 def test_valid_database_connection():
-
     pass
     # with unittest.TestCase().assertLogs() as logs:
     #     handler(event=None, context=None)
-    #     assert 'INFO:root: [CREATED]' in logs.output[0]
+    #     assert 'CREATED' in logs.output[0]

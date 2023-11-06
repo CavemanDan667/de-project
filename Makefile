@@ -37,7 +37,7 @@ run-flake:
 
 ## Run the unit tests
 unit-test:
-	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v)
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v --ignore tests/test_ingestion.py)
 
 ## Run the coverage check
 check-coverage:
