@@ -1,20 +1,19 @@
 import logging
 import datetime
 import time
-from dotenv import dotenv_values
 from pg8000.native import Connection
 from ingestion_utils.write_data import write_data_to_csv
 from ingestion_utils.fetch_data import fetch_data
 from ingestion_utils.get_tables import get_table_names
 from ingestion_utils.extract_newest_time import extract_newest_time
 from ingestion_utils.list_s3_contents import list_contents
-config = dotenv_values(".env")
+import os
 
-user = config["user"]
-host = config["host"]
-database = config["database"]
-password = config["password"]
-port = config["port"]
+user = os.environ["user"]
+host = os.environ["host"]
+database = os.environ["database"]
+password = os.environ["password"]
+port = os.environ["port"]
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
