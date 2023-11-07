@@ -20,7 +20,7 @@ def test_db_seeder():
 def test_dw_seeder():
     conn = Connection(user="mock_dw",
                       host="localhost",
-                      password="postgres")
+                      password="")
     conn.run("DROP TABLE IF EXISTS fact_payment;")
     conn.run("DROP TABLE IF EXISTS dim_transaction;")
     conn.run("DROP TABLE IF EXISTS fact_sales_order;")
