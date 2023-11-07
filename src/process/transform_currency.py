@@ -14,10 +14,15 @@ def transform_currency(csv_file, conn):
     df = pd.DataFrame.from_dict(currency_dict)
     for value in df.values.tolist():
         try:
-            query = f'''INSERT INTO dim_currency
-              (currency_code, currency_name)
+            select_query = f'''SELECT * FROM dim_currency
+            WHERE currency_code = {literal(value[0])};'''
+            print(select_query)
+            result = conn.run(select_query)
+            if len(result) == 0:
+                insert_query = f'''INSERT INTO dim_currency
+                (currency_code, currency_name)
                 VALUES ({literal(value[0])}, {literal(value[1])});'''
-            conn.run(query)
+                conn.run(insert_query)
         except DatabaseError as d:
             raise d
     return df
