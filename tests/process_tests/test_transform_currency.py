@@ -1,5 +1,5 @@
 from src.process.transform_currency import transform_currency
-from pg8000.native import Connection, DatabaseError
+from pg8000.native import Connection, DatabaseError, InterfaceError
 
 from dotenv import dotenv_values
 import pytest
@@ -43,7 +43,7 @@ def test_function_raises_database_error_if_query_fails():
         port='port',
         database='database'
     )
-    with pytest.raises(DatabaseError):
+    with pytest.raises(InterfaceError):
         transform_currency(
             'tests/csv_test_files/test-currency.csv',
             conn
