@@ -35,9 +35,17 @@ security-test: run-bandit run-safety
 run-flake:
 	$(call execute_in_env, flake8  ./src ./tests/*.py ./mock_database)
 
-## Run the unit tests
+## Run unit tests on ingestion utils
+test-ingestion:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/ingestion_tests --ignore tests/ingestion_tests/test_ingestion.py)
+
+## Run unit tests on process utils
+test-process:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/process_tests)
+
+## Run all unit tests
 unit-test:
-	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v --ignore tests/test_ingestion.py)
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v --ignore tests/ingestion_tests/test_ingestion.py)
 
 ## Run the coverage check
 check-coverage:
