@@ -19,5 +19,5 @@ def write_data_to_parquet(now, table_name, data_frame):
 def upload_object(now, table_name, file_name):
     s3 = get_client("s3")
     s3.upload_file(
-        file_name, "de-project-processed-bucket", f"{table_name}/{now}.csv"
+        file_name, "de-project-processed-bucket", f"{table_name}/{now}.parquet"
     )
