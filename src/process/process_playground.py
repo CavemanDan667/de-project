@@ -1,3 +1,5 @@
+# flake8: noqa
+
 import pandas as pd
 
 # transaction_df = pd.read_csv("tests/csv_test_files/test-transaction.csv")
