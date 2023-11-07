@@ -39,8 +39,8 @@ def test_function_raises_interface_error_if_query_fails():
     conn = Connection(
         user='user',
         password='password',
-        host = config["TESTDW_HOST"]
-        port = config["TESTDW_PORT"]
+        host = config["TESTDW_HOST"],
+        port = config["TESTDW_PORT"],
         database='database'
     )
     with pytest.raises(InterfaceError):
