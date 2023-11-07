@@ -22,7 +22,7 @@ resource "aws_cloudwatch_metric_alarm" "created_alarm" {
   alarm_name = "CreatedAlarm"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods = 6
-  datapoints_to_alarm = 4
+  datapoints_to_alarm = 5
   threshold = 0
   period = 600
   metric_name = "CreatedCount"
