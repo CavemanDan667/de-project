@@ -1,4 +1,3 @@
-# flake8: noqa
 s3_put = {
     "Records": [
         {
