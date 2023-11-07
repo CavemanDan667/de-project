@@ -22,7 +22,7 @@ def transform_currency(csv_file, conn):
             if len(result) == 0:
                 insert_query = f'''INSERT INTO dim_currency
                 (currency_id, currency_code, currency_name)
-                VALUES ({literal(value[0])}, {literal(value[1])}, {literal(value[2])});'''
+                VALUES ({literal(value[0])}, {literal(value[1])}, {literal(value[2])});''' # noqa
                 conn.run(insert_query)
         except DatabaseError as d:
             raise d

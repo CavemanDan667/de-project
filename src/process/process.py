@@ -22,19 +22,24 @@ logger.setLevel(logging.INFO)
 
 def handler(event, context):
     """
-    AWS Lambda handler function that calls 
-    and manages utility functions for processing data 
+    AWS Lambda handler function that calls
+    and manages utility functions for processing data
     when files are created in an s3 bucket.
 
     Args:
         event (dict): AWS S3 PUT event object
 
     Raises:
-        e: Any exception that is missed by the utility functions should be caught here.
+        e: Any exception that is missed by the
+        utility functions should be caught here.
     """
     try:
         conn = Connection(
-            user=user, host=host, database=database, port=port, password=password
+            user=user,
+            host=host,
+            database=database,
+            port=port,
+            password=password
         )
 
         data_frame = None
