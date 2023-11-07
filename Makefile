@@ -33,13 +33,29 @@ security-test: run-bandit run-safety
 
 ## Check code for pep8 compliance with flake8
 run-flake:
-	$(call execute_in_env, flake8  ./src ./tests/*.py ./mock_database)
+	$(call execute_in_env, flake8  ./src ./tests/*/*.py)
 
-## Run the unit tests
+## Run unit tests on ingestion utils
+test-ingestion:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/ingestion_tests --ignore tests/ingestion_tests/test_ingestion.py)
+
+## Run unit tests on process utils
+test-process:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/process_tests)
+
+## Run all unit tests
 unit-test:
-	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v --ignore tests/test_ingestion.py)
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v --ignore tests/ingestion_tests/test_ingestion.py)
 
-## Run the coverage check
+## Run coverage check on ingestion
+check-coverage-ingestion:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) coverage run -m pytest tests/ingestion_tests && coverage report -m)
+
+## Run coverage check on process
+check-coverage-process:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) coverage run -m pytest tests/process_tests && coverage report -m)
+
+## Run the complete coverage check
 check-coverage:
 	$(call execute_in_env, PYTHONPATH=$(shell pwd) coverage run --omit 'venv/*' -m pytest && coverage report -m)
 
