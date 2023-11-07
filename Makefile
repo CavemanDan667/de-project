@@ -61,3 +61,12 @@ check-coverage:
 
 ## Run all checks
 run-checks: requirements security-test run-flake unit-test check-coverage
+
+## Re-seed the mock database
+seed-db:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) psql -f mock_database/seed.sql)
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) psql -f mock_database/seed_empty.sql)
+
+## Re-seed the mock data warehouse
+seed-dw:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) psql -f mock_data_warehouse/create_dw.sql)

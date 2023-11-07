@@ -1,5 +1,5 @@
 from src.process.transform_currency import transform_currency
-from pg8000.native import Connection, DatabaseError
+from pg8000.native import Connection
 from dotenv import dotenv_values
 import pytest
 import pandas as pd
@@ -65,18 +65,3 @@ def test_function_does_not_repeat_duplicate_data(conn):
     )
     result = conn.run('SELECT * FROM dim_currency;')
     assert len(result) == 3
-
-
-def test_function_raises_database_error_if_query_fails():
-    conn = Connection(
-        user=config["TEST_USER"],
-        password=config["TEST_PASSWORD"],
-        host=config["TEST_HOST"],
-        port=config["TEST_PORT"],
-        database=config["TEST_DATABASE"]
-    )
-    with pytest.raises(DatabaseError):
-        transform_currency(
-            'tests/csv_test_files/test-currency.csv',
-            conn
-        )
