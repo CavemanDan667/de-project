@@ -1,3 +1,4 @@
+# flake8: noqa
 from src.process.process_utils.extract_event_data import extract_event_data
 from test_event import s3_put
 
