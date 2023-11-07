@@ -37,11 +37,11 @@ def test_function_returns_data_frame(conn):
 
 def test_function_raises_database_error_if_query_fails():
     conn = Connection(
-        user=config["TEST_USER"],
-        password=config["TEST_PASSWORD"],
-        host=config["TEST_HOST"],
-        port=config["TEST_PORT"],
-        database=config["TEST_DATABASE"]
+        user='user',
+        password='password',
+        host='host',
+        port='port',
+        database='database'
     )
     with pytest.raises(DatabaseError):
         transform_currency(
