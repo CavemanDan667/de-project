@@ -46,6 +46,8 @@ jobs:
           envkey_TEST_HOST: localhost
           envkey_TEST_PORT: 5432
           envkey_TEST_DATABASE: mock_tote_db
+      - name: Run Flake8
+        run: make run-flake
       - name: Run Security Checks
         run: make security-test
       - name: Check Ingestion Coverage
@@ -94,6 +96,8 @@ jobs:
           envkey_TESTDW_HOST: localhost
           envkey_TESTDW_PORT: 5432
           envkey_TESTDW_DATABASE: mock_dw
+      - name: Check Process Coverage
+        run: make check-coverage-process
       - name: Process Unit Tests
         run: make test-process
 
