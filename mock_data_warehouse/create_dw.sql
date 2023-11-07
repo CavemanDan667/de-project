@@ -27,13 +27,13 @@ CREATE TABLE dim_date (
 );
 
 CREATE TABLE dim_currency (
-    currency_id SERIAL PRIMARY KEY NOT NULL,
+    currency_id INT PRIMARY KEY NOT NULL,
     currency_code VARCHAR NOT NULL,
     currency_name VARCHAR NOT NULL
 );
 
 CREATE TABLE dim_staff (
-    staff_id SERIAL PRIMARY KEY NOT NULL,
+    staff_id INT RIMARY KEY NOT NULL,
     first_name VARCHAR NOT NULL,
     last_name VARCHAR NOT NULL,
     department_name VARCHAR NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE dim_staff (
 );
 
 CREATE TABLE dim_location (
-    location_id SERIAL PRIMARY KEY NOT NULL,
+    location_id INT PRIMARY KEY NOT NULL,
     address_line_1 VARCHAR NOT NULL,
     address_line_2 VARCHAR,
     district VARCHAR,
@@ -53,19 +53,19 @@ CREATE TABLE dim_location (
 );
 
 CREATE TABLE dim_payment_type (
-    payment_type_id SERIAL PRIMARY KEY NOT NULL,
+    payment_type_id INT PRIMARY KEY NOT NULL,
     payment_type_name VARCHAR NOT NULL
 );
 
 CREATE TABLE dim_design (
-    design_id SERIAL PRIMARY KEY NOT NULL,
+    design_id INT PRIMARY KEY NOT NULL,
     design_name VARCHAR NOT NULL,
     file_location VARCHAR NOT NULL,
     file_name VARCHAR NOT NULL
 );
 
 CREATE TABLE dim_counterparty (
-    counterparty_id SERIAL PRIMARY KEY NOT NULL,
+    counterparty_id INT PRIMARY KEY NOT NULL,
     counterparty_legal_name VARCHAR NOT NULL,
     counterparty_legal_address_line_1 VARCHAR NOT NULL,
     counterparty_legal_address_line_2 VARCHAR,
@@ -113,7 +113,7 @@ CREATE TABLE fact_purchase_order (
 );
 
 CREATE TABLE dim_transaction (
-    transaction_id SERIAL PRIMARY KEY NOT NULL,
+    transaction_id INT PRIMARY KEY NOT NULL,
     transaction_type VARCHAR NOT NULL,
     sales_order_id INT REFERENCES fact_sales_order(sales_record_id),
     purchase_order_id INT REFERENCES fact_purchase_order(purchase_record_id)
