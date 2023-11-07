@@ -3,6 +3,7 @@ CREATE DATABASE mock_dw;
 
 \c mock_dw
 
+DROP TABLE IF EXISTS ref_department;
 DROP TABLE IF EXISTS fact_payment;
 DROP TABLE IF EXISTS dim_transaction;
 DROP TABLE IF EXISTS fact_sales_order;
@@ -149,3 +150,10 @@ FROM (SELECT generate_series(
     DATE('2029-12-31'),
     '1 day'::interval)::DATE as datum)
     AS date_sequence;
+
+CREATE TABLE ref_department (
+    department_id INT PRIMARY KEY NOT NULL,
+    department_name VARCHAR NOT NULL,
+    location VARCHAR NOT NULL,
+    manager VARCHAR NOT NULL
+)
