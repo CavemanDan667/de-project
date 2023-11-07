@@ -47,7 +47,15 @@ test-process:
 unit-test:
 	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v --ignore tests/ingestion_tests/test_ingestion.py)
 
-## Run the coverage check
+## Run coverage check on ingestion
+check-coverage-ingestion:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) coverage run -m pytest tests/ingestion_tests && coverage report -m)
+
+## Run coverage check on process
+check-coverage-process:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) coverage run -m pytest tests/process_tests && coverage report -m)
+
+## Run the complete coverage check
 check-coverage:
 	$(call execute_in_env, PYTHONPATH=$(shell pwd) coverage run --omit 'venv/*' -m pytest && coverage report -m)
 

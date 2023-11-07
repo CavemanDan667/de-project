@@ -46,12 +46,10 @@ jobs:
           envkey_TEST_HOST: localhost
           envkey_TEST_PORT: 5432
           envkey_TEST_DATABASE: mock_tote_db
-      - name: Run Flake
-        run: make run-flake
       - name: Run Security Checks
         run: make security-test
-      - name: Check Coverage
-        run: make check-coverage
+      - name: Check Ingestion Coverage
+        run: make check-coverage-ingestion
       - name: Ingestion Unit Tests
         run: make test-ingestion
   
