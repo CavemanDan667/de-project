@@ -16,12 +16,14 @@ database = config["TESTDW_DATABASE"]
 @pytest.fixture
 def conn():
     return Connection(
-        user=user, password=password, host=host, port=port, database=database
-    )
+        user=user,
+        password=password,
+        host=host,
+        port=port,
+        database=database)
 
 
 def test_function_returns_data_frame(conn):
-
     result = transform_currency(
         'tests/csv_test_files/test-currency.csv',
         conn
@@ -34,11 +36,10 @@ def test_function_returns_correct_data(conn):
        'tests/csv_test_files/test-currency.csv',
        conn
     )
-    
     assert result.values.tolist() == [
-        ["GBP", "British pound"],
-        ["USD", "United States dollar"],
-        ["EUR", "European Euro"],
+        [1, 'GBP', 'British pound'],
+        [2, 'USD', 'United States dollar'],
+        [3, 'EUR', 'European Euro']
     ]
 
 
@@ -67,14 +68,15 @@ def test_function_does_not_repeat_duplicate_data(conn):
 
 
 def test_function_raises_database_error_if_query_fails():
+    conn = Connection(
+        user=config["TEST_USER"],
+        password=config["TEST_PASSWORD"],
+        host=config["TEST_HOST"],
+        port=config["TEST_PORT"],
+        database=config["TEST_DATABASE"]
+    )
     with pytest.raises(DatabaseError):
         transform_currency(
-            "tests/csv_test_files/test-currency.csv",
-            Connection(
-                user="user",
-                password="password",
-                host=config["TESTDW_HOST"],
-                port=config["TESTDW_PORT"],
-                database="database",
-            ),
+            'tests/csv_test_files/test-currency.csv',
+            conn
         )
