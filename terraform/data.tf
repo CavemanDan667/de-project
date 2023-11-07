@@ -14,9 +14,3 @@ data "archive_file" "zip_ingestion" {
   source_dir = "../src/ingestion"
   output_path = "./zipped/ingestion.zip"
 }
-
-data "archive_file" "zip_package" {
-  type = "zip"
-  source_dir = "../pg8000_package"
-  output_path = "./zipped/python.zip"
-}
