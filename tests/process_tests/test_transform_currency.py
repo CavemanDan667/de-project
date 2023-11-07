@@ -1,5 +1,5 @@
 from src.process.transform_currency import transform_currency
-from pg8000.native import Connection, DatabaseError, InterfaceError
+from pg8000.native import Connection, InterfaceError
 
 from dotenv import dotenv_values
 import pytest
@@ -35,7 +35,7 @@ def test_function_returns_data_frame(conn):
     ]
 
 
-def test_function_raises_database_error_if_query_fails():
+def test_function_raises_interface_error_if_query_fails():
     conn = Connection(
         user='user',
         password='password',
