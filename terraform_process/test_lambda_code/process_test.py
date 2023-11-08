@@ -1,3 +1,4 @@
+# flake8: noqa
 from pg8000.native import Connection
 from forex_python.converter import CurrencyCodes
 import os
