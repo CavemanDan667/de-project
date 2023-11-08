@@ -34,7 +34,7 @@ CREATE TABLE dim_currency (
 );
 
 CREATE TABLE dim_staff (
-    staff_id INT RIMARY KEY NOT NULL,
+    staff_id INT PRIMARY KEY NOT NULL,
     first_name VARCHAR NOT NULL,
     last_name VARCHAR NOT NULL,
     department_name VARCHAR NOT NULL,
@@ -156,4 +156,4 @@ CREATE TABLE ref_department (
     department_name VARCHAR NOT NULL,
     location VARCHAR NOT NULL,
     manager VARCHAR NOT NULL
-)
+);
