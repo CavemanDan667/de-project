@@ -5,7 +5,7 @@ resource "aws_lambda_function" "ingestion_lambda" {
   runtime       = "python3.11"
   handler = "ingestion.handler"
   timeout = 30
-  layers = [aws_lambda_layer_version.ingestion_lambda_layer.arn]
+  layers = [aws_lambda_layer_version.pg8000_layer.arn]
   source_code_hash = data.archive_file.zip_ingestion.output_base64sha256
   environment {
     variables = {
@@ -17,8 +17,8 @@ resource "aws_lambda_function" "ingestion_lambda" {
   }
 }
 
-resource "aws_lambda_layer_version" "ingestion_lambda_layer" {
-  filename = "./zipped/python.zip"
-  layer_name = "ingestion_lambda_layer"
+resource "aws_lambda_layer_version" "pg8000_layer" {
+  filename = "./zipped/pg8000_layer/python.zip"
+  layer_name = "pg8000_layer"
   compatible_runtimes = ["python3.11"]
 }
