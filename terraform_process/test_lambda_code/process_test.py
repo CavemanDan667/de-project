@@ -1,23 +1,26 @@
 from pg8000.native import Connection
 from forex_python.converter import CurrencyCodes
-# import os
+import os
 import logging
 import pandas as pd
 import awswrangler as wr
+from dotenv import load_dotenv
 
-# user = os.environ["USER"]
-# host = os.environ["HOST"]
-# database = os.environ["DATABASE"]
-# password = os.environ["PASSWORD"]
-# port = os.environ["PORT"]
+load_dotenv()
+
+user = os.environ['USER']
+host = os.environ['HOST']
+database = os.environ["DATABASE"]
+password = os.environ["PASSWORD"]
+port = os.environ["PORT"]
 
 
 def handler(event, context):
     print("Hello world")
-    # conn = Connection(
-    #     user=user, host=host, database=database, port=port, password=password
-    # )
-    # print("pg8000 works >>>>>", get_table_names(conn))
+    conn = Connection(
+        user=user, host=host, database=database, port=port, password=password
+    )
+    print("pg8000 works >>>>>", get_table_names(conn))
     c = CurrencyCodes()
     print("forex-python works >>>>>>", c.get_currency_name("USD"))
     test_df = pd.DataFrame({"A": [1, 2, 3]})
