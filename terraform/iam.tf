@@ -96,7 +96,7 @@ resource "aws_iam_role_policy_attachment" "s3_read_write_process_attach" {
   policy_arn = aws_iam_policy.s3_read_write_policy.arn
 }
 
-resource "aws_iam_role_policy_attachment" "admin" {
+resource "aws_iam_role_policy_attachment" "S3_Full_access" {
   role = aws_iam_role.process_lambda_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
