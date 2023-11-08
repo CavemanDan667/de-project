@@ -3,6 +3,29 @@ from pg8000.native import DatabaseError, literal
 
 
 def transform_staff(csv_file, conn):
+    """This function reads an ingested file of staff data.
+    It merges this with data from the ref_department table
+    on department_id before dropping department_id.
+    It then checks whether each staff_id from the merged data
+    appears in the dim_staff table. If the staff_id is
+    not found in dim_staff, this function adds the relevant
+    data to dim_staff. If staff_id is found in dim_staff,
+    this function updates the relevant record in dim_staff.
+
+    Args:
+        csv_file: a filepath to a csv file containing
+        data ingested from the original database.
+        conn: a connection to the new data warehouse.
+    Returns:
+        a data frame containing all of the information
+        that has been added to the dim_staff
+        table in the new data warehouse.
+    Raises:
+        DatabaseError: if either the select or insert
+        query fails to match up to the destination
+        table.
+    """
+
     staff_data = pd.read_csv(csv_file,
                              usecols=['staff_id',
                                       'first_name',
