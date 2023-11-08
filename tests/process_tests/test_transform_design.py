@@ -1,4 +1,4 @@
-from src.process.transform_design import transform_design
+from src.process.process_utils.transform_design import transform_design
 from pg8000.native import Connection
 from dotenv import dotenv_values
 import pytest
@@ -55,9 +55,24 @@ def test_function_correctly_populates_table(conn):
     result = conn.run('SELECT * FROM dim_design;')
     assert result[0] == [18, 'Name1', '/usr', 'name1-20000101-abcd.json']
     assert result[1] == [29, 'Name2', '/private', 'name2-20000101-4eff.json']
-    assert result[2] == [345, 'Name3', '/private/var', 'name3-20000101-3ghj.json']
-    assert result[3] == [4, 'Name3', '/private/var', 'name3-20000101-klmn.json']
-    assert result[4] == [52, 'Name2', '/lost+found', 'name2-20000101-p123.json']
+    assert result[2] == [
+        345,
+        'Name3',
+        '/private/var',
+        'name3-20000101-3ghj.json'
+    ]
+    assert result[3] == [
+        4,
+        'Name3',
+        '/private/var',
+        'name3-20000101-klmn.json'
+    ]
+    assert result[4] == [
+        52,
+        'Name2',
+        '/lost+found',
+        'name2-20000101-p123.json'
+    ]
 
 
 def test_function_does_not_repeat_duplicate_data(conn):
@@ -78,8 +93,13 @@ def test_function_correctly_updates_data(conn):
        'tests/csv_test_files/test-design-update.csv',
        conn
     )
-    assert result.values.tolist() == [[52, 'NewName2', '/lost+found', 'newname2-20000101-p123.json']]
-    query = f'SELECT * FROM dim_design;'
+    assert result.values.tolist() == [[
+        52,
+        'NewName2',
+        '/lost+found',
+        'newname2-20000101-p123.json'
+    ]]
+    query = 'SELECT * FROM dim_design;'
     result_data = conn.run(query)
     assert result_data == [
         [18, 'Name1', '/usr', 'name1-20000101-abcd.json'],

@@ -1,4 +1,4 @@
-from src.process.transform_currency import transform_currency
+from src.process.process_utils.transform_currency import transform_currency
 from pg8000.native import Connection
 from dotenv import dotenv_values
 import pytest
