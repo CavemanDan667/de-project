@@ -12,11 +12,11 @@ def transform_staff(csv_file, conn):
 
     department_query = 'SELECT * FROM ref_department;'
     department_data = conn.run(department_query)
+
     department_dataframe = pd.DataFrame(department_data, columns=[
                                         'department_id',
                                         'department_name',
-                                        'location',
-                                        'manager'])
+                                        'location'])
     staff_department_dataframe = pd.merge(
         staff_data, department_dataframe, on='department_id')
 
@@ -32,8 +32,8 @@ def transform_staff(csv_file, conn):
             if len(query_result) == 0:
                 insert_query = f'''
                     INSERT INTO dim_staff
-                    (staff_id, first_name, last_name, 
-                    email_address, department_name, 
+                    (staff_id, first_name, last_name,
+                    email_address, department_name,
                     location)
                     VALUES
                     ({literal(staff_department_dataframe.values.tolist()[index][0])},
@@ -48,7 +48,11 @@ def transform_staff(csv_file, conn):
                     UPDATE dim_staff
                     SET first_name = {literal(row[1])},
                     last_name = {literal(row[2])},
-                    email_address = {literal(row[4])}
+                    email_address = {literal(row[4])},
+                    department_name = {literal(
+                        staff_department_dataframe.values.tolist()[index][4])},
+                    location = {literal(
+                        staff_department_dataframe.values.tolist()[index][5])}
                     WHERE staff_id = {literal(row[0])}
                     ;'''
             conn.run(insert_query)
