@@ -154,6 +154,5 @@ FROM (SELECT generate_series(
 CREATE TABLE ref_department (
     department_id INT PRIMARY KEY NOT NULL,
     department_name VARCHAR NOT NULL,
-    location VARCHAR NOT NULL,
-    manager VARCHAR NOT NULL
+    location VARCHAR NOT NULL
 );
