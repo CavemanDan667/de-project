@@ -11,6 +11,6 @@ output "account_id" {
 
 data "archive_file" "zip_process" {
   type = "zip"
-  source_dir = "test_lambda_code"
-  output_path = "./layer_zips/test.zip"
+  source_dir = "../src/process_dummy"
+  output_path = "./zipped/process.zip"
 }
