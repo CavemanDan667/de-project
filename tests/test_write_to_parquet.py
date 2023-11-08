@@ -6,7 +6,6 @@ import csv
 from moto import mock_s3
 import pandas as pd
 from pprint import pprint
-import awswrangler as wr
 
 
 @pytest.fixture
