@@ -28,10 +28,10 @@ def handler(event, context):
 
     wr.s3.to_parquet(
         df=df,
-        path="s3://test-bucket-de-project/test_file.parquet"
+        path="s3://de-project-meta-bucket/test.parquet"
     )
 
-    read_file = wr.s3.read_parquet("s3://test-bucket-de-project/test_file.parquet")
+    read_file = wr.s3.read_parquet("s3://de-project-meta-bucket/test.parquet")
     print('Parquet works', read_file)
 
 
