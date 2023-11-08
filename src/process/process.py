@@ -3,8 +3,8 @@ from pg8000.native import Connection
 from src.process.process_utils.write_to_parquet import write_data_to_parquet
 from src.process.process_utils.extract_filepath import extract_filepath
 from src.process.process_utils.extract_event_data import extract_event_data
-from src.process.transform_currency import transform_currency
-from src.process.transform_design import transform_design
+from src.process.process_utils.transform_currency import transform_currency
+from src.process.process_utils.transform_design import transform_design
 from dotenv import dotenv_values
 
 config = dotenv_values(".env")

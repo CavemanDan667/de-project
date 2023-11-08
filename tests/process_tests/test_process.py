@@ -1,12 +1,10 @@
 from src.process.process import handler
-from unittest.mock import Mock, MagicMock, patch, call
+from unittest.mock import patch, call
 import pytest
-from tests.process_tests.test_event import s3_put
 
 
 @pytest.fixture
 def mock_extract_filepath():
-    mock_filepath = MagicMock()
     with patch(
         "src.process.process.extract_filepath",
         return_value="Test_filepath",
@@ -16,7 +14,6 @@ def mock_extract_filepath():
 
 @pytest.fixture
 def mock_extract_event_data():
-    mock_extract = MagicMock()
     with patch(
         "src.process.process.extract_event_data",
         return_value=("currency", "Test_unix"),
@@ -24,33 +21,32 @@ def mock_extract_event_data():
         yield extract_patch
 
 
-
 @pytest.fixture
 def mock_transform_currency():
-    mock_transform_currency = MagicMock()
     with patch(
         "src.process.process.transform_currency",
         return_value="Test_data_frame",
     ) as transform_currency_patch:
         yield transform_currency_patch
 
+
 @pytest.fixture
 def mock_connection():
-    mock_connection = MagicMock()
     with patch(
         "src.process.process.Connection",
         return_value="Test_connection",
     ) as connection_patch:
         yield connection_patch
 
+
 @pytest.fixture
 def mock_write():
-    mock_write = MagicMock()
     with patch(
         "src.process.process.write_data_to_parquet",
         return_value="Parquet Created",
     ) as write_patch:
         yield write_patch
+
 
 def test_handler_called_with_event_object_with_valid_table_name(
     mock_extract_event_data,
@@ -62,11 +58,18 @@ def test_handler_called_with_event_object_with_valid_table_name(
     handler("Test_event", "context")
     assert mock_extract_event_data.call_args == call('Test_event')
     assert mock_extract_filepath.call_args == call('Test_event')
-    assert mock_transform_currency.call_args == call('Test_connection', 'Test_filepath')
-    assert mock_write.call_args == call('Test_unix', 'currency', 'Test_data_frame')
+    assert mock_transform_currency.call_args == call(
+        'Test_connection',
+        'Test_filepath'
+    )
+    assert mock_write.call_args == call(
+        'Test_unix',
+        'currency',
+        'Test_data_frame'
+    )
+
 
 def test_handler_raises_and_logs_errors(caplog):
     with pytest.raises(Exception):
         handler("Test_event", "context")
-    
     assert 'Process handler has raised an error' in caplog.text
