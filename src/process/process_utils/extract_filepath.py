@@ -6,7 +6,7 @@ logger.setLevel(logging.INFO)
 
 
 def extract_filepath(event):
-    """Extracts S3 URI from event JSON
+    """Extracts S3 URI from event JSON.
 
     Args:
         event (dictionary): The notification message that Amazon
