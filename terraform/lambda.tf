@@ -25,7 +25,7 @@ resource "aws_lambda_function" "process_lambda" {
   role          = aws_iam_role.process_lambda_role.arn
   runtime       = "python3.11"
   handler = "process_lambda_dummy.handler"
-  timeout = 59
+  timeout = 180
   environment {
     variables = {
       user = var.USER,
