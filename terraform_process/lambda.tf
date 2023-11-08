@@ -5,7 +5,7 @@ resource "aws_lambda_function" "process_lambda" {
   role          = aws_iam_role.process_lambda_role.arn
   runtime       = "python3.11"
   handler = "process_test.handler"
-  timeout = 30
+  timeout = 59
   environment {
     variables = {
       user = var.USER,

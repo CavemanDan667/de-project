@@ -4,15 +4,12 @@ import os
 import logging
 import pandas as pd
 import awswrangler as wr
-from dotenv import load_dotenv
 
-load_dotenv()
-
-user = os.environ['USER']
-host = os.environ['HOST']
-database = os.environ["DATABASE"]
-password = os.environ["PASSWORD"]
-port = os.environ["PORT"]
+user = os.environ['user']
+host = os.environ['host']
+database = os.environ["database"]
+password = os.environ["password"]
+port = os.environ["port"]
 
 
 def handler(event, context):
