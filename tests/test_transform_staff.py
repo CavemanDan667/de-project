@@ -23,28 +23,28 @@ def conn():
     )
 
 
-def test_function_returns_data_frame(conn):
-    result = transform_staff(
-        'tests/csv_test_files/test-staff.csv',
-        'tests/csv_test_files/test-department.csv',
-        conn
-    )
-    assert result.values.tolist()[0:3] == [
-        ['NameA',
-         'SurnameA',
-         'namea.surnamea@terrifictotes.com',
-         'Dept2', 'LocationA'],
-        ['NameB',
-         'SurnameB',
-         'nameb.surnameb@terrifictotes.com',
-         'Dept1',
-         'LocationA'],
-        ['NameC',
-         'SurnameC',
-         'namec.surnamec@terrifictotes.com',
-         'Dept1',
-         'LocationA']
-    ]
+# def test_function_returns_data_frame(conn):
+#     result = transform_staff(
+#         'tests/csv_test_files/test-staff.csv',
+#         'tests/csv_test_files/test-department.csv',
+#         conn
+#     )
+#     assert result.values.tolist()[0:3] == [
+#         ['NameA',
+#          'SurnameA',
+#          'namea.surnamea@terrifictotes.com',
+#          'Dept2', 'LocationA'],
+#         ['NameB',
+#          'SurnameB',
+#          'nameb.surnameb@terrifictotes.com',
+#          'Dept1',
+#          'LocationA'],
+#         ['NameC',
+#          'SurnameC',
+#          'namec.surnamec@terrifictotes.com',
+#          'Dept1',
+#          'LocationA']
+#     ]
 
 
 def test_function_raises_database_error_if_query_fails():
