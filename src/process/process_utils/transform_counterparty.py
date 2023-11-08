@@ -3,6 +3,28 @@ from pg8000.native import literal, DatabaseError
 
 
 def transform_counterparty(csv_file, conn):
+    """This function reads an ingested file from a
+    counterparty table, queries the dim_location table
+    in the new data warehouse to populate a dictionary
+    of addresses, and then uses this dictionary to
+    replace address ids in the original file with
+    full corresponding address details in the new data.
+    It then inserts this data into a new data warehouse,
+    before returning it out of the function.
+
+    Args:
+        csv_file: a filepath to a csv file containing
+        data ingested from the original database.
+        conn: a connection to the new data warehouse.
+    Returns:
+        a data frame containing all of the information
+        that has been added to the dim_counterparty
+        table in the new data warehouse.
+    Raises:
+        DatabaseError: if either the select or insert
+        query fails to match up to the destination
+        table.
+    """
     address_data = conn.run('SELECT * FROM dim_location;')
     address_dict = {item[0]: item[1:] for item in address_data}
     counterparty_data = pd.read_csv(csv_file,
