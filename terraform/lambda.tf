@@ -22,7 +22,7 @@ resource "aws_lambda_function" "process_lambda" {
   filename      = "./zipped/process.zip"
   source_code_hash = data.archive_file.zip_process.output_base64sha256
   function_name = "process_lambda"
-  role          = aws_iam_role.process_lambda_role.arn
+  role          = aws_iam_role.ingestion_lambda_role.arn
   runtime       = "python3.11"
   handler = "process_lambda_dummy.handler"
   timeout = 59
