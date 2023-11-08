@@ -96,11 +96,6 @@ jobs:
           envkey_TESTDW_HOST: localhost
           envkey_TESTDW_PORT: 5432
           envkey_TESTDW_DATABASE: mock_dw
-          envkey_TEST_USER: mock_tote_db
-          envkey_TEST_PASSWORD: postgres
-          envkey_TEST_HOST: localhost
-          envkey_TEST_PORT: 5432
-          envkey_TEST_DATABASE: mock_tote_db
           envkey_DW_USER: ${{ secrets.DW_USER }}
           envkey_DW_PASSWORD: ${{ secrets.DW_PASSWORD }}
           envkey_DW_HOST: ${{ secrets.DW_HOST }}
