@@ -31,3 +31,56 @@ def test_function_returns_data_frame(conn):
         conn
         )
     assert isinstance(result, pd.core.frame.DataFrame)
+
+
+def test_function_returns_correct_data(conn):
+    result = transform_department(
+       'tests/csv_test_files/test-department.csv',
+       conn
+    )
+    assert result.values.tolist() == [
+        [1,'Dept1','LocationA','Name One'],
+        [2,'Dept2','LocationA','Name Two'],
+        [3,'Dept3','LocationB','Fakename Three'],
+        [4,'Dept4','LocationB','Othername Four']
+    ]
+
+
+def test_function_correctly_populates_table(conn):
+    transform_department(
+       'tests/csv_test_files/test-department.csv',
+       conn
+    )
+    result = conn.run('SELECT * FROM ref_department;')
+    assert result[0] == [1,'Dept1','LocationA','Name One']
+    assert result[1] == [2,'Dept2','LocationA','Name Two']
+    assert result[2] == [3,'Dept3','LocationB','Fakename Three']
+    assert result[3] == [4,'Dept4','LocationB','Othername Four']
+
+
+def test_function_does_not_repeat_duplicate_data(conn):
+    transform_department(
+       'tests/csv_test_files/test-department.csv',
+       conn
+    )
+    transform_department(
+       'tests/csv_test_files/test-department.csv',
+       conn
+    )
+    result = conn.run('SELECT * FROM ref_department;')
+    assert len(result) == 4
+
+
+def test_function_correctly_updates_data(conn):
+    result = transform_department(
+       'tests/csv_test_files/test-department-update.csv',
+       conn
+    )
+    assert result.values.tolist() == [[1,'Dept1','LocationF','Name One']]
+    query = 'SELECT * FROM ref_department;'
+    result_data = conn.run(query)
+    assert result_data == [
+        [2,'Dept2','LocationA','Name Two'],
+        [3,'Dept3','LocationB','Fakename Three'],
+        [4,'Dept4','LocationB','Othername Four'],
+        [1,'Dept1','LocationF','Name One']]
