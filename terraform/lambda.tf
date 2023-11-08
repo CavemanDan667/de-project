@@ -19,9 +19,9 @@ resource "aws_lambda_function" "ingestion_lambda" {
 
 
 resource "aws_lambda_function" "process_lambda" {
-  filename      = "./layer_zips/test.zip"
+  filename      = "./zipped/process.zip"
   source_code_hash = data.archive_file.zip_process.output_base64sha256
-  function_name = "test_lambda"
+  function_name = "process_lambda"
   role          = aws_iam_role.process_lambda_role.arn
   runtime       = "python3.11"
   handler = "process_test.handler"
