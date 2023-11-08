@@ -97,7 +97,7 @@ def transform_counterparty(csv_file, conn):
                     counterparty_legal_country = {literal(row[7])},
                     counterparty_legal_phone_number = {literal(row[8])}
                     WHERE counterparty_id = {literal(row[0])}'''
-                conn.run(insert_query)
+            conn.run(insert_query)
         except DatabaseError as d:
             raise d
     return counterparty_frame
