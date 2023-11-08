@@ -96,6 +96,11 @@ jobs:
           envkey_TESTDW_HOST: localhost
           envkey_TESTDW_PORT: 5432
           envkey_TESTDW_DATABASE: mock_dw
+          envkey_DW_USER: ${{ secrets.DW_USER }}
+          envkey_DW_PASSWORD: ${{ secrets.DW_PASSWORD }}
+          envkey_DW_HOST: ${{ secrets.DW_HOST }}
+          envkey_DW_PORT: ${{ secrets.DW_PORT }}
+          envkey_DW_DATABASE: ${{ secrets.DW_DATABASE }}
       - name: Check Process Coverage
         run: make check-coverage-process
       - name: Process Unit Tests
