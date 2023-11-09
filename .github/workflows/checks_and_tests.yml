@@ -30,7 +30,7 @@ jobs:
         with:
             python-version: '3.11.1'
       - name: whoami
-        run: whoami
+        run: python testing.py
       - name: Install dependencies
         run: make requirements
       - name: Install pg8000
