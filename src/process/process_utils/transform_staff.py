@@ -40,7 +40,6 @@ def transform_staff(csv_file, conn_db, conn_dw):
                         location
                         FROM department;'''
     department_data = conn_db.run(department_query)
-    print(department_data, '<<<< dept data in func')
     department_dict = {item[0]: item[1:] for item in department_data}
     staff_list = staff_data.values.tolist()
     staff_dict = {
