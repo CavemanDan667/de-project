@@ -37,3 +37,27 @@ variable "EMAIL_4" {
 variable "EMAIL_5" {
   type = string
 }
+
+variable "totesys_db_creds" {
+  type = object({
+    USER = string
+    HOST = string
+    DATABASE = string
+    PASSWORD = string
+    PORT = string
+  })
+  sensitive = true
+  nullable = false
+}
+
+variable "data_warehouse_creds" {
+  type = object({
+    DW_USER = string
+    DW_HOST = string
+    DW_DATABASE = string
+    DW_PASSWORD = string
+    DW_PORT = string
+  })
+  sensitive = true
+  nullable = false
+}
