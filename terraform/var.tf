@@ -40,11 +40,11 @@ variable "EMAIL_5" {
 
 variable "totesys_db_creds" {
   type = object({
-    USER = string
-    HOST = string
-    DATABASE = string
-    PASSWORD = string
-    PORT = string
+    TOTESYS_USER = string
+    TOTESYS_HOST = string
+    TOTESYS_DATABASE = string
+    TOTESYS_PASSWORD = string
+    TOTESYS_PORT = string
   })
   sensitive = true
   nullable = false
