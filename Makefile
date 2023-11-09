@@ -39,7 +39,19 @@ run-flake:
 test-ingestion:
 	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/ingestion_tests --ignore tests/ingestion_tests/test_ingestion.py)
 
-## Run unit tests on process utils
+## Run unit tests on first group of process utils
+test-process-group-one:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/process_tests/test_extract_event_data.py tests/process_tests/test_extract_filepath.py tests/process_tests/test_transform_address.py tests/process_tests/test_transform_currency.py tests/process_tests/test_transform_department.py tests/process_tests/test_transform_design.py)
+
+## Run unit tests on second group of process utils
+test-process-group-two:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/process_tests/test_write_to_parquet.py tests/process_tests/test_transform_counterparty.py tests/process_tests/test_transform_staff.py)
+
+## Run unit tests on final group of process utils
+test-process-group-three:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/process_tests/test_process.py)
+
+## Run unit tests on all process utils
 test-process:
 	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/process_tests)
 
