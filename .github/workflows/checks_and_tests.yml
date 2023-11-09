@@ -101,10 +101,14 @@ jobs:
           envkey_DW_HOST: ${{ secrets.DW_HOST }}
           envkey_DW_PORT: ${{ secrets.DW_PORT }}
           envkey_DW_DATABASE: ${{ secrets.DW_DATABASE }}
+      - name: Process Unit Tests One
+        run: make test-process-group-one
+      - name: Process Unit Tests Two
+        run: make test-process-group-two
+      - name: Process Unit Tests Three
+        run: make test-process-group-three
       - name: Check Process Coverage
         run: make check-coverage-process
-      - name: Process Unit Tests
-        run: make test-process
 
   check-terraform:
       name: Check Terraform

@@ -1,5 +1,5 @@
 from src.process.process_utils.write_to_parquet import (
-    write_data_to_parquet, upload_object
+    write_data_to_parquet
 )
 import os
 import boto3
