@@ -1,4 +1,5 @@
 from src.process.process_utils.transform_staff import transform_staff
+from src.process.process_utils.transform_department import transform_department
 from pg8000.native import Connection
 from dotenv import dotenv_values
 import pytest
@@ -25,6 +26,10 @@ def conn():
 
 
 def test_function_returns_data_frame(conn):
+    transform_department(
+       'tests/csv_test_files/test-department-update.csv',
+       conn
+    )
     result = transform_staff(
         'tests/csv_test_files/test-staff.csv',
         conn
@@ -33,6 +38,10 @@ def test_function_returns_data_frame(conn):
 
 
 def test_function_returns_correct_data(conn):
+    transform_department(
+       'tests/csv_test_files/test-department-update.csv',
+       conn
+    )
     result = transform_staff(
        'tests/csv_test_files/test-staff.csv',
        conn
@@ -52,6 +61,10 @@ def test_function_returns_correct_data(conn):
 
 
 def test_function_correctly_populates_table(conn):
+    transform_department(
+       'tests/csv_test_files/test-department-update.csv',
+       conn
+    )
     transform_staff(
        'tests/csv_test_files/test-staff.csv',
        conn
@@ -75,6 +88,10 @@ def test_function_correctly_populates_table(conn):
 
 
 def test_function_does_not_repeat_duplicate_data(conn):
+    transform_department(
+       'tests/csv_test_files/test-department-update.csv',
+       conn
+    )
     transform_staff(
        'tests/csv_test_files/test-staff.csv',
        conn
@@ -88,6 +105,10 @@ def test_function_does_not_repeat_duplicate_data(conn):
 
 
 def test_function_correctly_updates_data(conn):
+    transform_department(
+       'tests/csv_test_files/test-department-update.csv',
+       conn
+    )
     result = transform_staff(
        'tests/csv_test_files/test-staff-update.csv',
        conn
@@ -114,6 +135,10 @@ def test_function_correctly_updates_data(conn):
 
 
 def test_function_correctly_updates_change_of_department(conn):
+    transform_department(
+       'tests/csv_test_files/test-department-update.csv',
+       conn
+    )
     result = transform_staff(
        'tests/csv_test_files/test-staff-update-transfer.csv',
        conn
