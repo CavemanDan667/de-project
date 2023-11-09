@@ -41,3 +41,7 @@ def test_writes_data_to_parquet_and_uploads_objects(s3, caplog):
         Bucket="de-project-processed-bucket"
     )
     assert list_of_objects['Contents'][0]['Key'] == 'currency/0002.parquet'
+
+    object_body = s3.get_object(Bucket="de-project-processed-bucket",
+                                Key='currency/0002.parquet')['Body'].read()
+    assert b'PAR1' in object_body
