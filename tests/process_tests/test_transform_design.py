@@ -1,12 +1,10 @@
 from src.process.process_utils.transform_design import transform_design
 from pg8000.native import Connection
-from dotenv import dotenv_values
 import pytest
 import pandas as pd
+from tests.get_credentials import get_credentials
 
-
-config = dotenv_values(".env")
-
+config = get_credentials('test_dw_creds')
 
 user = config["TESTDW_USER"]
 password = config["TESTDW_PASSWORD"]

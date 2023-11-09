@@ -1,10 +1,10 @@
 from src.process.process_utils.transform_currency import transform_currency
 from pg8000.native import Connection
-from dotenv import dotenv_values
 import pytest
 import pandas as pd
+from tests.get_credentials import get_credentials
 
-config = dotenv_values(".env")
+config = get_credentials('test_dw_creds')
 
 user = config["TESTDW_USER"]
 password = config["TESTDW_PASSWORD"]

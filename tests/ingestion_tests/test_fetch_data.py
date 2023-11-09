@@ -1,11 +1,10 @@
 from src.ingestion.ingestion_utils.fetch_data import fetch_data
 from pg8000.native import Connection, DatabaseError
-
-from dotenv import dotenv_values
 import pytest
 from datetime import datetime as dt
+from tests.get_credentials import get_credentials
 
-config = dotenv_values(".env")
+config = get_credentials('test_totesys_db_creds')
 
 user = config["TEST_USER"]
 password = config["TEST_PASSWORD"]

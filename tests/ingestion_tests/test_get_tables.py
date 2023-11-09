@@ -1,9 +1,10 @@
 from src.ingestion.ingestion_utils.get_tables import get_table_names
 import pytest
 from pg8000.native import Connection
-from dotenv import dotenv_values
+from tests.get_credentials import get_credentials
 
-config = dotenv_values(".env")
+
+config = get_credentials('test_totesys_db_creds')
 
 user = config["TEST_USER"]
 password = config["TEST_PASSWORD"]

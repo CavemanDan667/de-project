@@ -1,10 +1,9 @@
 # from ingestion.ingestion import handler
 from pg8000.native import Connection
-
-from dotenv import dotenv_values
+from tests.get_credentials import get_credentials
 import pytest
 # import unittest
-config = dotenv_values(".env")
+config = get_credentials('test_totesys_db_creds')
 
 user = config["TEST_USER"]
 password = config["TEST_PASSWORD"]
