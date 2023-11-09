@@ -90,11 +90,12 @@ def test_function_returns_correct_data(conn):
         'tests/csv_test_files/test-currency.csv',
         conn
         )
-    sales_result = transform_sales_order(
+    transform_sales_order(
         'tests/csv_test_files/test-sales-order.csv',
         conn
     )
-    assert sales_result.values.tolist()[0:1] == [
+    sales_order_result = conn.run('SELECT * FROM fact_sales_order')
+    assert sales_order_result[0:1] == [
         [1, 1, datetime.date(2022, 1, 1),
          datetime.time(10, 0), datetime.date(2023, 10, 10),
          datetime.time(11, 30), 1, 3, 12345, 1.25, 3, 4,
@@ -171,7 +172,7 @@ def test_function_does_not_repeat_duplicate_data(conn):
     assert len(sales_order_result) == 8
 
 
-def test_function_correctly_updates_data(conn):
+def test_function_adds_updated_data_to_table(conn):
     transform_design(
        'tests/csv_test_files/test-design.csv',
        conn
@@ -179,7 +180,7 @@ def test_function_correctly_updates_data(conn):
     transform_department(
         'tests/csv_test_files/test-department.csv',
         conn
-        )
+    )
     transform_staff(
        'tests/csv_test_files/test-staff.csv',
        conn
@@ -195,13 +196,17 @@ def test_function_correctly_updates_data(conn):
     transform_currency(
         'tests/csv_test_files/test-currency.csv',
         conn
-    )
+        )
     transform_sales_order(
         'tests/csv_test_files/test-sales-order-update.csv',
         conn
     )
-    sales_order_result = conn.run('SELECT * FROM fact_sales_order')
-    assert sales_order_result == [
+    sales_order_full_table = conn.run('SELECT * FROM fact_sales_order;')
+    assert sales_order_full_table == [
+        [1, 1, datetime.date(2022, 1, 1), datetime.time(10, 0),
+         datetime.date(2023, 10, 10), datetime.time(11, 30),
+         1, 3, 12345, 1.25, 3, 4, datetime.date(2022, 11, 9),
+         datetime.date(2022, 11, 7), 4],
         [2, 2, datetime.date(2022, 1, 1),
          datetime.time(10, 0), datetime.date(2023, 10, 10),
          datetime.time(11, 30), 1, 2, 20000, 2.25, 2, 29,
@@ -230,7 +235,7 @@ def test_function_correctly_updates_data(conn):
          datetime.date(2023, 10, 10), datetime.time(11, 30),
          1, 3, 700, 8.25, 2, 4, datetime.date(2022, 11, 9),
          datetime.date(2022, 11, 7), 3],
-        [1, 1, datetime.date(2022, 1, 1), datetime.time(10, 0),
-         datetime.date(2023, 10, 10), datetime.time(11, 30),
-         1, 3, 12345, 1.25, 3, 52, datetime.date(2022, 11, 9),
+        [9, 1, datetime.date(2022, 1, 1), datetime.time(10, 0),
+         datetime.date(2023, 10, 20), datetime.time(12, 30),
+         1, 3, 12345, 1.25, 3, 4, datetime.date(2022, 11, 9),
          datetime.date(2022, 11, 7), 4]]
