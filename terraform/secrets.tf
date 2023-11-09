@@ -1,6 +1,7 @@
 resource "aws_secretsmanager_secret" "totesys_db_creds" {
   name = "totesys_database_creds"
   force_overwrite_replica_secret = true
+  recovery_window_in_days = 0
 }
 
 resource "aws_secretsmanager_secret_version" "totesys_db_creds" {
@@ -11,6 +12,7 @@ resource "aws_secretsmanager_secret_version" "totesys_db_creds" {
 resource "aws_secretsmanager_secret" "data_warehouse_creds" {
   name = "data_warehouse_creds"
   force_overwrite_replica_secret = true
+  recovery_window_in_days = 0
 }
 
 resource "aws_secretsmanager_secret_version" "data_warehouse_creds" {
