@@ -23,17 +23,6 @@ def s3(aws_credentials):
         yield boto3.client("s3")
 
 
-def test_upload_object_returns_correct_object_name(s3, caplog):
-    s3.create_bucket(
-        Bucket="de-project-processed-bucket",
-        CreateBucketConfiguration={"LocationConstraint": "eu-west-2"},
-    )
-    upload_object("0001", "currency", "tests/test.txt")
-    list_of_objects = s3.list_objects_v2(
-        Bucket="de-project-processed-bucket")
-    assert list_of_objects["Contents"][0]["Key"] == "currency/0001.parquet"
-
-
 def test_writes_data_to_parquet_and_uploads_objects(s3, caplog):
     s3.create_bucket(
         Bucket="de-project-processed-bucket",

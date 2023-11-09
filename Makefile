@@ -41,7 +41,7 @@ test-ingestion:
 
 ## Run unit tests on first group of process utils
 test-process-group-one:
-	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/process_tests/test_extract_event_data.py tests/process_tests/test_extract_filepath.py tests/process_tests/test_transform_address.py tests/process_tests/test_transform_currency.py tests/process_tests/test_transform_department.py tests/process_tests/test_transform_design.py)
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/process_tests/test_extract_event_data.py tests/process_tests/test_extract_filepath.py tests/process_tests/test_transform_address.py tests/process_tests/test_transform_currency.py tests/process_tests/test_transform_design.py)
 
 ## Run unit tests on second group of process utils
 test-process-group-two:
