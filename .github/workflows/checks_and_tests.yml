@@ -142,3 +142,5 @@ jobs:
               TF_VAR_EMAIL_3: ${{ secrets.EMAIL_3 }}
               TF_VAR_EMAIL_4: ${{ secrets.EMAIL_4 }}
               TF_VAR_EMAIL_5: ${{ secrets.EMAIL_5 }}
+              TF_VAR_totesys_db_creds: ${{ secrets.TOTESYS_DB_CREDS}}
+              TF_VAR_data_warehouse_creds: ${{ secrets.DATA_WAREHOUSE_CREDS}}

@@ -1,4 +1,5 @@
 from src.process.process_utils.transform_staff import transform_staff
+from src.process.process_utils.transform_department import transform_department
 from pg8000.native import Connection
 from dotenv import dotenv_values
 import pytest
