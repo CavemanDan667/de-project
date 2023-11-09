@@ -5,7 +5,10 @@ from pg8000.native import DatabaseError, literal
 def transform_sales_order(csv_file, conn):
     """
     This function reads an ingested file of sales data. For each sale,
-    it checks to see if that combination of sales_id, updated_time and updated_date are within the fact_sales_order table. If it isn't, the function inserts the new sales data into the table, whether it is a new sale, or an update to a previous sale.
+    it checks to see if that combination of sales_id,
+    updated_time and updated_date are within the fact_sales_order table.
+    If it isn't, the function inserts the new sales data into the table,
+    whether it is a new sale, or an update to a previous sale.
 
     Args:
         csv_file: a filepath to a csv file containing
@@ -13,7 +16,8 @@ def transform_sales_order(csv_file, conn):
         conn: a connection to the new data warehouse.
 
      Returns:
-        a data frame containing the section of the fact_sales_order table in the new data warehouse created by the function.
+        a data frame containing the section of the fact_sales_order table
+        in the new data warehouse created by the function.
 
     Raises:
         DatabaseError: if either the select or insert
