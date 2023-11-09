@@ -38,7 +38,6 @@ def transform_currency(csv_file, conn):
         try:
             select_query = f'''SELECT * FROM dim_currency
             WHERE currency_code = {literal(value[1])};'''
-            print(select_query)
             result = conn.run(select_query)
             if len(result) == 0:
                 insert_query = f'''INSERT INTO dim_currency
