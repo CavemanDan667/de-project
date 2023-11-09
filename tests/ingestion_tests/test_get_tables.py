@@ -2,9 +2,15 @@ from src.ingestion.ingestion_utils.get_tables import get_table_names
 import pytest
 from pg8000.native import Connection
 from tests.get_credentials import get_credentials
+import subprocess
+from dotenv import dotenv_values
 
+identity = subprocess.check_output('whoami')
 
-config = get_credentials('test_totesys_db_creds')
+if identity == b'runner\n':
+    config = get_credentials('test_totesys_db_creds')
+else:
+    config = dotenv_values('.env')
 
 user = config["TEST_USER"]
 password = config["TEST_PASSWORD"]

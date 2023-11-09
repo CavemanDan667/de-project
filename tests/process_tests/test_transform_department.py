@@ -3,8 +3,15 @@ from pg8000.native import Connection
 import pytest
 import pandas as pd
 from tests.get_credentials import get_credentials
+import subprocess
+from dotenv import dotenv_values
 
-config = get_credentials('test_dw_creds')
+identity = subprocess.check_output('whoami')
+
+if identity == b'runner\n':
+    config = get_credentials('test_totesys_db_creds')
+else:
+    config = dotenv_values('.env')
 
 user = config["TESTDW_USER"]
 password = config["TESTDW_PASSWORD"]
