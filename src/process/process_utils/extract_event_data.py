@@ -6,17 +6,16 @@ logger.setLevel(logging.INFO)
 
 
 def extract_event_data(event):
-    """
-    Takes an s3 put event and extracts the table name and file name.
+    """Takes an s3 put event and extracts the table name and file name.
 
     Args:
-        event (dict): S3 PUT event object
-
-    Raises:
-        k: KeyError
+        event (dict): S3 PUT event object.
 
     Returns:
         tuple: table_name, unix
+
+    Raises:
+        KeyError: if any required keys are missing from the event JSON.
     """
     try:
         file_name = event['Records'][0]['s3']['object']['key']

@@ -3,6 +3,15 @@ import boto3
 import awswrangler as wr
 import pandas as pd
 def get_client(service_name):
+    """Returns a boto3 client connection.
+
+    Args:
+        service_name (string): The name of the service
+        to which the function connects.
+
+    Returns:
+        A boto3 client connection.
+    """
     client = boto3.client(service_name)
     return client
 
