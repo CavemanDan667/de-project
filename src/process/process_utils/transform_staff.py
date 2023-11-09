@@ -2,10 +2,11 @@ import pandas as pd
 from pg8000.native import DatabaseError, literal
 
 
-def transform_staff(csv_file, conn):
+def transform_staff(csv_file, conn_db, conn_dw):
     """This function reads an ingested file of staff data.
-    It merges this with data from the ref_department table
-    on department_id before dropping department_id.
+    It then runs a query against the department table in the
+    original database, returning department_id, name and
+    location, which it merges into the new staff data.
     It then checks whether each staff_id from the merged data
     appears in the dim_staff table. If the staff_id is
     not found in dim_staff, this function adds the relevant
@@ -15,7 +16,8 @@ def transform_staff(csv_file, conn):
     Args:
         csv_file: a filepath to a csv file containing
         data ingested from the original database.
-        conn: a connection to the new data warehouse.
+        conn_db: a connection to the original database.
+        conn_dw: a connection to the new data warehouse.
     Returns:
         a data frame containing all of the information
         that has been added to the dim_staff
@@ -33,52 +35,55 @@ def transform_staff(csv_file, conn):
                                       'department_id',
                                       'email_address'])
 
-    department_query = 'SELECT * FROM ref_department;'
-    department_data = conn.run(department_query)
-
-    department_dataframe = pd.DataFrame(department_data, columns=[
-                                        'department_id',
-                                        'department_name',
-                                        'location'])
-    staff_department_dataframe = pd.merge(
-        staff_data, department_dataframe, on='department_id')
-
-    staff_department_dataframe = staff_department_dataframe.drop(
-        columns='department_id')
-
-    for index, row in enumerate(staff_data.values.tolist()):
+    department_query = '''SELECT department_id,
+                        department_name,
+                        location
+                        FROM department;'''
+    department_data = conn_db.run(department_query)
+    print(department_data, '<<<< dept data in func')
+    department_dict = {item[0]: item[1:] for item in department_data}
+    staff_list = staff_data.values.tolist()
+    staff_dict = {
+        'staff_id': [item[0] for item in staff_list],
+        'first_name': [item[1] for item in staff_list],
+        'last_name': [item[2] for item in staff_list],
+        'department_name': [
+            department_dict[item[3]][0]
+            for item in staff_list
+        ],
+        'location': [department_dict[item[3]][1] for item in staff_list],
+        'email_address': [item[4] for item in staff_list]
+    }
+    staff_frame = pd.DataFrame.from_dict(staff_dict)
+    for row in staff_frame.values.tolist():
         try:
-            select_query = f'''
-                    SELECT * FROM dim_staff
-                    WHERE staff_id = {literal(row[0])};'''
-            query_result = conn.run(select_query)
+            select_query = f'''SELECT * FROM dim_staff
+            WHERE staff_id = {literal(row[0])};'''
+            query_result = conn_dw.run(select_query)
             if len(query_result) == 0:
-                insert_query = f'''
-                    INSERT INTO dim_staff
-                    (staff_id, first_name, last_name,
-                    email_address, department_name,
-                    location)
-                    VALUES
-                    ({literal(staff_department_dataframe.values.tolist()[index][0])},
-                    {literal(staff_department_dataframe.values.tolist()[index][1])},
-                    {literal(staff_department_dataframe.values.tolist()[index][2])},
-                    {literal(staff_department_dataframe.values.tolist()[index][3])},
-                    {literal(staff_department_dataframe.values.tolist()[index][4])},
-                    {literal(staff_department_dataframe.values.tolist()[index][5])});
-                    '''
+                insert_query = f'''INSERT INTO dim_staff (
+                    staff_id,
+                    first_name,
+                    last_name,
+                    department_name,
+                    location,
+                    email_address
+                    ) VALUES (
+                    {literal(row[0])},
+                    {literal(row[1])},
+                    {literal(row[2])},
+                    {literal(row[3])},
+                    {literal(row[4])},
+                    {literal(row[5])});'''
             elif len(query_result) > 0:
-                insert_query = f'''
-                    UPDATE dim_staff
+                insert_query = f'''UPDATE dim_staff
                     SET first_name = {literal(row[1])},
                     last_name = {literal(row[2])},
-                    email_address = {literal(row[4])},
-                    department_name = {literal(
-                        staff_department_dataframe.values.tolist()[index][4])},
-                    location = {literal(
-                        staff_department_dataframe.values.tolist()[index][5])}
-                    WHERE staff_id = {literal(row[0])}
-                    ;'''
-            conn.run(insert_query)
+                    department_name = {literal(row[3])},
+                    location = {literal(row[4])},
+                    email_address = {literal(row[5])}
+                    WHERE staff_id = {literal(row[0])}'''
+            conn_dw.run(insert_query)
         except DatabaseError as d:
             raise d
-    return staff_department_dataframe
+    return staff_frame
