@@ -27,7 +27,7 @@ def load_sales_order(parquet_file, conn):
         query fails to match up to the destination
         table.
     """
-    sales_order_data = wr.s3.read_parquet(parquet_file)
+    sales_order_data = wr.s3.read_parquet(path=parquet_file)
 
     sales_order_list = sales_order_data.values.tolist()
 
