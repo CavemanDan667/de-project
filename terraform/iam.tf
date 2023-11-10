@@ -73,6 +73,11 @@ resource "aws_iam_role_policy_attachment" "secrets_read_write_ingestion_attach" 
   policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
 }
 
+resource "aws_iam_role_policy_attachment" "admin_access_ingest_attach" {
+  role = aws_iam_role.ingestion_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
+
 
 resource "aws_iam_role" "process_lambda_role" {
     name = "process_lambda_role"
@@ -111,6 +116,11 @@ resource "aws_iam_role_policy_attachment" "S3_Full_access_process_attach" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
+resource "aws_iam_role_policy_attachment" "admin_access_process_attach" {
+  role = aws_iam_role.process_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
+
 resource "aws_iam_role" "load_lambda_role" {
     name = "load_lambda_role"
   assume_role_policy = jsonencode({
@@ -146,4 +156,9 @@ resource "aws_iam_role_policy_attachment" "S3_Full_access_load_attach" {
 resource "aws_iam_role_policy_attachment" "secrets_read_write_load_attach" {
   role = aws_iam_role.load_lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+}
+
+resource "aws_iam_role_policy_attachment" "admin_access_load_attach" {
+  role = aws_iam_role.load_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
