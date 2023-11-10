@@ -28,7 +28,7 @@ def transform_staff(csv_file, conn_db):
     """
     try:
         staff_data = wr.s3.read_csv(
-            csv_file,
+            path=csv_file,
             usecols=[
                 "staff_id",
                 "first_name",

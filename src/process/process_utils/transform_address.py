@@ -23,7 +23,7 @@ def transform_address(csv_file):
     """
     try:
         data = wr.s3.read_csv(
-            csv_file,
+            path=csv_file,
             usecols=[
                 "address_id",
                 "address_line_1",

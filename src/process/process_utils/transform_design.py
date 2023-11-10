@@ -23,7 +23,7 @@ def transform_design(csv_file):
     """
     try:
         data = wr.s3.read_csv(
-            csv_file, usecols=["design_id", "design_name",
+            path=csv_file, usecols=["design_id", "design_name",
                                "file_location", "file_name"]
         )
         return data
