@@ -1,4 +1,7 @@
 import pandas as pd
+import logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 def transform_staff(csv_file, conn_db):
@@ -21,13 +24,13 @@ def transform_staff(csv_file, conn_db):
         not as expected.
 
     """
-    try: 
+    try:
         staff_data = pd.read_csv(csv_file,
-                                usecols=['staff_id',
-                                        'first_name',
-                                        'last_name',
-                                        'department_id',
-                                        'email_address'])
+                                 usecols=['staff_id',
+                                          'first_name',
+                                          'last_name',
+                                          'department_id',
+                                          'email_address'])
 
         department_query = '''SELECT department_id,
                             department_name,
@@ -50,4 +53,7 @@ def transform_staff(csv_file, conn_db):
         staff_frame = pd.DataFrame.from_dict(staff_dict)
     except KeyError as k:
         raise k
+    except ValueError as v:
+        logger.error(f'Load handler has raised an error: {v}')
+        raise v
     return staff_frame

@@ -1,5 +1,7 @@
 import pandas as pd
-
+import logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 def transform_counterparty(csv_file, conn):
@@ -23,7 +25,7 @@ def transform_counterparty(csv_file, conn):
         KeyError: if the columns in the csv file are
         not as expected.
     """
-    try: 
+    try:
         address_data = conn.run('SELECT * FROM dim_location;')
         address_dict = {item[0]: item[1:] for item in address_data}
         counterparty_data = pd.read_csv(csv_file,
@@ -61,5 +63,7 @@ def transform_counterparty(csv_file, conn):
         counterparty_frame = pd.DataFrame.from_dict(counterparty_dict)
     except KeyError as k:
         raise k
-
+    except ValueError as v:
+        logger.error(f'Load handler has raised an error: {v}')
+        raise v
     return counterparty_frame
