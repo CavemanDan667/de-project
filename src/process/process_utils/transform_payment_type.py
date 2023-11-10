@@ -1,4 +1,4 @@
-import pandas as pd
+import awswrangler as wr
 import logging
 
 logger = logging.getLogger(__name__)
@@ -22,7 +22,7 @@ def transform_payment_type(csv_file):
         not as expected.
     """
     try:
-        data = pd.read_csv(csv_file, usecols=[
+        data = wr.s3.read_csv(path=csv_file, usecols=[
                             'payment_type_id',
                             'payment_type_name'
                             ])
