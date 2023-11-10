@@ -93,7 +93,12 @@ def handler(event, context):
             data_frame = transform_sales_order(file_path, dw_conn)
             process_table_name = f"dim_{table_name}"
 
-        elif table_name in ["department", "payment", "purchase_order", "transaction"]:
+        elif table_name in [
+            "department",
+            "payment",
+            "purchase_order",
+            "transaction"
+        ]:
             pass
 
         else:
@@ -103,7 +108,8 @@ def handler(event, context):
             write_data_to_parquet(unix, process_table_name, data_frame)
         else:
             logger.info(
-                f"{table_name} has been updated but write to parquet has not been enabled"
+                f"""{table_name} has been updated but write
+                to parquet has not been enabled"""
             )
 
     except Exception as e:
