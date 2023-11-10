@@ -61,6 +61,7 @@ def handler(event, context):
         )
 
         table_name, unix = extract_event_data(event)
+        print(table_name)
         file_path = extract_filepath(event)
         data_frame = None
         process_table_name = None

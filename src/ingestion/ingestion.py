@@ -39,13 +39,14 @@ def handler(event, context):
             password=password
         )
         bucket_filenames = list_contents("de-project-ingestion-bucket")
-        newest_time = extract_newest_time(bucket_filenames)
         table_names = get_table_names(conn)
 
         dt_now = datetime.datetime.fromtimestamp(unix_now)
-        dt_newest = datetime.datetime.fromtimestamp(newest_time)
+        
 
         for table_name in table_names:
+            newest_time = extract_newest_time(bucket_filenames, table_name)
+            dt_newest = datetime.datetime.fromtimestamp(newest_time)
             data = fetch_data(conn, table_name, dt_newest, dt_now)
             if len(data["Rows"]) != 0:
                 write_data_to_csv(unix_now, table_name, data)
