@@ -8,7 +8,8 @@ from process_utils.transform_currency import transform_currency
 from process_utils.transform_design import transform_design
 from process_utils.transform_payment_type import transform_payment_type
 from process_utils.transform_counterparty import transform_counterparty
-from process_utils.transform_design import transform_design
+from process_utils.transform_sales_order import transform_sales_order
+from process_utils.transform_staff import transform_staff
 
 dw_config = get_credentials("data_warehouse_creds")
 totesys_config = get_credentials("totesys_database_creds")
@@ -69,7 +70,7 @@ def handler(event, context):
             process_table_name = f"dim_{table_name}"
 
         elif table_name == "address":
-            # data_frame = transform_design(file_path, dw_conn)
+            data_frame = transform_design(file_path)
             process_table_name = "dim_location"
 
         elif table_name == "payment_type":
@@ -77,26 +78,33 @@ def handler(event, context):
             process_table_name = f"dim_{table_name}"
 
         elif table_name == "counterparty":
-            # data_frame = transform_counterparty(file_path, dw_conn)
+            data_frame = transform_counterparty(file_path, dw_conn)
             process_table_name = f"dim_{table_name}"
 
         elif table_name == "design":
-            # data_frame = transform_design(file_path, dw_conn)
+            data_frame = transform_design(file_path)
             process_table_name = f"dim_{table_name}"
 
         elif table_name == "staff":
-            pass
+            data_frame = transform_staff(file_path, totesys_conn)
+            process_table_name = f"dim_{table_name}"
 
         elif table_name == "sales_order":
+            data_frame = transform_sales_order(file_path, dw_conn)
+            process_table_name = f"dim_{table_name}"
+
+        elif table_name in ["department", "payment", "purchase_order", "transaction"]:
             pass
 
-        elif table_name == "department":
-            pass
+        else:
+            logger.error(f"Table name not recognised: {table_name}")
 
         if data_frame is not None and process_table_name is not None:
             write_data_to_parquet(unix, process_table_name, data_frame)
         else:
-            logger.info(f'{table_name} has been updated but write to parquet has not been enabled')
+            logger.info(
+                f"{table_name} has been updated but write to parquet has not been enabled"
+            )
 
     except Exception as e:
         logger.error(f"Process handler has raised an error: {e}")
