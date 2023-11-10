@@ -17,7 +17,7 @@ data "archive_file" "zip_ingestion" {
 
 data "archive_file" "zip_process" {
   type = "zip"
-  source_dir = "../src/process_dummy"
+  source_dir = "../src/process"
   output_path = "./zipped/process.zip"
 }
 

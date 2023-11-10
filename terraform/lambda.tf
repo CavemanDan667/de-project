@@ -16,7 +16,7 @@ resource "aws_lambda_function" "process_lambda" {
   function_name = "process_lambda"
   role          = aws_iam_role.process_lambda_role.arn
   runtime       = "python3.11"
-  handler = "process_lambda_dummy.handler"
+  handler = "process.handler"
   timeout = 180
   layers = [aws_lambda_layer_version.pg8000_layer.arn,
             aws_lambda_layer_version.forex_layer.arn, 
