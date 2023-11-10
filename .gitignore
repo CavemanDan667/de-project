@@ -10,4 +10,4 @@ python-db-connection
 **/.terraform
 **/.terraform.lock.hcl
 seed_test.txt
-
+tests/load_tests/helen_test_parquet.py
