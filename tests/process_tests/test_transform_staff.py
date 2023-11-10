@@ -2,7 +2,7 @@ from src.process.process_utils.transform_staff import transform_staff
 from pg8000.native import Connection
 import pytest
 import pandas as pd
-from src.loading.load_utils.get_credentials import get_credentials
+from src.process.process_utils import get_credentials
 import subprocess
 from dotenv import dotenv_values
 
@@ -51,7 +51,7 @@ def dw_conn():
 
 def test_function_returns_data_frame(mock_conn):
     result = transform_staff(
-        'tests/csv_test_files/test-staff.csv',
+        's3://de-project-test-data/csv/test-staff.csv',
         mock_conn
         )
     assert isinstance(result, pd.core.frame.DataFrame)
@@ -59,7 +59,7 @@ def test_function_returns_data_frame(mock_conn):
 
 def test_function_returns_correct_data(mock_conn):
     result = transform_staff(
-       'tests/csv_test_files/test-staff.csv',
+       's3://de-project-test-data/csv/test-staff.csv',
        mock_conn
     )
     assert result.values.tolist() == [
@@ -83,7 +83,7 @@ def test_function_returns_correct_data(mock_conn):
 
 def test_function_only_returns_new_data(mock_conn):
     result = transform_staff(
-        'tests/csv_test_files/test-staff-2.csv',
+        's3://de-project-test-data/csv/test-staff-2.csv',
         mock_conn
     )
     assert result.values.tolist() == [[6, 'NameF', 'SurnameF',

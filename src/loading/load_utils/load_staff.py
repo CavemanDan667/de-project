@@ -1,4 +1,4 @@
-import pandas as pd
+import awswrangler as wr
 from pg8000.native import DatabaseError, literal
 
 import logging
@@ -24,7 +24,7 @@ def load_staff(parquet_file, conn):
         table.
         Exception: if an unexpected error occurs.
     """
-    data = pd.read_parquet(parquet_file)
+    data = wr.s3.read_parquet(parquet_file)
     for row in data.values.tolist():
         try:
             select_query = f'''SELECT * FROM dim_staff
@@ -55,10 +55,12 @@ def load_staff(parquet_file, conn):
                     WHERE staff_id = {literal(row[0])}'''
             conn.run(insert_query)
         except DatabaseError as d:
+            logger.error(f'Load handler has raised an error: {d}')
             raise d
         except ValueError as v:
             logger.error(f'Load handler has raised an error: {v}')
             raise v
         except Exception as e:
+            logger.error(f'Load handler has raised an error: {e}')
             raise e
     return 'Data loaded successfully - dim_staff'

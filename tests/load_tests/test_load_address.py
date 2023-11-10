@@ -28,12 +28,15 @@ def conn():
 
 def test_function_returns_success_message(conn):
     result = load_address(
-        "tests/parquet_test_files/test-address.parquet", conn)
+        "s3://de-project-test-data/parquet/test-address.parquet", conn)
     assert result == "Data loaded successfully - dim_location"
 
 
 def test_function_correctly_populates_table_replacing_blanks_with_none(conn):
-    load_address("tests/parquet_test_files/test-address.parquet", conn)
+    load_address(
+        "s3://de-project-test-data/parquet/test-address.parquet",
+        conn
+    )
     result = conn.run("SELECT * FROM dim_location;")
     assert result[0] == [
         1,
@@ -88,7 +91,13 @@ def test_function_correctly_populates_table_replacing_blanks_with_none(conn):
 
 
 def test_function_does_not_duplicate_data(conn):
-    load_address("tests/parquet_test_files/test-address.parquet", conn)
-    load_address("tests/parquet_test_files/test-address.parquet", conn)
+    load_address(
+        "s3://de-project-test-data/parquet/test-address.parquet",
+        conn
+    )
+    load_address(
+        "s3://de-project-test-data/parquet/test-address.parquet",
+        conn
+    )
     result = conn.run("SELECT * FROM dim_location;")
     assert len(result) == 5

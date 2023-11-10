@@ -1,4 +1,4 @@
-import pandas as pd
+import awswrangler as wr
 from pg8000.native import DatabaseError, literal
 import logging
 
@@ -24,7 +24,7 @@ def load_payment_type(parquet_file, conn):
         table.
         Exception: if an unexpected error occurs.
     """
-    data = pd.read_parquet(parquet_file)
+    data = wr.s3.read_parquet(parquet_file)
     for row in data.values.tolist():
         try:
             select_query = f'''SELECT * FROM dim_payment_type

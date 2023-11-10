@@ -32,7 +32,7 @@ def conn():
 
 def test_function_returns_success_message(conn):
     result = load_staff(
-       'tests/parquet_test_files/staff-test.parquet',
+       's3://de-project-test-data/parquet/staff-test.parquet',
        conn
     )
     assert result == 'Data loaded successfully - dim_staff'
@@ -40,11 +40,11 @@ def test_function_returns_success_message(conn):
 
 def test_function_correctly_populates_table(conn):
     load_staff(
-        'tests/parquet_test_files/staff-test.parquet',
+        's3://de-project-test-data/parquet/staff-test.parquet',
         conn
     )
     load_staff(
-        'tests/parquet_test_files/staff-test2.parquet',
+        's3://de-project-test-data/parquet/staff-test2.parquet',
         conn
     )
 
@@ -75,23 +75,23 @@ def test_function_correctly_populates_table(conn):
 def test_function_does_not_duplicate_data(conn):
 
     load_staff(
-        'tests/parquet_test_files/staff-test.parquet',
+        's3://de-project-test-data/parquet/staff-test.parquet',
         conn
     )
     load_staff(
-        'tests/parquet_test_files/staff-test.parquet',
+        's3://de-project-test-data/parquet/staff-test.parquet',
         conn
     )
     load_staff(
-        'tests/parquet_test_files/staff-test2.parquet',
+        's3://de-project-test-data/parquet/staff-test2.parquet',
         conn
     )
     load_staff(
-        'tests/parquet_test_files/staff-test2.parquet',
+        's3://de-project-test-data/parquet/staff-test2.parquet',
         conn
         )
     load_staff(
-        'tests/parquet_test_files/staff-test2.parquet',
+        's3://de-project-test-data/parquet/staff-test2.parquet',
         conn
         )
     result = conn.run('SELECT * FROM dim_staff;')
@@ -101,7 +101,7 @@ def test_function_does_not_duplicate_data(conn):
 def test_function_correctly_updates_data(conn):
 
     load_staff(
-        'tests/parquet_test_files/staff-update.parquet',
+        's3://de-project-test-data/parquet/staff-update.parquet',
         conn
     )
     result = conn.run('SELECT * FROM dim_staff;')
@@ -129,7 +129,7 @@ def test_function_correctly_updates_data(conn):
 def test_function_correctly_updates_department(conn):
 
     load_staff(
-        'tests/parquet_test_files/staff-update-transfer.parquet',
+        's3://de-project-test-data/parquet/staff-update-transfer.parquet',
         conn
     )
     result = conn.run('SELECT * FROM dim_staff;')
