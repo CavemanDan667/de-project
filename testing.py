@@ -1,7 +1,7 @@
-import subprocess
+import os 
 
-user = subprocess.check_output('whoami')
+a = os.popen('hostname').read()
 
-print(user==b'runner\n')
+print(a)
 
-print(user)
+
