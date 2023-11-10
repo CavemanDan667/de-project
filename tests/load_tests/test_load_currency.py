@@ -31,7 +31,7 @@ def conn():
 
 def test_function_returns_success_message(conn):
     result = load_currency(
-        'tests/parquet_test_files/test-currency',
+        's3://de-project-test-data/parquet/test-currency.parquet',
         conn
         )
     assert result == 'Data loaded successfully - dim_currency'
@@ -39,7 +39,7 @@ def test_function_returns_success_message(conn):
 
 def test_function_correctly_populates_table(conn):
     load_currency(
-       'tests/parquet_test_files/test-currency',
+       's3://de-project-test-data/parquet/test-currency.parquet',
        conn
     )
     result = conn.run('SELECT * FROM dim_currency;')
@@ -50,11 +50,11 @@ def test_function_correctly_populates_table(conn):
 
 def test_function_does_not_repeat_duplicate_data(conn):
     load_currency(
-       'tests/parquet_test_files/test-currency',
+       's3://de-project-test-data/parquet/test-currency.parquet',
        conn
     )
     load_currency(
-       'tests/parquet_test_files/test-currency',
+       's3://de-project-test-data/parquet/test-currency.parquet',
        conn
     )
     result = conn.run('SELECT * FROM dim_currency;')
@@ -63,4 +63,4 @@ def test_function_does_not_repeat_duplicate_data(conn):
 
 def test_function_raises_error_on_null_data(conn):
     with pytest.raises(DatabaseError):
-        load_currency('tests/parquet_test_files/test-fake-currency', conn)
+        load_currency('s3://de-project-test-data/parquet/test-fake-currency', conn)

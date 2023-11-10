@@ -1,4 +1,4 @@
-import pandas as pd
+import awswrangler as wr
 from pg8000.native import DatabaseError, literal
 import logging
 
@@ -25,7 +25,7 @@ def load_currency(parquet_file, conn):
         table, or if the parquet file contains null data.
     """
     try:
-        data = pd.read_parquet(parquet_file)
+        data = wr.s3.read_parquet(parquet_file)
         for value in data.values.tolist():
             select_query = f'''SELECT * FROM dim_currency
             WHERE currency_code = {literal(value[1])};'''
