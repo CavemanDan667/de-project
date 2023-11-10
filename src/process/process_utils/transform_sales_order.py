@@ -26,7 +26,7 @@ def transform_sales_order(csv_file):
         the correct number of columns, or if the datetime input
         does not match the expected length.
     """
-    sales_order_data = wr.s3.read_csv(csv_file)
+    sales_order_data = wr.s3.read_csv(path=csv_file)
 
     sales_order_list = sales_order_data.values.tolist()
     fact_sales_order_list = []

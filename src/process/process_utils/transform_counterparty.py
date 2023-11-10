@@ -1,4 +1,5 @@
 import pandas as pd
+import awswrangler as wr
 import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -28,7 +29,7 @@ def transform_counterparty(csv_file, conn):
     try:
         address_data = conn.run('SELECT * FROM dim_location;')
         address_dict = {item[0]: item[1:] for item in address_data}
-        counterparty_data = pd.read_csv(csv_file,
+        counterparty_data = wr.s3.read_csv(path=csv_file,
                                         usecols=[
                                             'counterparty_id',
                                             'counterparty_legal_name',
