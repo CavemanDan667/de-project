@@ -20,3 +20,9 @@ data "archive_file" "zip_process" {
   source_dir = "../src/process_dummy"
   output_path = "./zipped/process.zip"
 }
+
+data "archive_file" "zip_load" {
+  type = "zip"
+  source_dir = "../src/load_dummy"
+  output_path = "./zipped/load.zip"
+}

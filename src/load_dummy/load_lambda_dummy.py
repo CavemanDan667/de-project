@@ -41,7 +41,7 @@ port = config["TOTESYS_PORT"]
 
 
 def handler(event, context):
-    print("Hello world")
+    print("Load Stream")
     conn = Connection(
         user=user, host=host, database=database, port=port, password=password
     )
@@ -58,7 +58,7 @@ def handler(event, context):
         path="s3://de-project-meta-bucket/test.parquet"
     )
 
-    read_file = wr.s3.read_parquet("s3://de-project-meta-bucket/process-test.parquet")
+    read_file = wr.s3.read_parquet("s3://de-project-meta-bucket/load-test.parquet")
     print('Parquet works', read_file)
 
 
@@ -94,5 +94,3 @@ def get_table_names(conn):
     except TypeError as t:
         logger.error(f"get_tables has raised: {t}")
         raise t
-
-

@@ -106,7 +106,44 @@ resource "aws_iam_role_policy_attachment" "s3_read_write_process_attach" {
   policy_arn = aws_iam_policy.s3_read_write_policy.arn
 }
 
-resource "aws_iam_role_policy_attachment" "S3_Full_access" {
+resource "aws_iam_role_policy_attachment" "S3_Full_access_process_attach" {
   role = aws_iam_role.process_lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+
+resource "aws_iam_role" "load_lambda_role" {
+    name = "load_lambda_role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid = ""
+        Principal = {
+            Service = "lambda.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "cloudwatch_load_attach" {
+  role = aws_iam_role.load_lambda_role.name
+  policy_arn = aws_iam_policy.cloudwatch_logs_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "s3_read_write_load_attach" {
+  role = aws_iam_role.load_lambda_role.name
+  policy_arn = aws_iam_policy.s3_read_write_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "S3_Full_access_load_attach" {
+  role = aws_iam_role.load_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "secrets_read_write_load_attach" {
+  role = aws_iam_role.load_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
 }
