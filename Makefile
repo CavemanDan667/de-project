@@ -55,6 +55,10 @@ test-process-group-three:
 test-process:
 	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/process_tests)
 
+## Run unit tests on loading utils
+test-loading:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/load_tests)
+
 ## Run all unit tests
 unit-test:
 	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v --ignore tests/ingestion_tests/test_ingestion.py)
@@ -66,6 +70,10 @@ check-coverage-ingestion:
 ## Run coverage check on process
 check-coverage-process:
 	$(call execute_in_env, PYTHONPATH=$(shell pwd) coverage run -m pytest tests/process_tests && coverage report -m)
+
+## Run coverage check on load
+check-coverage-load:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) coverage run -m pytest tests/load_tests && coverage report -m)
 
 ## Run the complete coverage check
 check-coverage:
