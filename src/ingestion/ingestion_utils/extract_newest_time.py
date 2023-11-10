@@ -1,7 +1,7 @@
 import re
 
 
-def extract_newest_time(filenames):
+def extract_newest_time(filenames, table):
     """This function takes a list of filenames,
     extracts timestamps from them using regex,
     sorts them into order,
@@ -24,11 +24,26 @@ def extract_newest_time(filenames):
         TypeError if passed an argument with value of None.
         """
     newest_time = 0
-    for file in filenames:
+    table_files = []
+    
+    for item in filenames:
         try:
-            file_time = int(re.search("(?<=/)([0-9]+)(?=.csv)", file).group())
-            if file_time > newest_time:
-                newest_time = file_time
+            if table == re.search("(.*)(?=\/)", item).group():
+                table_files.append(item)
         except AttributeError:
             pass
+
+    if len(table_files) > 0:
+        for file in table_files:
+            try:
+                file_time = int(re.search("(?<=/)([0-9]+)(?=.csv)", file).group())
+                if file_time > newest_time:
+                    newest_time = file_time
+            except AttributeError:
+                pass
+
     return newest_time
+
+
+
+print(re.search("(.*)(?=\/)", 'file/12345.csv'))
