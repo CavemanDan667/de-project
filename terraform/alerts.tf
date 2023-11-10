@@ -1,8 +1,81 @@
 # Creates an SNS topic thread
-resource "aws_sns_topic" "ingestion_alerts" {
-  name = "ingestion_alerts"
+resource "aws_sns_topic" "alerts" {
+  name = "alerts"
 }
 
+# Provides a resource for subscribing to the SNS topic.
+resource "aws_sns_topic_subscription" "sns_subscription" {
+  for_each	= toset([
+    var.EMAIL_1, 
+    var.EMAIL_2, 
+    var.EMAIL_3, 
+    var.EMAIL_4, 
+    var.EMAIL_5])
+  topic_arn = aws_sns_topic.alerts.arn
+  protocol  = "email"
+  endpoint  = each.value
+}
+
+
+############################### INGESTION LAMBA ###############################
+# Creates a CloudWatch Log Metric Filter resource - 'Error' Filter
+resource "aws_cloudwatch_log_metric_filter" "ingestion_error_filter" {
+  name           = "ErrorFilter"
+  pattern        = "ERROR"
+  log_group_name = "/aws/lambda/ingestion_lambda"
+
+  metric_transformation {
+    name      = "ErrorCount"
+    namespace = "CustomLambdaMetrics"
+    value     = "1"
+  }
+}
+
+# Creates a CloudWatch Log Metric Filter resource - 'Created' Filter
+resource "aws_cloudwatch_log_metric_filter" "created_filter" {
+  name           = "CreatedFilter"
+  pattern        = "CREATED"
+  log_group_name = "/aws/lambda/ingestion_lambda"
+
+  metric_transformation {
+    name      = "CreatedCount"
+    namespace = "CustomLambdaMetrics"
+    value     = "1"
+  }
+}
+
+
+############################### PROCESS LAMBA ###############################
+# Creates a CloudWatch Log Metric Filter resource - 'Error' Filter
+resource "aws_cloudwatch_log_metric_filter" "process_error_filter" {
+  name           = "ErrorFilter"
+  pattern        = "ERROR"
+  log_group_name = "/aws/lambda/process_lambda"
+
+  metric_transformation {
+    name      = "ErrorCount"
+    namespace = "CustomLambdaMetrics"
+    value     = "1"
+  }
+}
+
+
+############################### LOAD LAMBA ###############################
+# Creates a CloudWatch Log Metric Filter resource - 'Error' Filter
+resource "aws_cloudwatch_log_metric_filter" "load_error_filter" {
+  name           = "ErrorFilter"
+  pattern        = "ERROR"
+  log_group_name = "/aws/lambda/load_lambda"
+
+  metric_transformation {
+    name      = "ErrorCount"
+    namespace = "CustomLambdaMetrics"
+    value     = "1"
+  }
+}
+
+
+############################### ALARMS ###############################
 # Sets an alarm monitoring the Error metric
 resource "aws_cloudwatch_metric_alarm" "error_alarm" {
   alarm_name = "ErrorAlarm"
@@ -12,7 +85,7 @@ resource "aws_cloudwatch_metric_alarm" "error_alarm" {
   period = 600
   metric_name = "ErrorCount"
   statistic = "SampleCount"
-  alarm_actions = [aws_sns_topic.ingestion_alerts.arn]
+  alarm_actions = [aws_sns_topic.alerts.arn]
   namespace = "CustomLambdaMetrics"
   treat_missing_data = "notBreaching"
 }
@@ -27,48 +100,8 @@ resource "aws_cloudwatch_metric_alarm" "created_alarm" {
   period = 600
   metric_name = "CreatedCount"
   statistic = "SampleCount"
-  alarm_actions = [aws_sns_topic.ingestion_alerts.arn]
+  alarm_actions = [aws_sns_topic.alerts.arn]
   namespace = "CustomLambdaMetrics"
   treat_missing_data = "notBreaching"
 }
 
-# Provides a resource for subscribing to the SNS topic.
-resource "aws_sns_topic_subscription" "sns_subscription" {
-  for_each	= toset([
-    var.EMAIL_1, 
-    var.EMAIL_2, 
-    var.EMAIL_3, 
-    var.EMAIL_4, 
-    var.EMAIL_5])
-  topic_arn = aws_sns_topic.ingestion_alerts.arn
-  protocol  = "email"
-  endpoint  = each.value
-}
-
-
-# Creates a CloudWatch Log Metric Filter resource - 'Error' Filter
-resource "aws_cloudwatch_log_metric_filter" "error_filter" {
-  name           = "ErrorFilter"
-  pattern        = "ERROR"
-  log_group_name = "/aws/lambda/ingestion_lambda"
-
-  metric_transformation {
-    name      = "ErrorCount"
-    namespace = "CustomLambdaMetrics"
-    value     = "1"
-  }
-}
-
-
-# Creates a CloudWatch Log Metric Filter resource - 'Created' Filter
-resource "aws_cloudwatch_log_metric_filter" "created_filter" {
-  name           = "CreatedFilter"
-  pattern        = "CREATED"
-  log_group_name = "/aws/lambda/ingestion_lambda"
-
-  metric_transformation {
-    name      = "CreatedCount"
-    namespace = "CustomLambdaMetrics"
-    value     = "1"
-  }
-}
