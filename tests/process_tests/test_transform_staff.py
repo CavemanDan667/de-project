@@ -2,7 +2,7 @@ from src.process.process_utils.transform_staff import transform_staff
 from pg8000.native import Connection
 import pytest
 import pandas as pd
-from tests.get_credentials import get_credentials
+from src.loading.load_utils.get_credentials import get_credentials
 import subprocess
 from dotenv import dotenv_values
 
