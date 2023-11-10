@@ -35,9 +35,10 @@ def transform_address(csv_file):
                 "phone",
             ],
         )
-        return data
+
     except KeyError as k:
         raise k
     except ValueError as v:
         logger.error(f"Load handler has raised an error: {v}")
         raise v
+    return data

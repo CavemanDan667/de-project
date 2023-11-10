@@ -1,7 +1,7 @@
 from src.ingestion.ingestion_utils.get_tables import get_table_names
 import pytest
 from pg8000.native import Connection
-from tests.get_credentials import get_credentials
+from src.ingestion.ingestion_utils.get_credentials import get_credentials
 import subprocess
 from dotenv import dotenv_values
 
