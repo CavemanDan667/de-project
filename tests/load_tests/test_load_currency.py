@@ -63,4 +63,7 @@ def test_function_does_not_repeat_duplicate_data(conn):
 
 def test_function_raises_error_on_null_data(conn):
     with pytest.raises(DatabaseError):
-        load_currency('s3://de-project-test-data/parquet/test-fake-currency', conn)
+        load_currency(
+            's3://de-project-test-data/parquet/test-fake-currency',
+            conn
+        )
