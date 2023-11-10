@@ -27,12 +27,15 @@ def conn():
 
 
 def test_function_returns_success_message(conn):
-    result = load_design("tests/parquet_test_files/test-design.parquet", conn)
+    result = load_design(
+        "s3://de-project-test-data/parquet/test-design.parquet",
+        conn
+    )
     assert result == "Data loaded successfully - dim_design"
 
 
 def test_function_correctly_populates_table(conn):
-    load_design("tests/parquet_test_files/test-design.parquet", conn)
+    load_design("s3://de-project-test-data/parquet/test-design.parquet", conn)
     result = conn.run("SELECT * FROM dim_design;")
     assert result[0] == [18, "Name1", "/usr", "name1-20000101-abcd.json"]
     assert result[1] == [29, "Name2", "/private", "name2-20000101-4eff.json"]
@@ -45,7 +48,10 @@ def test_function_correctly_populates_table(conn):
 
 
 def test_function_correctly_updates_data(conn):
-    load_design("tests/parquet_test_files/test-design-update.parquet", conn)
+    load_design(
+        "s3://de-project-test-data/parquet/test-design-update.parquet",
+        conn
+    )
     query = "SELECT * FROM dim_design;"
     result_data = conn.run(query)
     assert result_data == [
@@ -58,10 +64,25 @@ def test_function_correctly_updates_data(conn):
 
 
 def test_function_does_not_duplicate_data(conn):
-    load_design("tests/parquet_test_files/test-design.parquet", conn)
-    load_design("tests/parquet_test_files/test-design.parquet", conn)
-    load_design("tests/parquet_test_files/test-design-update.parquet", conn)
-    load_design("tests/parquet_test_files/test-design-update.parquet", conn)
-    load_design("tests/parquet_test_files/test-design-update.parquet", conn)
+    load_design(
+        "s3://de-project-test-data/parquet/test-design.parquet",
+        conn
+    )
+    load_design(
+        "s3://de-project-test-data/parquet/test-design.parquet",
+        conn
+    )
+    load_design(
+        "s3://de-project-test-data/parquet/test-design-update.parquet",
+        conn
+    )
+    load_design(
+        "s3://de-project-test-data/parquet/test-design-update.parquet",
+        conn
+    )
+    load_design(
+        "s3://de-project-test-data/parquet/test-design-update.parquet",
+        conn
+    )
     result = conn.run("SELECT * FROM dim_design;")
     assert len(result) == 5
