@@ -61,7 +61,7 @@ def test_function_does_not_duplicate_data(conn):
     load_design("tests/parquet_test_files/test-design.parquet", conn)
     load_design("tests/parquet_test_files/test-design.parquet", conn)
     load_design("tests/parquet_test_files/test-design-update.parquet", conn)
-    load_design("tests/parquet_test_files/test-design-updates.parquet", conn)
-    load_design("tests/parquet_test_files/test-design-updates.parquet", conn)
+    load_design("tests/parquet_test_files/test-design-update.parquet", conn)
+    load_design("tests/parquet_test_files/test-design-update.parquet", conn)
     result = conn.run("SELECT * FROM dim_design;")
-    assert len(result) == 7
+    assert len(result) == 5
