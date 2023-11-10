@@ -1,4 +1,4 @@
-import pandas as pd
+import awswrangler as wr
 import logging
 
 logger = logging.getLogger(__name__)
@@ -22,7 +22,7 @@ def transform_design(csv_file):
         not as expected.
     """
     try:
-        data = pd.read_csv(
+        data = wr.s3.read_csv(
             csv_file, usecols=["design_id", "design_name",
                                "file_location", "file_name"]
         )
