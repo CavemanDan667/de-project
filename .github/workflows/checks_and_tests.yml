@@ -29,6 +29,8 @@ jobs:
         uses: actions/setup-python@v4
         with:
             python-version: '3.11.1'
+      - name: whoami
+        run: python testing.py
       - name: Install dependencies
         run: make requirements
       - name: Install pg8000
@@ -38,14 +40,12 @@ jobs:
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
-      - name: Make Envfile
-        uses: SpicyPizza/create-envfile@v2.0
+      - name: Configure AWS CLI
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          envkey_TEST_USER: mock_tote_db
-          envkey_TEST_PASSWORD: postgres
-          envkey_TEST_HOST: localhost
-          envkey_TEST_PORT: 5432
-          envkey_TEST_DATABASE: mock_tote_db
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
       - name: Run Flake8
         run: make run-flake
       - name: Run Security Checks
@@ -88,19 +88,12 @@ jobs:
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
-      - name: Make Envfile
-        uses: SpicyPizza/create-envfile@v2.0
+      - name: Configure AWS CLI
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          envkey_TESTDW_USER: mock_dw
-          envkey_TESTDW_PASSWORD: postgres
-          envkey_TESTDW_HOST: localhost
-          envkey_TESTDW_PORT: 5432
-          envkey_TESTDW_DATABASE: mock_dw
-          envkey_DW_USER: ${{ secrets.DW_USER }}
-          envkey_DW_PASSWORD: ${{ secrets.DW_PASSWORD }}
-          envkey_DW_HOST: ${{ secrets.DW_HOST }}
-          envkey_DW_PORT: ${{ secrets.DW_PORT }}
-          envkey_DW_DATABASE: ${{ secrets.DW_DATABASE }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
       - name: Process Unit Tests One
         run: make test-process-group-one
       - name: Process Unit Tests Two
@@ -132,11 +125,6 @@ jobs:
           working-directory: terraform
           run: terraform plan
           env:
-              TF_VAR_USER: ${{ secrets.TOTESYS_USER }}
-              TF_VAR_HOST: ${{ secrets.TOTESYS_HOST }}
-              TF_VAR_DATABASE: ${{ secrets.TOTESYS_DATABASE }}
-              TF_VAR_PASSWORD: ${{ secrets.TOTESYS_PASSWORD }}
-              TF_VAR_PORT: ${{ secrets.TOTESYS_PORT }}
               TF_VAR_EMAIL_1: ${{ secrets.EMAIL_1 }}
               TF_VAR_EMAIL_2: ${{ secrets.EMAIL_2 }}
               TF_VAR_EMAIL_3: ${{ secrets.EMAIL_3 }}
@@ -144,3 +132,5 @@ jobs:
               TF_VAR_EMAIL_5: ${{ secrets.EMAIL_5 }}
               TF_VAR_totesys_db_creds: ${{ secrets.TOTESYS_DB_CREDS}}
               TF_VAR_data_warehouse_creds: ${{ secrets.DATA_WAREHOUSE_CREDS}}
+              TF_VAR_test_totesys_db_creds: ${{ secrets.TEST_TOTESYS_CREDS}}
+              TF_VAR_test_dw_creds: ${{ secrets.TEST_DW_CREDS}}

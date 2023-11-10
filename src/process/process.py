@@ -1,20 +1,27 @@
 import logging
 from pg8000.native import Connection
-from src.process.process_utils.write_to_parquet import write_data_to_parquet
-from src.process.process_utils.extract_filepath import extract_filepath
-from src.process.process_utils.extract_event_data import extract_event_data
-from src.process.process_utils.transform_currency import transform_currency
-from src.process.process_utils.transform_design import transform_design
-from dotenv import dotenv_values
+from process_utils.write_to_parquet import write_data_to_parquet
+from process_utils.extract_filepath import extract_filepath
+from process_utils.extract_event_data import extract_event_data
+from process_utils.transform_currency import transform_currency
+from process_utils.transform_design import transform_design
+from process_utils.get_credentials import get_credentials
 
-config = dotenv_values(".env")
 
-user = config["DW_USER"]
-host = config["DW_HOST"]
-database = config["DW_DATABASE"]
-password = config["DW_PASSWORD"]
-port = config["DW_PORT"]
+dw_config = get_credentials('data_warehouse_creds')
+totesys_config = get_credentials('totesys_database_creds')
 
+dw_user = dw_config["DW_USER"]
+dw_host = dw_config["DW_HOST"]
+dw_database = dw_config["DW_DATABASE"]
+dw_password = dw_config["DW_PASSWORD"]
+dw_port = dw_config["DW_PORT"]
+
+totesys_user = totesys_config["TOTESYS_USER"]
+totesys_host = totesys_config["TOTESYS_HOST"]
+totesys_database = totesys_config["TOTESYS_DATABASE"]
+totesys_password = totesys_config["TOTESYS_PASSWORD"]
+totesys_port = totesys_config["TOTESYS_PORT"]
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -34,12 +41,12 @@ def handler(event, context):
         utility functions should be caught here.
     """
     try:
-        conn = Connection(
-            user=user,
-            host=host,
-            database=database,
-            port=port,
-            password=password
+        dw_conn = Connection(
+            user=dw_user,
+            host=dw_host,
+            database=dw_database,
+            port=dw_port,
+            password=dw_password
         )
 
         data_frame = None
@@ -48,9 +55,9 @@ def handler(event, context):
         file_path = extract_filepath(event)
 
         if table_name == "currency":
-            data_frame = transform_currency(conn, file_path)
+            data_frame = transform_currency(dw_conn, file_path)
         elif table_name == "design":
-            data_frame = transform_design(conn, file_path)
+            data_frame = transform_design(dw_conn, file_path)
 
         write_data_to_parquet(unix, table_name, data_frame)
     except Exception as e:

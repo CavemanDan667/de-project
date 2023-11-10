@@ -1,10 +1,17 @@
 from src.process.process_utils.transform_currency import transform_currency
 from pg8000.native import Connection
-from dotenv import dotenv_values
 import pytest
 import pandas as pd
+from tests.get_credentials import get_credentials
+import subprocess
+from dotenv import dotenv_values
 
-config = dotenv_values(".env")
+identity = subprocess.check_output('whoami')
+
+if identity == b'runner\n':
+    config = get_credentials('test_totesys_db_creds')
+else:
+    config = dotenv_values('.env')
 
 user = config["TESTDW_USER"]
 password = config["TESTDW_PASSWORD"]

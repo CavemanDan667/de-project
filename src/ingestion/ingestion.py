@@ -7,13 +7,16 @@ from ingestion_utils.fetch_data import fetch_data
 from ingestion_utils.get_tables import get_table_names
 from ingestion_utils.extract_newest_time import extract_newest_time
 from ingestion_utils.list_s3_contents import list_contents
-import os
+from ingestion_utils.get_credentials import get_credentials
 
-user = os.environ["user"]
-host = os.environ["host"]
-database = os.environ["database"]
-password = os.environ["password"]
-port = os.environ["port"]
+
+config = get_credentials('totesys_database_creds')
+
+user = config["TOTESYS_USER"]
+host = config["TOTESYS_HOST"]
+database = config["TOTESYS_DATABASE"]
+password = config["TOTESYS_PASSWORD"]
+port = config["TOTESYS_PORT"]
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
