@@ -37,9 +37,9 @@ def conn():
 
 def test_function_returns_a_dataframe(conn):
     load_address(
-        "tests/parquet_test_files/test-address.parquet", conn)
+        "s3://de-project-test-data/parquet/test-address.parquet", conn)
     result = transform_counterparty(
-        'tests/csv_test_files/test-counterparty.csv',
+        's3://de-project-test-data/csv/test-counterparty.csv',
         conn
     )
     assert isinstance(result, pd.core.frame.DataFrame)
@@ -47,11 +47,11 @@ def test_function_returns_a_dataframe(conn):
 
 def test_function_finds_correct_address_data(conn):
     load_address(
-        "tests/parquet_test_files/test-address.parquet",
+        "s3://de-project-test-data/parquet/test-address.parquet",
         conn
     )
     result = transform_counterparty(
-        'tests/csv_test_files/test-counterparty.csv',
+        's3://de-project-test-data/csv/test-counterparty.csv',
         conn
     )
     assert result.values.tolist()[3] == [
@@ -69,11 +69,11 @@ def test_function_finds_correct_address_data(conn):
 
 def test_function_deals_with_empty_address_values(conn):
     load_address(
-        "tests/parquet_test_files/test-address.parquet",
+        "s3://de-project-test-data/parquet/test-address.parquet",
         conn
     )
     result = transform_counterparty(
-        'tests/csv_test_files/test-counterparty.csv',
+        's3://de-project-test-data/csv/test-counterparty.csv',
         conn
     )
     assert result.values.tolist()[0] == [
