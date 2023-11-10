@@ -1,4 +1,5 @@
 import pandas as pd
+import awswrangler as wr
 from forex_python.converter import CurrencyCodes
 import logging
 
@@ -25,7 +26,7 @@ def transform_currency(csv_file):
         in the .csv file.
     """
     try:
-        data = pd.read_csv(csv_file, usecols=['currency_id', 'currency_code'])
+        data = wr.s3.read_csv(csv_file, usecols=['currency_id', 'currency_code'])
         data_list = data.values.tolist()
         c = CurrencyCodes()
         currency_dict = {
