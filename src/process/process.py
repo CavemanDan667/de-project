@@ -61,6 +61,8 @@ def handler(event, context):
 
         table_name, unix = extract_event_data(event)
         file_path = extract_filepath(event)
+        data_frame = None
+        process_table_name = None
 
         if table_name == "currency":
             # data_frame = transform_currency(file_path, dw_conn)
@@ -91,7 +93,7 @@ def handler(event, context):
         elif table_name == "department":
             pass
 
-        if unix and process_table_name and data_frame:
+        if data_frame is not None and process_table_name is not None:
             write_data_to_parquet(unix, process_table_name, data_frame)
 
     except Exception as e:

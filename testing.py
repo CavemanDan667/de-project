@@ -1,7 +1,10 @@
-import os 
+def testing_function(param):
+    if param == 'hello':
+        test = 'world'
+    
+    if test:
+        print('invokin')
 
-a = os.popen('hostname').read()
-
-print(a)
 
 
+testing_function('hi')
