@@ -68,6 +68,11 @@ resource "aws_iam_role_policy_attachment" "s3_read_write_ingestion_attach" {
   policy_arn = aws_iam_policy.s3_read_write_policy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "secrets_read_write_ingestion_attach" {
+  role = aws_iam_role.ingestion_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+}
+
 
 resource "aws_iam_role" "process_lambda_role" {
     name = "process_lambda_role"
@@ -84,6 +89,11 @@ resource "aws_iam_role" "process_lambda_role" {
       }
     ]
   })
+}
+
+resource "aws_iam_role_policy_attachment" "secrets_read_write_process_attach" {
+  role = aws_iam_role.process_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
 }
 
 resource "aws_iam_role_policy_attachment" "cloudwatch_process_attach" {

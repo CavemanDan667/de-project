@@ -7,14 +7,6 @@ resource "aws_lambda_function" "ingestion_lambda" {
   timeout = 30
   layers = [aws_lambda_layer_version.pg8000_layer.arn]
   source_code_hash = data.archive_file.zip_ingestion.output_base64sha256
-  environment {
-    variables = {
-      user = var.USER,
-      host = var.HOST,
-      database = var.DATABASE,
-      password = var.PASSWORD,
-      port = var.PORT}
-  }
 }
 
 
@@ -26,14 +18,6 @@ resource "aws_lambda_function" "process_lambda" {
   runtime       = "python3.11"
   handler = "process_lambda_dummy.handler"
   timeout = 180
-  environment {
-    variables = {
-      user = var.USER,
-      host = var.HOST,
-      database = var.DATABASE,
-      password = var.PASSWORD,
-      port = var.PORT}
-  }
   layers = [aws_lambda_layer_version.pg8000_layer.arn,
             aws_lambda_layer_version.forex_layer.arn, 
             "arn:aws:lambda:eu-west-2:336392948345:layer:AWSSDKPandas-Python311:2"]

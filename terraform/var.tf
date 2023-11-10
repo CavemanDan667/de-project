@@ -1,23 +1,3 @@
-variable "USER" {
-  type = string
-}
-
-variable "HOST" {
-  type = string
-}
-
-variable "DATABASE" {
-  type = string
-}
-
-variable "PASSWORD" {
-  type = string
-}
-
-variable "PORT" {
-  type = string
-}
-
 variable "EMAIL_1" {
   type = string
 }
@@ -57,6 +37,30 @@ variable "data_warehouse_creds" {
     DW_DATABASE = string
     DW_PASSWORD = string
     DW_PORT = string
+  })
+  sensitive = true
+  nullable = false
+}
+
+variable "test_totesys_db_creds" {
+  type = object({
+    TEST_USER = string
+    TEST_HOST = string
+    TEST_DATABASE = string
+    TEST_PASSWORD = string
+    TEST_PORT = string
+  })
+  sensitive = true
+  nullable = false
+}
+
+variable "test_dw_creds" {
+  type = object({
+    TESTDW_USER = string
+    TESTDW_HOST = string
+    TESTDW_DATABASE = string
+    TESTDW_PASSWORD = string
+    TESTDW_PORT = string
   })
   sensitive = true
   nullable = false
