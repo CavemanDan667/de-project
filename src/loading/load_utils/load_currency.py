@@ -25,7 +25,7 @@ def load_currency(parquet_file, conn):
         table, or if the parquet file contains null data.
     """
     try:
-        data = wr.s3.read_parquet(parquet_file)
+        data = wr.s3.read_parquet(path=parquet_file)
         for value in data.values.tolist():
             select_query = f'''SELECT * FROM dim_currency
             WHERE currency_code = {literal(value[1])};'''
