@@ -1,5 +1,9 @@
 import pandas as pd
 from pg8000.native import DatabaseError, literal
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 def load_currency(parquet_file, conn):
@@ -36,5 +40,6 @@ def load_currency(parquet_file, conn):
                 );'''
                 conn.run(insert_query)
     except DatabaseError as d:
+        logger.error(f"Load handler has raised an error: {d}")
         raise d
     return 'Data loaded successfully - dim_currency'
