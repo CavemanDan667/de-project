@@ -32,10 +32,10 @@ def handler(event, context):
 
     Args:
         event (dict): AWS S3 PUT event object
-      
+
     Actions:
-        invokes relevant load function, or logs an 
-error if given table does not exist
+        invokes relevant load function, or logs an
+        error if given table does not exist
 
     Raises:
         e: Any exception that is missed by the

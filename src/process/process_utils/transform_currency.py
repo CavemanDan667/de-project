@@ -27,7 +27,10 @@ def transform_currency(csv_file):
     """
     try:
         data = wr.s3.read_csv(
-            csv_file, usecols=["currency_id", "currency_code"])
+            csv_file,
+            usecols=['currency_id', 'currency_code']
+        )
+
         data_list = data.values.tolist()
         c = CurrencyCodes()
         currency_dict = {
