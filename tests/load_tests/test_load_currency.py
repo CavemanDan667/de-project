@@ -1,7 +1,7 @@
 from src.loading.load_utils.load_currency import load_currency
 from pg8000.native import Connection, DatabaseError
 import pytest
-from tests.get_credentials import get_credentials
+from src.loading.load_utils.get_credentials import get_credentials
 import subprocess
 from dotenv import dotenv_values
 
