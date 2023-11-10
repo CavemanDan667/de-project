@@ -14,7 +14,7 @@ def transform_payment_type(csv_file):
         that will be added to the dim_payment_type
         table in the new data warehouse.
     Raises:
-        KeyError: if the columns in the csv file are
+        ValueError: if the columns in the csv file are
         not as expected.
     """
     try:
@@ -23,5 +23,5 @@ def transform_payment_type(csv_file):
                             'payment_type_name'
                             ])
         return data
-    except KeyError as k:
-        raise k
+    except ValueError as v:
+        raise v
