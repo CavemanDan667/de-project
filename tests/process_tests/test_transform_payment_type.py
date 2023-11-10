@@ -2,6 +2,7 @@ from src.process.process_utils.transform_payment_type import (
     transform_payment_type
 )
 import pandas as pd
+from pytest import raises
 
 
 def test_function_returns_data_frame():
@@ -31,4 +32,7 @@ def test_function_only_returns_new_data():
         [5, 'TYPE_FIVE']
     ]
 
-# test for key error
+
+def test_function_raises_value_error_with_wrong_data():
+    with raises(ValueError):
+        transform_payment_type('tests/csv_test_files/test-currency.csv')
