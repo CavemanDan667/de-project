@@ -35,11 +35,11 @@ def conn():
 
 def test_function_returns_success_message(conn):
     load_address(
-        "tests/parquet_test_files/test-address.parquet",
+        "s3://de-project-test-data/parquet/test-address.parquet",
         conn
     )
     result = load_counterparty(
-       'tests/parquet_test_files/counterparty.parquet',
+       's3://de-project-test-data/parquet/counterparty.parquet',
        conn
     )
     assert result == 'Data loaded successfully - dim_counterparty'
@@ -47,11 +47,11 @@ def test_function_returns_success_message(conn):
 
 def test_function_inserts_data_into_table(conn):
     load_address(
-        "tests/parquet_test_files/test-address.parquet",
+        "s3://de-project-test-data/parquet/test-address.parquet",
         conn
     )
     result = load_counterparty(
-       'tests/parquet_test_files/counterparty2.parquet',
+       's3://de-project-test-data/parquet/counterparty2.parquet',
        conn
     )
     result = conn.run('SELECT * FROM dim_counterparty;')
@@ -68,15 +68,15 @@ def test_function_inserts_data_into_table(conn):
 
 def test_function_does_not_duplicate_data(conn):
     load_address(
-        "tests/parquet_test_files/test-address.parquet",
+        "s3://de-project-test-data/parquet/test-address.parquet",
         conn
     )
     result = load_counterparty(
-       'tests/parquet_test_files/counterparty2.parquet',
+       's3://de-project-test-data/parquet/counterparty2.parquet',
        conn
     )
     result = load_counterparty(
-       'tests/parquet_test_files/counterparty2.parquet',
+       's3://de-project-test-data/parquet/counterparty2.parquet',
        conn
     )
     result = conn.run('SELECT * FROM dim_counterparty;')
@@ -85,11 +85,11 @@ def test_function_does_not_duplicate_data(conn):
 
 def test_function_can_update_data(conn):
     load_address(
-        "tests/parquet_test_files/test-address.parquet",
+        "s3://de-project-test-data/parquet/test-address.parquet",
         conn
     )
     result = load_counterparty(
-       'tests/parquet_test_files/counterparty3.parquet',
+       's3://de-project-test-data/parquet/counterparty3.parquet',
        conn
     )
     result = conn.run('SELECT * FROM dim_counterparty;')

@@ -1,5 +1,5 @@
-import pandas as pd
 from pg8000.native import DatabaseError, literal
+import awswrangler as wr
 
 import logging
 logger = logging.getLogger(__name__)
@@ -24,7 +24,7 @@ def load_counterparty(parquet_file, conn):
         table.
         Exception: if an unexpected error occurs.
     """
-    data = pd.read_parquet(parquet_file)
+    data = wr.s3.read_parquet(parquet_file)
     for row in data.values.tolist():
         try:
             select_query = f'''SELECT * FROM dim_counterparty
