@@ -1,6 +1,9 @@
 from src.process.process_utils.transform_counterparty import (
     transform_counterparty
 )
+from src.process.process_utils.transform_address import (
+    transform_address
+)
 from pg8000.native import Connection
 import pytest
 import pandas as pd
@@ -41,6 +44,10 @@ def test_function_returns_a_dataframe(conn):
 
 
 def test_function_finds_correct_address_data(conn):
+    transform_address(
+        'tests/csv_test_files/test-address.csv',
+        conn
+    )
     result = transform_counterparty(
         'tests/csv_test_files/test-counterparty.csv',
         conn
@@ -59,6 +66,10 @@ def test_function_finds_correct_address_data(conn):
 
 
 def test_function_deals_with_empty_address_values(conn):
+    transform_address(
+        'tests/csv_test_files/test-address.csv',
+        conn
+    )
     result = transform_counterparty(
         'tests/csv_test_files/test-counterparty.csv',
         conn
@@ -77,6 +88,10 @@ def test_function_deals_with_empty_address_values(conn):
 
 
 def test_function_inserts_data_into_table(conn):
+    transform_address(
+        'tests/csv_test_files/test-address.csv',
+        conn
+    )
     transform_counterparty(
         'tests/csv_test_files/test-counterparty.csv',
         conn
@@ -108,6 +123,10 @@ def test_function_inserts_data_into_table(conn):
 
 
 def test_function_does_not_duplicate_data(conn):
+    transform_address(
+        'tests/csv_test_files/test-address.csv',
+        conn
+    )
     transform_counterparty(
         'tests/csv_test_files/test-counterparty.csv',
         conn
@@ -121,6 +140,10 @@ def test_function_does_not_duplicate_data(conn):
 
 
 def test_function_can_update_data(conn):
+    transform_address(
+        'tests/csv_test_files/test-address.csv',
+        conn
+    )
     transform_counterparty(
         'tests/csv_test_files/test-counterparty-update.csv',
         conn

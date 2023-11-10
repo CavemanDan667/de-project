@@ -1,0 +1,2 @@
+sales_order_id,created_at,last_updated,design_id,staff_id,counterparty_id,units_sold,unit_price,currency_id,agreed_delivery_date,agreed_payment_date,agreed_delivery_location_id
+1,2022-01-01 10:00:00.000,2023-10-20 12:30:00.000,4,1,3,12345,1.25,3,2022-11-09,2022-11-07,4
