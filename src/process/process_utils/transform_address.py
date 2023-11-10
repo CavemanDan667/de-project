@@ -1,4 +1,4 @@
-import pandas as pd
+import awswrangler as wr
 import logging
 
 logger = logging.getLogger(__name__)
@@ -22,7 +22,7 @@ def transform_address(csv_file):
         not as expected.
     """
     try:
-        data = pd.read_csv(
+        data = wr.s3.read_csv(
             csv_file,
             usecols=[
                 "address_id",
@@ -35,9 +35,10 @@ def transform_address(csv_file):
                 "phone",
             ],
         )
-        return data
+
     except KeyError as k:
         raise k
     except ValueError as v:
         logger.error(f"Load handler has raised an error: {v}")
         raise v
+    return data

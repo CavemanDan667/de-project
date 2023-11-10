@@ -2,7 +2,7 @@ from src.ingestion.ingestion_utils.fetch_data import fetch_data
 from pg8000.native import Connection, DatabaseError
 import pytest
 from datetime import datetime as dt
-from tests.get_credentials import get_credentials
+from src.ingestion.ingestion_utils.get_credentials import get_credentials
 import subprocess
 from dotenv import dotenv_values
 
