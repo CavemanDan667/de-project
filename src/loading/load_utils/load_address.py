@@ -1,4 +1,4 @@
-import pandas as pd
+import awswrangler as wr
 from pg8000.native import DatabaseError, literal
 import logging
 
@@ -24,13 +24,12 @@ def load_address(parquet_file, conn):
         table.
         Exception: if an unexpected error occurs.
     """
-    data = pd.read_parquet(parquet_file)
+    data = wr.s3.read_parquet(parquet_file)
     for item in data.values.tolist():
         try:
             select_query = f"""
                 SELECT * FROM dim_location
                 WHERE location_id = {literal(item[0])}"""
-            print(select_query)
             select_result = conn.run(select_query)
             if len(select_result) == 0:
                 if type(item[2]) is not str:
@@ -50,10 +49,12 @@ def load_address(parquet_file, conn):
                         )"""
                 conn.run(query)
         except DatabaseError as d:
+            logger.error(f"Load handler has raised an error: {d}")
             raise d
-        except Exception as e:
-            raise e
         except ValueError as v:
             logger.error(f"Load handler has raised an error: {v}")
             raise v
+        except Exception as e:
+            logger.error(f"Load handler has raised an error: {e}")
+            raise e
     return "Data loaded successfully - dim_location"
