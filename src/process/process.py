@@ -65,7 +65,7 @@ def handler(event, context):
         process_table_name = None
 
         if table_name == "currency":
-            # data_frame = transform_currency(file_path, dw_conn)
+            data_frame = transform_currency(file_path)
             process_table_name = f"dim_{table_name}"
 
         elif table_name == "address":
@@ -95,6 +95,8 @@ def handler(event, context):
 
         if data_frame is not None and process_table_name is not None:
             write_data_to_parquet(unix, process_table_name, data_frame)
+        else:
+            logger.info(f'{table_name} has been updated but write to parquet has not been enabled')
 
     except Exception as e:
         logger.error(f"Process handler has raised an error: {e}")
