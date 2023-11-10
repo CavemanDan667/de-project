@@ -30,14 +30,14 @@ def transform_currency(csv_file):
             csv_file,
             usecols=['currency_id', 'currency_code']
         )
+
         data_list = data.values.tolist()
         c = CurrencyCodes()
         currency_dict = {
-            'currency_id': [item[0] for item in data_list],
-            'currency_code': [item[1] for item in data_list],
-            'currency_name': [
-                c.get_currency_name(item[1]) for item in data_list
-            ]
+            "currency_id": [item[0] for item in data_list],
+            "currency_code": [item[1] for item in data_list],
+            "currency_name": [c.get_currency_name(item[1])
+                              for item in data_list],
         }
         df = pd.DataFrame.from_dict(currency_dict)
         return df

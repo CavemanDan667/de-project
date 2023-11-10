@@ -3,12 +3,12 @@ import pandas as pd
 
 
 def test_function_returns_data_frame():
-    result = transform_design("tests/csv_test_files/test-design.csv")
+    result = transform_design("s3://de-project-test-data/csv/test-design.csv")
     assert isinstance(result, pd.core.frame.DataFrame)
 
 
 def test_function_returns_correct_data():
-    result = transform_design("tests/csv_test_files/test-design.csv")
+    result = transform_design("s3://de-project-test-data/csv/test-design.csv")
     assert result.values.tolist() == [
         [18, "Name1", "/usr", "name1-20000101-abcd.json"],
         [29, "Name2", "/private", "name2-20000101-4eff.json"],
