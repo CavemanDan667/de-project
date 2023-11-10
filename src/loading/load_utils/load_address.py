@@ -2,7 +2,6 @@ import pandas as pd
 from pg8000.native import DatabaseError, literal
 import logging
 
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
