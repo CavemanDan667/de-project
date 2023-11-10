@@ -1,4 +1,8 @@
 import pandas as pd
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 def transform_design(csv_file):
@@ -18,13 +22,13 @@ def transform_design(csv_file):
         not as expected.
     """
     try:
-        data = pd.read_csv(csv_file,
-                           usecols=[
-                               'design_id',
-                               'design_name',
-                               'file_location',
-                               'file_name'
-                           ])
+        data = pd.read_csv(
+            csv_file, usecols=["design_id", "design_name",
+                               "file_location", "file_name"]
+        )
         return data
     except KeyError as k:
         raise k
+    except ValueError as v:
+        logger.error(f"Load handler has raised an error: {v}")
+        raise v
