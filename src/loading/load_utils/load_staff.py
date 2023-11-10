@@ -1,6 +1,9 @@
 import pandas as pd
 from pg8000.native import DatabaseError, literal
 
+import logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 def load_staff(parquet_file, conn):
@@ -53,6 +56,9 @@ def load_staff(parquet_file, conn):
             conn.run(insert_query)
         except DatabaseError as d:
             raise d
+        except ValueError as v:
+            logger.error(f'Load handler has raised an error: {v}')
+            raise v
         except Exception as e:
             raise e
     return 'Data loaded successfully - dim_staff'

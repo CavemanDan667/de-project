@@ -1,14 +1,15 @@
 import pandas as pd
-from pg8000.native import Connection
-import awswrangler as wr
-
 
 
 def create_test_payment_type_parquet(file_path):
 
     sample_data = {
-        'payment_type_id': [1, 2, 3, 4],
-        'payment_type_name': ['TYPE_ONE', 'TYPE_TWO', 'TYPE_THREE', 'TYPE_FOUR']
+        'staff_id': [1],
+        'first_name': ['NameA'],
+        'last_name': ['SurnameA'],
+        'department_name': ['Dept3'],
+        'location': ['LocationB'],
+        'email_address': ['namea.surnamea@terrifictotes.com']
     }
 
     df = pd.DataFrame(sample_data)
@@ -16,4 +17,6 @@ def create_test_payment_type_parquet(file_path):
     read_df = pd.read_parquet(file_path)
     print(read_df)
 
-create_test_payment_type_parquet(file_path='tests/parquet_test_files/test_pq_data')
+
+create_test_payment_type_parquet(
+    file_path='tests/parquet_test_files/staff-update-transfer.parquet')

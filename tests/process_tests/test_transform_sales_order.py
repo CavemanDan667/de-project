@@ -1,7 +1,6 @@
 from src.process.process_utils.transform_sales_order import transform_sales_order # noqa
 from src.process.process_utils.transform_design import transform_design
 from src.process.process_utils.transform_staff import transform_staff
-from src.process.process_utils.transform_department import transform_department
 from src.process.process_utils.transform_address import transform_address
 from src.process.process_utils.transform_counterparty import transform_counterparty # noqa
 from src.process.process_utils.transform_currency import transform_currency
