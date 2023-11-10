@@ -1,5 +1,5 @@
 from src.loading.load_utils.load_design import load_design
-from tests.get_credentials import get_credentials
+from src.loading.load_utils.get_credentials import get_credentials
 from pg8000.native import Connection
 from dotenv import dotenv_values
 import pytest
