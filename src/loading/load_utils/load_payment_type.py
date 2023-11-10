@@ -24,7 +24,9 @@ def load_payment_type(parquet_file, conn):
         table.
         Exception: if an unexpected error occurs.
     """
-    data = wr.s3.read_parquet(parquet_file)
+
+    data = wr.s3.read_parquet(path=parquet_file)
+
     for row in data.values.tolist():
         try:
             select_query = f'''SELECT * FROM dim_payment_type

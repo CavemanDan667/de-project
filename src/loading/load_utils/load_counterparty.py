@@ -24,6 +24,7 @@ def load_counterparty(parquet_file, conn):
         table.
         Exception: if an unexpected error occurs.
     """
+
     data = wr.s3.read_parquet(parquet_file)
     for row in data.values.tolist():
         try:

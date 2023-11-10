@@ -24,7 +24,7 @@ def load_address(parquet_file, conn):
         table.
         Exception: if an unexpected error occurs.
     """
-    data = wr.s3.read_parquet(parquet_file)
+    data = wr.s3.read_parquet(path=parquet_file)
     for item in data.values.tolist():
         try:
             select_query = f"""
