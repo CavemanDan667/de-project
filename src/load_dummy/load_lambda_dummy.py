@@ -5,16 +5,43 @@ import os
 import logging
 import pandas as pd
 import awswrangler as wr
+import boto3
+from botocore.exceptions import ClientError
+import json
 
-user = os.environ['user']
-host = os.environ['host']
-database = os.environ["database"]
-password = os.environ["password"]
-port = os.environ["port"]
+def get_credentials(secret_name):
+    """Fetches database credentials from AWS Secrets Manager
+
+    Args:
+        secret_name (string): Name of the AWS Secret which contains
+            the required database credentials.
+
+    Raises:
+        e: ClientError
+
+    Returns:
+        dictionary: The database credentials in a dictionary.
+    """
+    client = boto3.client('secretsmanager')
+
+    try:
+        response = client.get_secret_value(SecretId=secret_name)
+        credentials = json.loads(response['SecretString'])
+        return credentials
+    except ClientError as e:
+        raise e
+    
+config = get_credentials('totesys_database_creds')
+
+user = config["TOTESYS_USER"]
+host = config["TOTESYS_HOST"]
+database = config["TOTESYS_DATABASE"]
+password = config["TOTESYS_PASSWORD"]
+port = config["TOTESYS_PORT"]
 
 
 def handler(event, context):
-    print("Hello world")
+    print("Load Stream")
     conn = Connection(
         user=user, host=host, database=database, port=port, password=password
     )
@@ -31,7 +58,7 @@ def handler(event, context):
         path="s3://de-project-meta-bucket/test.parquet"
     )
 
-    read_file = wr.s3.read_parquet("s3://de-project-meta-bucket/test.parquet")
+    read_file = wr.s3.read_parquet("s3://de-project-meta-bucket/load-test.parquet")
     print('Parquet works', read_file)
 
 
