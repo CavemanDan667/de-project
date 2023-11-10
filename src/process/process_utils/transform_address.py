@@ -22,18 +22,7 @@ def transform_address(csv_file):
         not as expected.
     """
     try:
-        data = wr.s3.read_csv(
-            csv_file,
-            usecols=[
-                "address_id",
-                "address_line_1",
-                "address_line_2",
-                "district",
-                "city",
-                "postal_code",
-                "country",
-                "phone",
-            ],
+        data = wr.s3.read_csv(path=csv_file, usecols=["address_id", "address_line_1", "address_line_2", "district", "city", "postal_code", "country", "phone",],
         )
 
     except KeyError as k:

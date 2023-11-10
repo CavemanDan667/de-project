@@ -28,14 +28,14 @@ def transform_staff(csv_file, conn_db):
     """
     try:
         staff_data = wr.s3.read_csv(
-            csv_file,
+            path=csv_file,
             usecols=[
                 "staff_id",
                 "first_name",
                 "last_name",
                 "department_id",
                 "email_address",
-            ],
+            ]
         )
 
         department_query = """SELECT department_id,
