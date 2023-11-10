@@ -33,24 +33,19 @@ def conn():
 
 def test_function_returns_success_message(conn):
     result = load_payment_type(
-       'tests/parquet_test_files/test-payment-type.parquet',
+       'tests/parquet_test_files/test-payment-type',
        conn
     )
-    assert result.values.tolist() == [
-        [1, 'TYPE_ONE'],
-        [2, 'TYPE_TWO'],
-        [3, 'TYPE_THREE'],
-        [4, 'TYPE_FOUR']
-    ]
+    assert result == 'Data loaded successfully - dim_payment_type'
 
 
 def test_function_correctly_populates_table(conn):
     load_payment_type(
-       'tests/parquet_test_files/test-payment-type.parquet',
+       'tests/parquet_test_files/test-payment-type',
        conn
     )
     load_payment_type(
-       'tests/parquet_test_files/test-payment-type-plus.parquet',
+       'tests/parquet_test_files/test-payment-type-plus',
        conn
     )
     result = conn.run('SELECT * FROM dim_payment_type;')
@@ -63,23 +58,23 @@ def test_function_correctly_populates_table(conn):
 
 def test_function_does_not_duplicate_data(conn):
     load_payment_type(
-       'tests/parquet_test_files/test-payment-type.parquet',
+       'tests/parquet_test_files/test-payment-type',
        conn
     )
     load_payment_type(
-       'tests/parquet_test_files/test-payment-type.parquet',
+       'tests/parquet_test_files/test-payment-type',
        conn
     )
     load_payment_type(
-       'tests/parquet_test_files/test-payment-type-plus.parquet',
+       'tests/parquet_test_files/test-payment-type-plus',
        conn
     )
     load_payment_type(
-       'tests/parquet_test_files/test-payment-type-plus.parquet',
+       'tests/parquet_test_files/test-payment-type-plus',
        conn
     )
     load_payment_type(
-       'tests/parquet_test_files/test-payment-type-plus.parquet',
+       'tests/parquet_test_files/test-payment-type-plus',
        conn
     )
     result = conn.run('SELECT * FROM dim_payment_type;')
