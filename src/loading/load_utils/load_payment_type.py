@@ -1,5 +1,9 @@
 import pandas as pd
 from pg8000.native import DatabaseError, literal
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 def load_payment_type(parquet_file, conn):
@@ -34,7 +38,9 @@ def load_payment_type(parquet_file, conn):
                          {literal(row[1])});'''
                 conn.run(insert_query)
         except DatabaseError as d:
+            logger.error(f"Load handler has raised an error: {d}")
             raise d
         except Exception as e:
+            logger.error(f"Load handler has raised an error: {e}")
             raise e
     return 'Data loaded successfully - dim_payment_type'
