@@ -102,3 +102,11 @@ def test_function_can_update_data(conn):
         'Bosnia and Herzegovina', '123 456 7890']
     result_length = conn.run('SELECT * FROM dim_counterparty;')
     assert len(result_length) == 4
+
+
+def test_function_raises_key_error_with_incorrect_data(conn):
+    with pytest.raises(KeyError):
+        load_counterparty(
+            's3://de-project-test-data/parquet/test-currency.parquet',
+            conn
+        )
