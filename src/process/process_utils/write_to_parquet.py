@@ -39,6 +39,6 @@ def write_data_to_parquet(now, table_name, data_frame):
             df=data_frame,
             path=p
         )
-        logger.info(f"Successfully wrote data to Parquet: {p}")
+        logger.info(f"[CREATED]: {p} was created")
     except Exception as e:
         logger.error(f"Error writing data to Parquet: {e}")

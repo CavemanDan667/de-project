@@ -58,19 +58,19 @@ def handler(event, context):
         if table_name == "dim_currency":
             load_currency(file_path, dw_conn)
             logger.info(f"[UPDATED]: {table_name} has been updated")
-        if table_name == "dim_design":
+        elif table_name == "dim_design":
             load_design(file_path, dw_conn)
             logger.info(f"[UPDATED]: {table_name} has been updated")
-        if table_name == "dim_location":
+        elif table_name == "dim_location":
             load_address(file_path, dw_conn)
             logger.info(f"[UPDATED]: {table_name} has been updated")
-        if table_name == "dim_payment_type":
+        elif table_name == "dim_payment_type":
             load_payment_type(file_path, dw_conn)
             logger.info(f"[UPDATED]: {table_name} has been updated")
-        if table_name == "fact_sales_order":
+        elif table_name == "fact_sales_order":
             load_sales_order(file_path, dw_conn)
             logger.info(f"[UPDATED]: {table_name} has been updated")
-        if table_name == "dim_staff":
+        elif table_name == "dim_staff":
             load_staff(file_path, dw_conn)
             logger.info(f"[UPDATED]: {table_name} has been updated")
         else:
