@@ -92,12 +92,8 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-2
-      - name: Process Unit Tests One
-        run: make test-process-group-one
-      - name: Process Unit Tests Two
-        run: make test-process-group-two
-      - name: Process Unit Tests Three
-        run: make test-process-group-three
+      - name: Process Unit Tests
+        run: make test-process
       - name: Check Process Coverage
         run: make check-coverage-process
 
