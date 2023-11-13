@@ -23,6 +23,6 @@ data "archive_file" "zip_process" {
 
 data "archive_file" "zip_load" {
   type = "zip"
-  source_dir = "../src/load_dummy"
+  source_dir = "../src/loading"
   output_path = "./zipped/load.zip"
 }

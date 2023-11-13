@@ -42,7 +42,6 @@ def handler(event, context):
         table_names = get_table_names(conn)
 
         dt_now = datetime.datetime.fromtimestamp(unix_now)
-        
 
         for table_name in table_names:
             newest_time = extract_newest_time(bucket_filenames, table_name)

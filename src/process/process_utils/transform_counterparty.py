@@ -30,11 +30,11 @@ def transform_counterparty(csv_file, conn):
         address_data = conn.run('SELECT * FROM dim_location;')
         address_dict = {item[0]: item[1:] for item in address_data}
         counterparty_data = wr.s3.read_csv(path=csv_file,
-                                        usecols=[
+                                           usecols=[
                                             'counterparty_id',
                                             'counterparty_legal_name',
                                             'legal_address_id'
-                                        ])
+                                            ])
         counterparty_list = counterparty_data.values.tolist()
         counterparty_dict = {
             'counterparty_id': [item[0] for item in counterparty_list],

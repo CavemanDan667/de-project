@@ -29,7 +29,7 @@ resource "aws_lambda_function" "load_lambda" {
   function_name = "load_lambda"
   role          = aws_iam_role.load_lambda_role.arn
   runtime       = "python3.11"
-  handler = "load_lambda_dummy.handler"
+  handler = "load.handler"
   timeout = 180
   layers = [aws_lambda_layer_version.pg8000_layer.arn,
             aws_lambda_layer_version.forex_layer.arn, 

@@ -61,7 +61,6 @@ def handler(event, context):
         )
 
         table_name, unix = extract_event_data(event)
-        print(table_name)
         file_path = extract_filepath(event)
         data_frame = None
         process_table_name = None
@@ -91,7 +90,7 @@ def handler(event, context):
             process_table_name = f"dim_{table_name}"
 
         elif table_name == "sales_order":
-            data_frame = transform_sales_order(file_path, dw_conn)
+            data_frame = transform_sales_order(file_path)
             process_table_name = f"dim_{table_name}"
 
         elif table_name in [

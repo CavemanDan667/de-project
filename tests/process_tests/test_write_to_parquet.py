@@ -23,7 +23,7 @@ def s3(aws_credentials):
         yield boto3.client("s3")
 
 
-def test_writes_data_to_parquet_and_uploads_objects(s3, caplog):
+def test_writes_data_to_parquet_and_uploads_objects(s3):
     s3.create_bucket(
         Bucket="de-project-processed-bucket",
         CreateBucketConfiguration={"LocationConstraint": "eu-west-2"},

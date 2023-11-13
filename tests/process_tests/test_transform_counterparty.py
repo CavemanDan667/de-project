@@ -5,16 +5,16 @@ from src.loading.load_utils.load_address import (
     load_address
 )
 from pg8000.native import Connection
-import pytest
 import pandas as pd
-from src.loading.load_utils.get_credentials import get_credentials
+import pytest
+from src.process.process_utils.get_credentials import get_credentials
 import subprocess
 from dotenv import dotenv_values
 
 identity = subprocess.check_output('whoami')
 
 if identity == b'runner\n':
-    config = get_credentials('test_totesys_db_creds')
+    config = get_credentials('test_dw_creds')
 else:
     config = dotenv_values('.env')
 
