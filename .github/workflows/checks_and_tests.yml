@@ -44,8 +44,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-2
-      - name: Run Flake8
-        run: make run-flake
       - name: Run Security Checks
         run: make security-test
       - name: Check Ingestion Coverage
@@ -96,6 +94,8 @@ jobs:
         run: make test-process
       - name: Check Process Coverage
         run: make check-coverage-process
+      - name: Run Flake8
+        run: make run-flake
 
   check-terraform:
       name: Check Terraform
