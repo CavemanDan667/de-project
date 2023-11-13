@@ -6,6 +6,7 @@ from load_utils.load_currency import load_currency
 from load_utils.load_design import load_design
 from load_utils.load_payment_type import load_payment_type
 from load_utils.load_sales_order import load_sales_order
+from load_utils.load_purchase_order import load_purchase_order
 from load_utils.load_staff import load_staff
 from load_utils.get_credentials import get_credentials
 from load_utils.extract_event_data import extract_event_data
@@ -52,7 +53,6 @@ def handler(event, context):
 
         table_name, unix = extract_event_data(event)
         file_path = extract_filepath(event)
-        print(table_name)
         if table_name == "dim_counterparty":
             load_counterparty(file_path, dw_conn)
             logger.info(f"[UPDATED]: {table_name} has been updated")
@@ -73,6 +73,9 @@ def handler(event, context):
             logger.info(f"[UPDATED]: {table_name} has been updated")
         elif table_name == "dim_staff":
             load_staff(file_path, dw_conn)
+            logger.info(f"[UPDATED]: {table_name} has been updated")
+        elif table_name == "fact_purchase_order":
+            load_purchase_order(file_path, dw_conn)
             logger.info(f"[UPDATED]: {table_name} has been updated")
         else:
             logger.error(f"Table not recognised: {table_name}")

@@ -13,8 +13,8 @@ from decimal import Decimal
 
 identity = subprocess.check_output("whoami")
 
-if identity == b"runner\n":
-    config = get_credentials("test_totesys_db_creds")
+if identity == b'runner\n':
+    config = get_credentials("test_dw_creds")
 else:
     config = dotenv_values(".env")
 
