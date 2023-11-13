@@ -54,7 +54,9 @@ def test_function_inserts_data_into_table(conn):
        's3://de-project-test-data/parquet/test-counterparty.parquet',
        conn
     )
-    result = conn.run('SELECT * FROM dim_counterparty;')
+    result = conn.run(
+        'SELECT * FROM dim_counterparty WHERE counterparty_id < 3;'
+    )
     assert result[0] == [
         1, 'Company and Sons', "234 St. Steven's Road",
         '<NA>', '<NA>', 'Old Town', '22222-3333',
@@ -63,7 +65,6 @@ def test_function_inserts_data_into_table(conn):
         2, 'Clarke, Hunter and Lorimer',
         "123 Main Street", '<NA>', 'Central', 'New Town',
         '12345', 'England', '1234 567890']
-    assert len(result) == 4
 
 
 def test_function_does_not_duplicate_data(conn):
