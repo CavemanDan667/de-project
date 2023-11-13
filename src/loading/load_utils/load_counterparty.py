@@ -32,6 +32,10 @@ def load_counterparty(parquet_file, conn):
             WHERE counterparty_id = {literal(row[0])};'''
             query_result = conn.run(select_query)
             if len(query_result) == 0:
+                if type(row[3]) is not str:
+                    row[3] = None
+                if type(row[4]) is not str:
+                    row[4] = None
                 insert_query = f'''INSERT INTO dim_counterparty (
                     counterparty_id,
                     counterparty_legal_name,
@@ -65,10 +69,12 @@ def load_counterparty(parquet_file, conn):
                     WHERE counterparty_id = {literal(row[0])}'''
             conn.run(insert_query)
         except DatabaseError as d:
+            logger.error(f'Load handler has raised an error: {d}')
             raise d
         except ValueError as v:
             logger.error(f'Load handler has raised an error: {v}')
             raise v
         except Exception as e:
+            logger.error(f'Load handler has raised an error: {e}')
             raise e
     return 'Data loaded successfully - dim_counterparty'
