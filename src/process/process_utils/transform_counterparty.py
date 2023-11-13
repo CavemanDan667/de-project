@@ -36,6 +36,7 @@ def transform_counterparty(csv_file, conn):
                                             'legal_address_id'
                                             ])
         counterparty_list = counterparty_data.values.tolist()
+        print(counterparty_list)
         counterparty_dict = {
             'counterparty_id': [item[0] for item in counterparty_list],
             'counterparty_legal_name': [item[1] for item in counterparty_list],

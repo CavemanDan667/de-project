@@ -10,6 +10,7 @@ from process_utils.transform_payment_type import transform_payment_type
 from process_utils.transform_counterparty import transform_counterparty
 from process_utils.transform_sales_order import transform_sales_order
 from process_utils.transform_staff import transform_staff
+from process_utils.transform_address import transform_address
 
 dw_config = get_credentials("data_warehouse_creds")
 totesys_config = get_credentials("totesys_database_creds")
@@ -70,7 +71,7 @@ def handler(event, context):
             process_table_name = f"dim_{table_name}"
 
         elif table_name == "address":
-            data_frame = transform_design(file_path)
+            data_frame = transform_address(file_path)
             process_table_name = "dim_location"
 
         elif table_name == "payment_type":
@@ -78,8 +79,13 @@ def handler(event, context):
             process_table_name = f"dim_{table_name}"
 
         elif table_name == "counterparty":
-            data_frame = transform_counterparty(file_path, dw_conn)
-            process_table_name = f"dim_{table_name}"
+            for i in range(5):
+                try:
+                    data_frame = transform_counterparty(file_path, dw_conn)
+                    process_table_name = f"dim_{table_name}"
+                    break
+                except KeyError or ValueError:
+                    continue
 
         elif table_name == "design":
             data_frame = transform_design(file_path)
@@ -91,7 +97,7 @@ def handler(event, context):
 
         elif table_name == "sales_order":
             data_frame = transform_sales_order(file_path)
-            process_table_name = f"dim_{table_name}"
+            process_table_name = f"fact_{table_name}"
 
         elif table_name in [
             "department",
