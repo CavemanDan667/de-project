@@ -25,10 +25,10 @@ def extract_newest_time(filenames, table):
         """
     newest_time = 0
     table_files = []
-    
+
     for item in filenames:
         try:
-            if table == re.search("(.*)(?=\/)", item).group():
+            if table == re.search("(.*)(?=\/)", item).group(): # noqa
                 table_files.append(item)
         except AttributeError:
             pass
@@ -36,14 +36,11 @@ def extract_newest_time(filenames, table):
     if len(table_files) > 0:
         for file in table_files:
             try:
-                file_time = int(re.search("(?<=/)([0-9]+)(?=.csv)", file).group())
+                file_time = int(re.search("(?<=/)([0-9]+)(?=.csv)",
+                                          file).group())
                 if file_time > newest_time:
                     newest_time = file_time
             except AttributeError:
                 pass
 
     return newest_time
-
-
-
-print(re.search("(.*)(?=\/)", 'file/12345.csv'))

@@ -1,7 +1,7 @@
 import logging
 from pg8000.native import Connection
 from load_utils.load_address import load_address
-from load_utils.load_counterparty import load_counterparty
+# from load_utils.load_counterparty import load_counterparty
 from load_utils.load_currency import load_currency
 from load_utils.load_design import load_design
 from load_utils.load_payment_type import load_payment_type

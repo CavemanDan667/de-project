@@ -24,7 +24,7 @@ def transform_design(csv_file):
     try:
         data = wr.s3.read_csv(
             path=csv_file, usecols=["design_id", "design_name",
-                               "file_location", "file_name"]
+                                    "file_location", "file_name"]
         )
         return data
     except KeyError as k:

@@ -22,7 +22,7 @@ def test_function_returns_largest_numbers_when_multiple_files():
 
 def test_function_returns_largest_number_for_the_passed_table_names():
     test_files = ["cherry/20.csv", "banana/50.csv", "cherry/25.csv"]
-    
+
     assert extract_newest_time(test_files, 'banana') == 50
     assert extract_newest_time(test_files, 'cherry') == 25
 
