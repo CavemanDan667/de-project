@@ -22,11 +22,18 @@ def load_payment_type(parquet_file, conn):
         DatabaseError: if either the select or insert
         query fails to match up to the destination
         table.
+        KeyError: if the columns in the passed parquet file
+        do not match the expected columns.
         Exception: if an unexpected error occurs.
     """
 
-    data = wr.s3.read_parquet(path=parquet_file)
-
+    data = wr.s3.read_parquet(path=parquet_file, columns=[
+        'payment_type_id',
+        'payment_type_name'
+    ])
+    if len(data.values.tolist()) == 0:
+        logger.error("load_payment_type was given an incorrect file")
+        raise KeyError
     for row in data.values.tolist():
         try:
             select_query = f'''SELECT * FROM dim_payment_type
