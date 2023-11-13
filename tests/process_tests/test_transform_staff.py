@@ -1,23 +1,9 @@
 from src.process.process_utils.transform_staff import transform_staff
-from pg8000.native import Connection
 import pytest
 import pandas as pd
-from src.process.process_utils.get_credentials import get_credentials
 import subprocess
-from dotenv import dotenv_values
 
 identity = subprocess.check_output('whoami')
-
-if identity == b'runner\n':
-    config = get_credentials('test_totesys_db_creds')
-else:
-    config = dotenv_values('.env')
-
-dw_user = config["TESTDW_USER"]
-dw_password = config["TESTDW_PASSWORD"]
-dw_host = config["TESTDW_HOST"]
-dw_port = config["TESTDW_PORT"]
-dw_database = config["TESTDW_DATABASE"]
 
 mock_dept_data = [
     [1, 'Dept1', 'LocationA'],
@@ -36,17 +22,6 @@ def mock_conn():
         def run(*args):
             return mock_dept_data
     return MockConnection()
-
-
-@pytest.fixture
-def dw_conn():
-    return Connection(
-        user=dw_user,
-        password=dw_password,
-        host=dw_host,
-        port=dw_port,
-        database=dw_database
-    )
 
 
 def test_function_returns_data_frame(mock_conn):
