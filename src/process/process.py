@@ -11,6 +11,7 @@ from process_utils.transform_counterparty import transform_counterparty
 from process_utils.transform_sales_order import transform_sales_order
 from process_utils.transform_staff import transform_staff
 from process_utils.transform_address import transform_address
+from process_utils.transform_purchase_order import transform_purchase_order
 
 dw_config = get_credentials("data_warehouse_creds")
 totesys_config = get_credentials("totesys_database_creds")
@@ -65,6 +66,7 @@ def handler(event, context):
         file_path = extract_filepath(event)
         data_frame = None
         process_table_name = None
+        time_out = False
 
         if table_name == "currency":
             data_frame = transform_currency(file_path)
@@ -79,13 +81,15 @@ def handler(event, context):
             process_table_name = f"dim_{table_name}"
 
         elif table_name == "counterparty":
-            for i in range(5):
+            for i in range(10):
                 try:
                     data_frame = transform_counterparty(file_path, dw_conn)
                     process_table_name = f"dim_{table_name}"
                     break
                 except KeyError or ValueError:
                     continue
+            if data_frame is None or process_table_name is None:
+                time_out = True
 
         elif table_name == "design":
             data_frame = transform_design(file_path)
@@ -99,10 +103,20 @@ def handler(event, context):
             data_frame = transform_sales_order(file_path)
             process_table_name = f"fact_{table_name}"
 
+        elif table_name == "purchase_order":
+            for i in range(10):
+                try:
+                    data_frame = transform_purchase_order(file_path)
+                    process_table_name = f"fact_{table_name}"
+                    break
+                except Exception:
+                    continue
+            if data_frame is None or process_table_name is None:
+                time_out = True
+
         elif table_name in [
             "department",
             "payment",
-            "purchase_order",
             "transaction"
         ]:
             pass
@@ -112,6 +126,8 @@ def handler(event, context):
 
         if data_frame is not None and process_table_name is not None:
             write_data_to_parquet(unix, process_table_name, data_frame)
+        elif time_out is True:
+            logger.error[f'{table_name} has failed after 10 attempts']
         else:
             logger.info(
                 f"""{table_name} has been updated but write
