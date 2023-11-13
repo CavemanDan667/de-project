@@ -67,3 +67,11 @@ def test_function_raises_error_on_null_data(conn):
             's3://de-project-test-data/parquet/test-fake-currency',
             conn
         )
+
+
+def test_function_raises_error_with_incorrect_parquet_file(conn):
+    with pytest.raises(KeyError):
+        load_currency(
+            's3://de-project-test-data/parquet/test-payment-type.parquet',
+            conn
+        )

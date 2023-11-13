@@ -22,11 +22,26 @@ def load_address(parquet_file, conn):
         DatabaseError: if either the select or insert
         query fails to match up to the destination
         table.
+        KeyError: if the columns in the passed parquet file
+        do not match the expected columns.
         Exception: if an unexpected error occurs.
     """
-    data = wr.s3.read_parquet(path=parquet_file)
-    for item in data.values.tolist():
-        try:
+    data = wr.s3.read_parquet(
+        path=parquet_file, columns=[
+            'address_id',
+            'address_line_1',
+            'address_line_2',
+            'district',
+            'city',
+            'postal_code',
+            'country',
+            'phone'
+        ])
+    if len(data.values.tolist()) == 0:
+        logger.error("load_address was given an incorrect file")
+        raise KeyError
+    try:
+        for item in data.values.tolist():
             select_query = f"""
                 SELECT * FROM dim_location
                 WHERE location_id = {literal(item[0])}"""
@@ -48,13 +63,10 @@ def load_address(parquet_file, conn):
                         {literal(item[6])}, {literal(item[7])}
                         )"""
                 conn.run(query)
-        except DatabaseError as d:
-            logger.error(f"Load handler has raised an error: {d}")
-            raise d
-        except ValueError as v:
-            logger.error(f"Load handler has raised an error: {v}")
-            raise v
-        except Exception as e:
-            logger.error(f"Load handler has raised an error: {e}")
-            raise e
-    return "Data loaded successfully - dim_location"
+        return "Data loaded successfully - dim_location"
+    except DatabaseError as d:
+        logger.error(f"Load handler has raised a database error: {d}")
+        raise d
+    except Exception as e:
+        logger.error(f"Load handler has raised an error: {e}")
+        raise e
