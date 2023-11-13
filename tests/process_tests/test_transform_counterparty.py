@@ -5,8 +5,8 @@ from src.loading.load_utils.load_address import (
     load_address
 )
 from pg8000.native import Connection
-import pytest
 import pandas as pd
+import pytest
 from src.process.process_utils.get_credentials import get_credentials
 import subprocess
 from dotenv import dotenv_values
