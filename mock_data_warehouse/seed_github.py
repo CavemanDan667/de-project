@@ -6,7 +6,6 @@ def test_dw_seeder():
     conn = Connection(user="mock_dw",
                       host="localhost",
                       password="postgres")
-    conn.run("DROP TABLE IF EXISTS ref_department;")
     conn.run("DROP TABLE IF EXISTS fact_payment;")
     conn.run("DROP TABLE IF EXISTS dim_transaction;")
     conn.run("DROP TABLE IF EXISTS fact_sales_order;")
@@ -30,6 +29,5 @@ def test_dw_seeder():
     conn.run("CREATE TABLE dim_transaction (transaction_id INT PRIMARY KEY NOT NULL, transaction_type VARCHAR NOT NULL, sales_order_id INT REFERENCES fact_sales_order(sales_record_id), purchase_order_id INT REFERENCES fact_purchase_order(purchase_record_id));")
     conn.run("CREATE TABLE fact_payment (payment_record_id SERIAL PRIMARY KEY NOT NULL, payment_id INT NOT NULL, created_date DATE NOT NULL REFERENCES dim_date(date_id), created_time TIME NOT NULL, last_updated_date DATE NOT NULL REFERENCES dim_date(date_id), last_updated_time TIME NOT NULL, transaction_id INT NOT NULL REFERENCES dim_transaction(transaction_id), counterparty_id INT NOT NULL REFERENCES dim_counterparty(counterparty_id), payment_amount NUMERIC NOT NULL, currency_id INT NOT NULL REFERENCES dim_currency(currency_id), payment_type_id INT NOT NULL REFERENCES dim_payment_type(payment_type_id), paid BOOLEAN NOT NULL, payment_date DATE REFERENCES dim_date(date_id));")
     conn.run("INSERT INTO dim_date SELECT datum AS date_id, EXTRACT(YEAR FROM datum) AS year, EXTRACT(MONTH FROM datum) AS month, EXTRACT(DAY FROM datum) AS day, EXTRACT(ISODOW FROM datum) AS day_of_week, TO_CHAR(datum,'TMDay') AS day_name, TO_CHAR(datum, 'TMMonth') AS month_name, EXTRACT(QUARTER FROM datum) AS quarter FROM (SELECT generate_series(DATE('2020-01-01'), DATE('2029-12-31'), '1 day'::interval)::DATE as datum) AS date_sequence;")
-    conn.run("CREATE TABLE ref_department (department_id INT PRIMARY KEY NOT NULL, department_name VARCHAR NOT NULL, location VARCHAR NOT NULL);")
 
 test_dw_seeder()

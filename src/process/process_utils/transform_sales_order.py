@@ -49,8 +49,6 @@ def transform_sales_order(csv_file):
     except IndexError as x:
         logger.error(f"transform_sales_order has raised an error: {x}")
         raise x
-
-    print(fact_sales_order_list)
     fact_sales_order_df = pd.DataFrame(fact_sales_order_list,
                                        columns=['sales_order_id',
                                                 'created_date',
