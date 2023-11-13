@@ -8,8 +8,8 @@ from load_utils.load_payment_type import load_payment_type
 from load_utils.load_sales_order import load_sales_order
 from load_utils.load_staff import load_staff
 from load_utils.get_credentials import get_credentials
-from src.process.process_utils.extract_event_data import extract_event_data
-from src.process.process_utils.extract_filepath import extract_filepath
+from load_utils.extract_event_data import extract_event_data
+from load_utils.extract_filepath import extract_filepath
 
 dw_config = get_credentials('data_warehouse_creds')
 
@@ -53,20 +53,26 @@ def handler(event, context):
         table_name, unix = extract_event_data(event)
         file_path = extract_filepath(event)
 
-        if table_name == "dim_counterparty":
-            load_counterparty(file_path, dw_conn)
+        # if table_name == "dim_counterparty":
+        #     load_counterparty(file_path, dw_conn)
         if table_name == "dim_currency":
             load_currency(file_path, dw_conn)
+            logger.info(f"[UPDATED]: {table_name} has been updated")
         if table_name == "dim_design":
             load_design(file_path, dw_conn)
+            logger.info(f"[UPDATED]: {table_name} has been updated")
         if table_name == "dim_location":
             load_address(file_path, dw_conn)
+            logger.info(f"[UPDATED]: {table_name} has been updated")
         if table_name == "dim_payment_type":
             load_payment_type(file_path, dw_conn)
+            logger.info(f"[UPDATED]: {table_name} has been updated")
         if table_name == "fact_sales_order":
             load_sales_order(file_path, dw_conn)
+            logger.info(f"[UPDATED]: {table_name} has been updated")
         if table_name == "dim_staff":
             load_staff(file_path, dw_conn)
+            logger.info(f"[UPDATED]: {table_name} has been updated")
         else:
             logger.error(f"Table not recognised: {table_name}")
 

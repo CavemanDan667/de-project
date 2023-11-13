@@ -26,3 +26,4 @@ def extract_event_data(event):
     except KeyError as k:
         logger.error(f'extract_event_data has raised: {k}')
         raise k
+
