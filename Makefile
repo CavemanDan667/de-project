@@ -63,7 +63,8 @@ check-coverage-load:
 	$(call execute_in_env, PYTHONPATH=$(shell pwd) coverage run -m pytest tests/load_tests && coverage report -m)
 
 ## Run the complete coverage check
-check-coverage: check-coverage-ingestion check-coverage-process check-coverage-load
+check-coverage:
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) coverage run -m pytest tests/load_tests tests/process_tests tests/ingestion_tests && coverage report -m)
 
 ## Run all checks
 run-checks: requirements security-test run-flake unit-test check-coverage
