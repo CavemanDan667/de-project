@@ -47,12 +47,23 @@ def transform_sales_order(csv_file):
                                           sale[10],
                                           sale[11]])
     except IndexError as x:
-        logger.error(f"Load handler has raised an error: {x}")
+        logger.error(f"transform_sales_order has raised an error: {x}")
         raise x
-    fact_sales_order_df = pd.DataFrame(fact_sales_order_list, columns=[
-        'sales_order_id', 'created_date', 'created_time',
-        'last_updated_date', 'last_updated_time', 'sales_staff_id',
-        'counterparty_id', 'units_sold', 'unit_price', 'currency_id',
-        'design_id', 'agreed_payment_date', 'agreed_delivery_date',
-        'agreed_delivery_location_id'])
+
+    fact_sales_order_df = pd.DataFrame(fact_sales_order_list,
+                                       columns=['sales_order_id',
+                                                'created_date',
+                                                'created_time',
+                                                'last_updated_date',
+                                                'last_updated_time',
+                                                'sales_staff_id',
+                                                'counterparty_id',
+                                                'units_sold',
+                                                'unit_price',
+                                                'currency_id',
+                                                'design_id',
+                                                'agreed_payment_date',
+                                                'agreed_delivery_date',
+                                                'agreed_delivery_location_id'
+                                                ])
     return fact_sales_order_df

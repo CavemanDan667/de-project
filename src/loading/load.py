@@ -1,7 +1,7 @@
 import logging
 from pg8000.native import Connection
 from load_utils.load_address import load_address
-# from load_utils.load_counterparty import load_counterparty
+from load_utils.load_counterparty import load_counterparty
 from load_utils.load_currency import load_currency
 from load_utils.load_design import load_design
 from load_utils.load_payment_type import load_payment_type
@@ -52,10 +52,11 @@ def handler(event, context):
 
         table_name, unix = extract_event_data(event)
         file_path = extract_filepath(event)
-
-        # if table_name == "dim_counterparty":
-        #     load_counterparty(file_path, dw_conn)
-        if table_name == "dim_currency":
+        print(table_name)
+        if table_name == "dim_counterparty":
+            load_counterparty(file_path, dw_conn)
+            logger.info(f"[UPDATED]: {table_name} has been updated")
+        elif table_name == "dim_currency":
             load_currency(file_path, dw_conn)
             logger.info(f"[UPDATED]: {table_name} has been updated")
         elif table_name == "dim_design":
