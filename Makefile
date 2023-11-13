@@ -39,19 +39,7 @@ run-flake:
 test-ingestion:
 	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/ingestion_tests --ignore tests/ingestion_tests/test_ingestion.py)
 
-## Run unit tests on first group of process utils
-test-process-group-one:
-	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/process_tests/test_extract_event_data.py tests/process_tests/test_extract_filepath.py tests/process_tests/test_transform_address.py tests/process_tests/test_transform_currency.py tests/process_tests/test_transform_design.py)
-
-## Run unit tests on second group of process utils
-test-process-group-two:
-	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/process_tests/test_write_to_parquet.py tests/process_tests/test_transform_counterparty.py tests/process_tests/test_transform_staff.py)
-
-## Run unit tests on final group of process utils
-test-process-group-three:
-	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/process_tests/test_process.py)
-
-## Run unit tests on all process utils
+## Run unit tests on process utils
 test-process:
 	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/process_tests)
 
@@ -60,8 +48,7 @@ test-loading:
 	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/load_tests)
 
 ## Run all unit tests
-unit-test:
-	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v --ignore tests/ingestion_tests/test_ingestion.py)
+unit-test: test-ingestion test-process test-loading
 
 ## Run coverage check on ingestion
 check-coverage-ingestion:
@@ -76,8 +63,7 @@ check-coverage-load:
 	$(call execute_in_env, PYTHONPATH=$(shell pwd) coverage run -m pytest tests/load_tests && coverage report -m)
 
 ## Run the complete coverage check
-check-coverage:
-	$(call execute_in_env, PYTHONPATH=$(shell pwd) coverage run --omit 'venv/*' -m pytest && coverage report -m)
+check-coverage: check-coverage-ingestion check-coverage-process check-coverage-load
 
 ## Run all checks
 run-checks: requirements security-test run-flake unit-test check-coverage
