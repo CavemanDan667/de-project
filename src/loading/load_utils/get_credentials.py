@@ -16,11 +16,11 @@ def get_credentials(secret_name):
     Returns:
         dictionary: The database credentials in a dictionary.
     """
-    client = boto3.client('secretsmanager')
+    client = boto3.client("secretsmanager")
 
     try:
         response = client.get_secret_value(SecretId=secret_name)
-        credentials = json.loads(response['SecretString'])
+        credentials = json.loads(response["SecretString"])
         return credentials
     except ClientError as e:
         raise e
