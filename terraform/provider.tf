@@ -1,3 +1,4 @@
+############################### CONNECTS TO AWS PROVIDER ###############################
 terraform {
   required_providers { 
     aws = {

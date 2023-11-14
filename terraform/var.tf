@@ -1,3 +1,5 @@
+############################### VARIABLES ###############################
+# Email inputs for alerts
 variable "EMAIL_1" {
   type = string
 }
@@ -17,7 +19,7 @@ variable "EMAIL_4" {
 variable "EMAIL_5" {
   type = string
 }
-
+# Totesys database credentials
 variable "totesys_db_creds" {
   type = object({
     TOTESYS_USER = string
@@ -29,7 +31,7 @@ variable "totesys_db_creds" {
   sensitive = true
   nullable = false
 }
-
+# Data warehouse credentials
 variable "data_warehouse_creds" {
   type = object({
     DW_USER = string
@@ -41,7 +43,7 @@ variable "data_warehouse_creds" {
   sensitive = true
   nullable = false
 }
-
+# Test totesys database credentials
 variable "test_totesys_db_creds" {
   type = object({
     TEST_USER = string
@@ -53,7 +55,7 @@ variable "test_totesys_db_creds" {
   sensitive = true
   nullable = false
 }
-
+# Test data warehouse credentials
 variable "test_dw_creds" {
   type = object({
     TESTDW_USER = string
