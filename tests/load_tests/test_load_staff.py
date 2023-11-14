@@ -48,7 +48,9 @@ def test_function_correctly_populates_table(conn):
         conn
     )
 
-    result = conn.run('SELECT * FROM dim_staff')
+    result = conn.run(
+        'SELECT * FROM dim_staff ORDER BY staff_id;'
+    )
 
     assert result == [
         [1, 'NameA', 'SurnameA',
@@ -104,8 +106,13 @@ def test_function_correctly_updates_data(conn):
         's3://de-project-test-data/parquet/staff-update.parquet',
         conn
     )
-    result = conn.run('SELECT * FROM dim_staff;')
+    result = conn.run(
+        'SELECT * FROM dim_staff ORDER BY staff_id;'
+    )
     assert result == [
+        [1, 'NameA', 'MarriedSurname',
+         'Dept2', 'LocationA',
+         'namea.surnamea@terrifictotes.com'],
         [2, 'NameB', 'SurnameB',
          'Dept1', 'LocationA',
          'nameb.surnameb@terrifictotes.com'],
@@ -121,9 +128,7 @@ def test_function_correctly_updates_data(conn):
         [6, 'NameF', 'SurnameF',
          'Dept2', 'LocationA',
          'namef.surnamef@terrifictotes.com'],
-        [1, 'NameA', 'MarriedSurname',
-         'Dept2', 'LocationA',
-         'namea.surnamea@terrifictotes.com']]
+    ]
 
 
 def test_function_correctly_updates_department(conn):
@@ -132,8 +137,13 @@ def test_function_correctly_updates_department(conn):
         's3://de-project-test-data/parquet/staff-update-transfer.parquet',
         conn
     )
-    result = conn.run('SELECT * FROM dim_staff;')
+    result = conn.run(
+        'SELECT * FROM dim_staff ORDER BY staff_id;'
+    )
     assert result == [
+        [1, 'NameA', 'SurnameA',
+         'Dept3', 'LocationB',
+         'namea.surnamea@terrifictotes.com'],
         [2, 'NameB', 'SurnameB',
          'Dept1', 'LocationA',
          'nameb.surnameb@terrifictotes.com'],
@@ -148,10 +158,8 @@ def test_function_correctly_updates_department(conn):
          'namee.surnamee@terrifictotes.com'],
         [6, 'NameF', 'SurnameF',
          'Dept2', 'LocationA',
-         'namef.surnamef@terrifictotes.com'],
-        [1, 'NameA', 'SurnameA',
-         'Dept3', 'LocationB',
-         'namea.surnamea@terrifictotes.com']]
+         'namef.surnamef@terrifictotes.com']
+    ]
 
 
 def test_function_returns_key_error_with_incorrect_data(conn):
