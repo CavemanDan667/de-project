@@ -5,7 +5,7 @@ from src.loading.load_utils.load_currency import load_currency
 from src.loading.load_utils.load_design import load_design
 from src.loading.load_utils.load_staff import load_staff
 from src.loading.load_utils.get_credentials import get_credentials
-from pg8000.native import Connection
+from pg8000.native import Connection, DatabaseError
 from dotenv import dotenv_values
 import pytest
 import subprocess
@@ -170,3 +170,27 @@ def test_function_adds_updated_data_to_table(conn):
          datetime.date(2023, 10, 20), datetime.time(12, 30),
          1, 3, 12345, Decimal(1.25), 3, 4, datetime.date(2022, 11, 10),
          datetime.date(2022, 11, 7), 4]]
+
+
+def test_function_raises_database_error_with_incorrect_data(conn):
+    with pytest.raises(DatabaseError):
+        load_sales_order(
+            "s3://de-project-test-data/parquet/test-purchase-order.parquet",
+            conn
+        )
+
+
+def test_function_raises_key_error_with_incorrect_data(conn):
+    with pytest.raises(KeyError):
+        load_sales_order(
+            "s3://de-project-test-data/parquet/test-address.parquet",
+            conn
+        )
+
+
+def test_function_raises_index_error_with_incorrect_data(conn):
+    with pytest.raises(IndexError):
+        load_sales_order(
+            "s3://de-project-test-data/parquet/test-currency.parquet",
+            conn
+        )

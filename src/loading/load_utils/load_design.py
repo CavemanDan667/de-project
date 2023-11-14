@@ -22,9 +22,8 @@ def load_design(parquet_file, conn):
         DatabaseError: if either the select or insert
         query fails to match up to the destination
         table.
-        KeyError: if the columns in the passed parquet file
+        KeyError/IndexError: if the columns in the passed parquet file
         do not match the expected columns.
-        Exception: if an unexpected error occurs.
     """
     data = wr.s3.read_parquet(path=parquet_file, columns=[
         'design_id',
@@ -56,9 +55,9 @@ def load_design(parquet_file, conn):
                 WHERE design_id = {literal(row[0])}"""
             conn.run(insert_query)
         except DatabaseError as d:
-            logger.error(f"Load handler has raised an error: {d}")
+            logger.error(f"load_design has raised an error: {d}")
             raise d
-        except Exception as e:
-            logger.error(f"Load handler has raised an error: {e}")
-            raise e
+        except IndexError as x:
+            logger.error(f"load_design has raised an error: {x}")
+            raise x
     return "Data loaded successfully - dim_design"

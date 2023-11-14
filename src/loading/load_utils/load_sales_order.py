@@ -8,11 +8,10 @@ logger.setLevel(logging.INFO)
 
 def load_sales_order(parquet_file, conn):
     """
-    This function reads parquet_file of transformed data.
+    This function reads a parquet file of transformed data.
     For each sale, it checks to see if that combination of sales_id,
-    updated_time and updated_date are within the fact_sales_order table.
-    If it isn't, the function inserts the new sales data into the table,
-    whether it is a new sale, or an update to a previous sale.
+    updated_time and updated_date exists within the fact_sales_order table.
+    If it doesn't, the function inserts the new sales record into the table.
 
     Args:
         parquet_file: a filepath to a parquet file containing
@@ -26,10 +25,29 @@ def load_sales_order(parquet_file, conn):
         DatabaseError: if either the select or insert
         query fails to match up to the destination
         table.
+        KeyError/IndexError: if the columns in the passed parquet file
+        do not match the expected columns.
     """
-    sales_order_data = wr.s3.read_parquet(path=parquet_file)
-
+    sales_order_data = wr.s3.read_parquet(path=parquet_file, columns=[
+        'sales_order_id',
+        'created_date',
+        'created_time',
+        'last_updated_date',
+        'last_updated_time',
+        'sales_staff_id',
+        'counterparty_id',
+        'units_sold',
+        'unit_price',
+        'currency_id',
+        'design_id',
+        'agreed_payment_date',
+        'agreed_delivery_date',
+        'agreed_delivery_location_id'
+    ])
     sales_order_list = sales_order_data.values.tolist()
+    if len(sales_order_list) == 0:
+        logger.error("load_sales_order was given an incorrect file")
+        raise KeyError
 
     for sale in sales_order_list:
         try:
@@ -73,7 +91,10 @@ def load_sales_order(parquet_file, conn):
                                     {literal(sale[13])}
                                 );'''
                 conn.run(insert_query)
+        except IndexError as x:
+            logger.error(f"load_sales_order has raised an error: {x}")
+            raise x
         except DatabaseError as d:
-            logger.error(f"Load handler has raised an error: {d}")
+            logger.error(f"load_sales_order has raised an error: {d}")
             raise d
     return 'Data loaded successfully - fact_sales_order'

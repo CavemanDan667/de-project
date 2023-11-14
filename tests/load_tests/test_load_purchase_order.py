@@ -160,3 +160,19 @@ def test_function_adds_updated_data_to_table(conn):
          datetime.date(2022, 10, 10), datetime.time(11, 30), 1, 3,
          'AA2AA2A', 123, Decimal('100.5'), 2,
          datetime.date(2022, 11, 7), datetime.date(2022, 11, 9), 1]]
+
+
+def test_function_returns_index_error_with_incorrect_data(conn):
+    with pytest.raises(IndexError):
+        load_purchase_order(
+            "s3://de-project-test-data/parquet/test-currency.parquet",
+            conn
+        )
+
+
+def test_function_returns_key_error_with_incorrect_data(conn):
+    with pytest.raises(KeyError):
+        load_purchase_order(
+            "s3://de-project-test-data/parquet/test-address.parquet",
+            conn
+        )
