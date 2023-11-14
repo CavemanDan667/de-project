@@ -23,14 +23,30 @@ logger.setLevel(logging.INFO)
 
 
 def handler(event, context):
-    """
-    This handler invokes write data to csv to create a .csv
-    in an s3 bucket based on the dictionary that is passed
+    """Manages the invocation of several functions to retreive any new data
+    from a database and store it in an S3 bucket as a csv file.
 
-    Args - Event, Context - currently unused
+    Calls:
+        list_contents: Returns a list of every item in an S3 bucket
+        get_table_names: Returns a list of all table names from a database
+        extract_newest_time: Returns the unix timestamp for the most recently
+                             created file in a specific table or 0
+        fetch_data: Returns a dictionary with the contents of the database that
+                    have been updated between the current time and the newest
+                    time
+        write_data_to_csv: Converts the passed in dataframe to a csv file that
+                           is then stored in the ingestion S3 bucket
+
+    Args:
+        event (dict): Unused
+        context (dict): Unused
+
+    Raises:
+        e: Errors that have been raised by utility functions
     """
     try:
         unix_now = int(time.time())
+
         conn = Connection(
             user=user,
             host=host,
@@ -38,22 +54,24 @@ def handler(event, context):
             port=port,
             password=password
         )
+
         bucket_filenames = list_contents("de-project-ingestion-bucket")
         table_names = get_table_names(conn)
-
         dt_now = datetime.datetime.fromtimestamp(unix_now)
 
         for table_name in table_names:
             newest_time = extract_newest_time(bucket_filenames, table_name)
             dt_newest = datetime.datetime.fromtimestamp(newest_time)
             data = fetch_data(conn, table_name, dt_newest, dt_now)
+
             if len(data["Rows"]) != 0:
                 write_data_to_csv(unix_now, table_name, data)
                 logger.info(
                     f"[CREATED]: {table_name}/{unix_now}.csv has been created"
-                )  # noqa
+                )
             else:
                 logger.info(f"{table_name} had no new data")
+
     except Exception as e:
         logger.error(f"handler has raised {e}")
         raise e
