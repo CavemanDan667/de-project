@@ -1,5 +1,6 @@
 from src.process.process_utils.transform_address import transform_address
 import pandas as pd
+import pytest
 
 
 def test_function_returns_data_frame():
@@ -21,3 +22,10 @@ def test_function_returns_correct_data():
         "Wales",
         "1234 800900",
     ]
+
+
+def test_function_raises_value_error_with_incorrect_file():
+    with pytest.raises(ValueError):
+        transform_address(
+            "s3://de-project-test-data/csv/test-currency.csv"
+        )

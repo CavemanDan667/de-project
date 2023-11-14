@@ -23,8 +23,8 @@ def test_function_returns_correct_data():
                                       '2022-11-09', '2022-11-07', 1]
 
 
-def test_function_raises_error_with_incorrect_csv():
-    with raises(IndexError):
+def test_function_raises_value_error_with_incorrect_csv():
+    with raises(ValueError):
         transform_purchase_order(
             's3://de-project-test-data/csv/test-currency.csv'
         )

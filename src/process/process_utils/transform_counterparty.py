@@ -23,8 +23,10 @@ def transform_counterparty(csv_file, conn):
         that has been added to the dim_counterparty
         table in the new data warehouse.
     Raises:
-        KeyError: if the columns in the csv file are
+        ValueError: if the columns in the csv file are
         not as expected.
+        KeyError: if the address_id doesn't match any
+        information in the dim_location table.
     """
     try:
         address_data = conn.run('SELECT * FROM dim_location;')
@@ -36,7 +38,6 @@ def transform_counterparty(csv_file, conn):
                                             'legal_address_id'
                                             ])
         counterparty_list = counterparty_data.values.tolist()
-        print(counterparty_list)
         counterparty_dict = {
             'counterparty_id': [item[0] for item in counterparty_list],
             'counterparty_legal_name': [item[1] for item in counterparty_list],
@@ -66,6 +67,6 @@ def transform_counterparty(csv_file, conn):
     except KeyError as k:
         raise k
     except ValueError as v:
-        logger.error(f'Load handler has raised an error: {v}')
+        logger.error(f'transform_counterparty has raised an error: {v}')
         raise v
     return counterparty_frame

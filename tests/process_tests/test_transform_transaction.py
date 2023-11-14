@@ -3,6 +3,7 @@ from src.process.process_utils.transform_transaction import (
 )
 import pandas as pd
 import numpy as np
+import pytest
 
 
 def test_function_returns_data_frame():
@@ -28,3 +29,10 @@ def test_function_returns_correct_data():
         [8, 'PURCHASE', None, 5],
         [9, 'SALE', 5, None],
         [10, 'SALE', 4, None]]
+
+
+def test_function_raises_value_error_with_wrong_file():
+    with pytest.raises(ValueError):
+        transform_transaction(
+            "s3://de-project-test-data/csv/test-currency.csv"
+        )

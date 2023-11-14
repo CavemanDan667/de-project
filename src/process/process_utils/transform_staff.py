@@ -22,8 +22,10 @@ def transform_staff(csv_file, conn_db):
         that has been added to the dim_staff
         table in the new data warehouse.
     Raises:
-        KeyError: if the columns in the csv file are
+        ValueError: if the columns in the csv file are
         not as expected.
+        KeyError: if the given department_id does not match
+        any information in the department table.
 
     """
     try:
@@ -56,8 +58,9 @@ def transform_staff(csv_file, conn_db):
         }
         staff_frame = pd.DataFrame.from_dict(staff_dict)
     except KeyError as k:
+        logger.error(f"transform_staff has raised an error: {k}")
         raise k
     except ValueError as v:
-        logger.error(f"Load handler has raised an error: {v}")
+        logger.error(f"transform_staff has raised an error: {v}")
         raise v
     return staff_frame
