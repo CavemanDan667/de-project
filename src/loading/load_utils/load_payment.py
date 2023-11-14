@@ -34,7 +34,7 @@ def load_payment(parquet_file, conn):
         'last_updated_date', 'last_updated_time', 'transaction_id',
         'counterparty_id', 'payment_amount', 'currency_id',
         'payment_type_id', 'paid', 'payment_date'])
-    
+
     payment_list = payment_data.values.tolist()
     print(payment_list)
 
