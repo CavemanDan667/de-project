@@ -1,6 +1,6 @@
 from src.loading.load_utils.load_staff import load_staff
 from src.loading.load_utils.get_credentials import get_credentials
-from pg8000.native import Connection
+from pg8000.native import Connection, DatabaseError
 from dotenv import dotenv_values
 import pytest
 import subprocess
@@ -188,3 +188,15 @@ def test_function_calls_conn_with_correct_SQL_query():
     assert expected_insert_query_list[4] in str(mock_conn.run.call_args)
     assert expected_insert_query_list[5] in str(mock_conn.run.call_args)
     assert expected_insert_query_list[6] in str(mock_conn.run.call_args)
+
+
+def test_function_handles_connection_error():
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = DatabaseError(
+                                "load_staff has raised an error: "
+                                )
+
+    with pytest.raises(DatabaseError):
+        load_staff(
+            's3://de-project-test-data/parquet/staff-update.parquet',
+            mock_conn)
