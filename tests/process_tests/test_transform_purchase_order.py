@@ -6,10 +6,10 @@ import pandas as pd
 
 
 def test_function_returns_data_frame():
-    sales_result = transform_purchase_order(
+    purchase_order_result = transform_purchase_order(
         's3://de-project-test-data/csv/test-purchase-order.csv'
     )
-    assert isinstance(sales_result, pd.core.frame.DataFrame)
+    assert isinstance(purchase_order_result, pd.core.frame.DataFrame)
 
 
 def test_function_returns_correct_data():
