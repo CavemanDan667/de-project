@@ -1,4 +1,5 @@
 import logging
+import time
 from pg8000.native import Connection
 from process_utils.get_credentials import get_credentials
 from process_utils.write_to_parquet import write_data_to_parquet
@@ -39,6 +40,28 @@ def handler(event, context):
     and manages utility functions for processing data
     when files are created in an s3 bucket.
 
+    Calls:
+        extract_event_data: Returns a tuple containing the table name of the
+                            S3 PUT event and the unix timestamp
+        extract_file_path: Returns the s3 filepath for the created object
+        transform_currency: Returns a dataframe from the currency csv file
+        transform_address: Returns a dataframe from the address csv file
+        transform_payment_type: Returns a dataframe from the
+                                payment_type csv file
+        transform_counterparty: Returns a dataframe from the
+                                counterparty csv file
+        transform_design: Returns a dataframe from the design csv file
+        transform_address: Returns a dataframe from the address csv file
+        transform_staff: Returns a dataframe from the staff csv file
+        transform_sales_order: Returns a dataframe from the
+                               sales_order csv file
+        transform_transaction: Returns a dataframe from the
+                               transaction csv file
+        transform_purchase_order: Returns a dataframe from the
+                                  purchase_order csv file
+        write_data_to_parquet: Converts the passed in dataframe to a
+                               parquet file and stores in the processed
+                               S3 bucket
     Args:
         event (dict): AWS S3 PUT event object
 
@@ -88,7 +111,9 @@ def handler(event, context):
                     process_table_name = f"dim_{table_name}"
                     break
                 except KeyError or ValueError:
-                    logger.info(f'Attempt {i} failed. Retrying...')
+                    logger.info(
+                        f'{table_name} attempt {i} failed. Retrying...'
+                        )
                     continue
             if data_frame is None or process_table_name is None:
                 time_out = True
@@ -106,13 +131,16 @@ def handler(event, context):
             process_table_name = f"fact_{table_name}"
 
         elif table_name == "transaction":
+            time.sleep(120)
             for i in range(1, 11):
                 try:
                     data_frame = transform_transaction(file_path)
                     process_table_name = f"dim_{table_name}"
                     break
                 except Exception:
-                    logger.info(f'Attempt {i} failed. Retrying...')
+                    logger.info(
+                        f'{table_name} attempt {i} failed. Retrying...'
+                        )
                     continue
             if data_frame is None or process_table_name is None:
                 time_out = True
@@ -124,7 +152,9 @@ def handler(event, context):
                     process_table_name = f"fact_{table_name}"
                     break
                 except Exception:
-                    logger.info(f'Attempt {i} failed. Retrying...')
+                    logger.info(
+                        f'{table_name} attempt {i} failed. Retrying...'
+                        )
                     continue
             if data_frame is None or process_table_name is None:
                 time_out = True
