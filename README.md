@@ -21,13 +21,12 @@ Included in this repo:
 2. A `tests` directory for unit tests of these python functions, along with test data to run them against.
 3. A `mock_databases` directory containing .sql and .py files to create and seed three test databases.
 4. A `terraform` directory containing the modules needed to manage AWS infrastructure.
-5. A `duplicate_functions` directory which contains duplicates of the main ingestion/process/load functions, along with test suites for each.
-6. A `.github/workflows` directory containing YAML files used for CI/CD with GitHub Actions.
-7. A `Makefile` containing code to build this project locally.
-8. This `README` to detail the contents and operating instructions.
-9. A `.gitignore` file.
-10. A `requirements.txt` file listing all the library dependencies and version numbers.
-11. A `.python-version` file, created using `pyenv local`.
+5. A `.github/workflows` directory containing YAML files used for CI/CD with GitHub Actions.
+6. A `Makefile` containing code to build this project locally.
+7. This `README` to detail the contents and operating instructions.
+8. A `.gitignore` file.
+9. A `requirements.txt` file listing all the library dependencies and version numbers.
+10. A `.python-version` file, created using `pyenv local`.
 
 
 ## Instructions

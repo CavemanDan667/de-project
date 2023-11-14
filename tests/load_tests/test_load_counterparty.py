@@ -112,6 +112,15 @@ def test_function_raises_key_error_with_incorrect_data(conn, caplog):
     assert 'load_counterparty was given an incorrect file' in caplog.text
 
 
+def test_function_raises_index_error_with_incorrect_data(conn, caplog):
+    with pytest.raises(IndexError):
+        load_counterparty(
+            's3://de-project-test-data/parquet/test-sales-order.parquet',
+            conn
+        )
+    assert 'load_counterparty has raised an error' in caplog.text
+
+
 def test_function_calls_conn_with_correct_SQL_query():
     mock_conn = MagicMock()
     load_counterparty(
