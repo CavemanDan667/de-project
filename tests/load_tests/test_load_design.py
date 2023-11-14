@@ -91,6 +91,6 @@ def test_function_does_not_duplicate_data(conn):
 def test_function_returns_key_error_with_incorrect_data(conn):
     with pytest.raises(KeyError):
         load_design(
-        "s3://de-project-test-data/parquet/test-currency.parquet",
-        conn
-    )
+            "s3://de-project-test-data/parquet/test-currency.parquet",
+            conn
+        )
