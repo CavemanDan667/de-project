@@ -58,14 +58,12 @@ def test_function_inserts_data_into_table(conn):
     result = conn.run(
         'SELECT * FROM dim_counterparty WHERE counterparty_id < 3;'
     )
-    assert result[0] == [
-        1, 'Company and Sons', "234 St. Steven's Road",
-        '<NA>', '<NA>', 'Old Town', '22222-3333',
-        'Northern Ireland', '07700 100200']
-    assert result[1] == [
-        2, 'Clarke, Hunter and Lorimer',
-        "123 Main Street", '<NA>', 'Central', 'New Town',
-        '12345', 'England', '1234 567890']
+    assert result == [[1, 'Company and Sons', "234 St. Steven's Road",
+                       None, None, 'Old Town', '22222-3333',
+                       'Northern Ireland', '07700 100200'],
+                      [2, 'Clarke, Hunter and Lorimer', '123 Main Street',
+                       None, 'Central', 'New Town', '12345',
+                       'England', '1234 567890']]
 
 
 def test_function_does_not_duplicate_data(conn):

@@ -1,3 +1,10 @@
+'''
+This is a duplicate of the load.py handler function
+for testing purposes. It has been created because
+the format of the import statements needed by the lambda
+would not match up to a local test suite.
+'''
+
 import logging
 from pg8000.native import Connection
 from src.loading.load_utils.load_address import (
@@ -16,6 +23,8 @@ from src.loading.load_utils.load_purchase_order import (
     load_purchase_order)
 from src.loading.load_utils.load_staff import (
     load_staff)
+from src.loading.load_utils.load_transaction import (
+    load_transaction)
 from src.loading.load_utils.get_credentials import (
     get_credentials)
 from src.loading.load_utils.extract_event_data import (
@@ -87,6 +96,9 @@ def handler(event, context):
             logger.info(f"[UPDATED]: {table_name} has been updated")
         elif table_name == "fact_purchase_order":
             load_purchase_order(file_path, dw_conn)
+            logger.info(f"[UPDATED]: {table_name} has been updated")
+        elif table_name == "dim_transaction":
+            load_transaction(file_path, dw_conn)
             logger.info(f"[UPDATED]: {table_name} has been updated")
         else:
             logger.error(f"Table not recognised: {table_name}")

@@ -1,4 +1,4 @@
-# from duplicate_functions.process import handler
+# from duplicate_functions.dupe_process import handler
 from unittest.mock import patch
 import pytest
 
@@ -6,7 +6,7 @@ import pytest
 @pytest.fixture
 def mock_extract_filepath():
     with patch(
-        "src.process.process.extract_filepath",
+        "src.process.process_utils.extract_filepath",
         return_value="Test_filepath",
     ) as filepath_patch:
         yield filepath_patch
@@ -15,7 +15,7 @@ def mock_extract_filepath():
 @pytest.fixture
 def mock_extract_event_data():
     with patch(
-        "src.process.process.extract_event_data",
+        "src.process.process_utils.extract_event_data",
         return_value=("currency", "Test_unix"),
     ) as extract_patch:
         yield extract_patch
@@ -24,25 +24,25 @@ def mock_extract_event_data():
 @pytest.fixture
 def mock_transform_currency():
     with patch(
-        "src.process.process.transform_currency",
+        "src.process.process_utils.transform_currency",
         return_value="Test_data_frame",
     ) as transform_currency_patch:
         yield transform_currency_patch
 
 
-@pytest.fixture
-def mock_connection():
-    with patch(
-        "src.process.process.Connection",
-        return_value="Test_connection",
-    ) as connection_patch:
-        yield connection_patch
+# @pytest.fixture
+# def mock_connection():
+#     with patch(
+#         "src.process.process.Connection",
+#         return_value="Test_connection",
+#     ) as connection_patch:
+#         yield connection_patch
 
 
 @pytest.fixture
 def mock_write():
     with patch(
-        "src.process.process.write_data_to_parquet",
+        "src.process.process_utils.write_data_to_parquet",
         return_value="Parquet Created",
     ) as write_patch:
         yield write_patch

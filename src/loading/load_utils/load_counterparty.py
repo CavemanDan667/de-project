@@ -1,5 +1,6 @@
 from pg8000.native import DatabaseError, literal
 import awswrangler as wr
+import pandas as pd
 
 import logging
 logger = logging.getLogger(__name__)
@@ -46,11 +47,11 @@ def load_counterparty(parquet_file, conn):
             select_query = f'''SELECT * FROM dim_counterparty
             WHERE counterparty_id = {literal(row[0])};'''
             query_result = conn.run(select_query)
+            if isinstance(row[3], pd._libs.missing.NAType):
+                row[3] = None
+            if isinstance(row[4], pd._libs.missing.NAType):
+                row[4] = None
             if len(query_result) == 0:
-                if type(row[3]) is not str:
-                    row[3] = None
-                if type(row[4]) is not str:
-                    row[4] = None
                 insert_query = f'''INSERT INTO dim_counterparty (
                     counterparty_id,
                     counterparty_legal_name,
@@ -82,6 +83,7 @@ def load_counterparty(parquet_file, conn):
                     counterparty_legal_country = {literal(row[7])},
                     counterparty_legal_phone_number = {literal(row[8])}
                     WHERE counterparty_id = {literal(row[0])}'''
+            print(insert_query)
             conn.run(insert_query)
         except DatabaseError as d:
             logger.error(f'Load handler has raised an error: {d}')
