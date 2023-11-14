@@ -34,7 +34,7 @@ jobs:
       - name: Install pg8000
         run: pip install pg8000
       - name: Connect to PostgreSQL
-        run: python mock_database/seed_github.py
+        run: python mock_databases/seed_github_db.py
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
@@ -80,7 +80,7 @@ jobs:
       - name: Install pg8000
         run: pip install pg8000
       - name: Connect to PostgreSQL
-        run: python mock_data_warehouse/seed_github.py
+        run: python mock_databases/seed_github_dw.py
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
