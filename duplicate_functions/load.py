@@ -1,16 +1,27 @@
 import logging
 from pg8000.native import Connection
-from load_utils.load_address import load_address
-from load_utils.load_counterparty import load_counterparty
-from load_utils.load_currency import load_currency
-from load_utils.load_design import load_design
-from load_utils.load_payment_type import load_payment_type
-from load_utils.load_sales_order import load_sales_order
-from load_utils.load_purchase_order import load_purchase_order
-from load_utils.load_staff import load_staff
-from load_utils.get_credentials import get_credentials
-from load_utils.extract_event_data import extract_event_data
-from load_utils.extract_filepath import extract_filepath
+from src.loading.load_utils.load_address import (
+    load_address)
+from src.loading.load_utils.load_counterparty import (
+    load_counterparty)
+from src.loading.load_utils.load_currency import (
+    load_currency)
+from src.loading.load_utils.load_design import (
+    load_design)
+from src.loading.load_utils.load_payment_type import (
+    load_payment_type)
+from src.loading.load_utils.load_sales_order import (
+    load_sales_order)
+from src.loading.load_utils.load_purchase_order import (
+    load_purchase_order)
+from src.loading.load_utils.load_staff import (
+    load_staff)
+from src.loading.load_utils.get_credentials import (
+    get_credentials)
+from src.loading.load_utils.extract_event_data import (
+    extract_event_data)
+from src.loading.load_utils.extract_filepath import (
+    extract_filepath)
 
 dw_config = get_credentials('data_warehouse_creds')
 

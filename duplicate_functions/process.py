@@ -1,17 +1,29 @@
 import logging
 from pg8000.native import Connection
-from process_utils.get_credentials import get_credentials
-from process_utils.write_to_parquet import write_data_to_parquet
-from process_utils.extract_filepath import extract_filepath
-from process_utils.extract_event_data import extract_event_data
-from process_utils.transform_currency import transform_currency
-from process_utils.transform_design import transform_design
-from process_utils.transform_payment_type import transform_payment_type
-from process_utils.transform_counterparty import transform_counterparty
-from process_utils.transform_sales_order import transform_sales_order
-from process_utils.transform_staff import transform_staff
-from process_utils.transform_address import transform_address
-from process_utils.transform_purchase_order import transform_purchase_order
+from src.process.process_utils.get_credentials import (
+    get_credentials)
+from src.process.process_utils.write_to_parquet import (
+    write_data_to_parquet)
+from src.process.process_utils.extract_filepath import (
+    extract_filepath)
+from src.process.process_utils.extract_event_data import (
+    extract_event_data)
+from src.process.process_utils.transform_currency import (
+    transform_currency)
+from src.process.process_utils.transform_design import (
+    transform_design)
+from src.process.process_utils.transform_payment_type import (
+    transform_payment_type)
+from src.process.process_utils.transform_counterparty import (
+    transform_counterparty)
+from src.process.process_utils.transform_sales_order import (
+    transform_sales_order)
+from src.process.process_utils.transform_staff import (
+    transform_staff)
+from src.process.process_utils.transform_address import (
+    transform_address)
+from src.process.process_utils.transform_purchase_order import (
+    transform_purchase_order)
 
 dw_config = get_credentials("data_warehouse_creds")
 totesys_config = get_credentials("totesys_database_creds")
