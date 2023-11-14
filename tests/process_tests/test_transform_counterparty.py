@@ -32,7 +32,8 @@ def conn():
         password=password,
         host=host,
         port=port,
-        database=database)
+        database=database
+    )
 
 
 def test_function_returns_a_dataframe(conn):
@@ -87,3 +88,19 @@ def test_function_deals_with_empty_address_values(conn):
         'Northern Ireland',
         '07700 100200'
     ]
+
+
+def test_function_raises_key_error_with_non_matching_address_id(conn):
+    with pytest.raises(KeyError):
+        transform_counterparty(
+            "s3://de-project-test-data/csv/test-rogue-counterparty.csv",
+            conn
+        )
+
+
+def test_function_raises_value_error_with_incorrect_file(conn):
+    with pytest.raises(ValueError):
+        transform_counterparty(
+            "s3://de-project-test-data/csv/test-currency.csv",
+            conn
+        )

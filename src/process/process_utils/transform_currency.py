@@ -42,5 +42,5 @@ def transform_currency(csv_file):
         df = pd.DataFrame.from_dict(currency_dict)
         return df
     except ValueError as v:
-        logger.error(f"Load handler has raised an error: {v}")
+        logger.error(f"transform_currency has raised an error: {v}")
         raise v

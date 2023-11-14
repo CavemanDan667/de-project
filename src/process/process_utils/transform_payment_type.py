@@ -28,5 +28,5 @@ def transform_payment_type(csv_file):
                             ])
         return data
     except ValueError as v:
-        logger.error(f"Load handler has raised an error: {v}")
+        logger.error(f"transform_payment_type has raised an error: {v}")
         raise v

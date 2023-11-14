@@ -18,7 +18,7 @@ def transform_design(csv_file):
         that has been added to the dim_design
         table in the new data warehouse.
     Raises:
-        KeyError: if the columns in the csv file are
+        ValueError: if the columns in the csv file are
         not as expected.
     """
     try:
@@ -27,8 +27,7 @@ def transform_design(csv_file):
                                     "file_location", "file_name"]
         )
         return data
-    except KeyError as k:
-        raise k
+
     except ValueError as v:
-        logger.error(f"Load handler has raised an error: {v}")
+        logger.error(f"transform_design has raised an error: {v}")
         raise v
