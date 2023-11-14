@@ -9,17 +9,14 @@ def get_client(service_name):
 def list_contents(bucket_name):
     """
     This function takes a bucket name as an argument
-    and returns a list with all contents of that bucket
+    and returns a list with all contents of that bucket.
 
     Args:
-        bucket_name as a string
+        bucket_name as a string.
 
     Returns:
-        list of all objects in the s3 bucket as strings
-
-    Raises:
-        KeyError - If the bucket has no objects then return an empty list
-        AttributeError - If the connection fails the return an empty list
+        a list of the names of all objects in the s3 bucket as strings,
+        or an empty list.
 
     """
     try:

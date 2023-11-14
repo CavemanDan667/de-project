@@ -23,26 +23,26 @@ logger.setLevel(logging.INFO)
 
 
 def handler(event, context):
-    """Manages the invocation of several functions to retreive any new data
-    from a database and store it in an S3 bucket as a csv file.
+    """Manages the invocation of several functions to retrieve any new data
+    from a database and store it in an s3 bucket as a csv file.
 
     Calls:
-        list_contents: Returns a list of every item in an S3 bucket
-        get_table_names: Returns a list of all table names from a database
+        list_contents: Returns a list of every item in an s3 bucket.
+        get_table_names: Returns a list of all table names from a database.
         extract_newest_time: Returns the unix timestamp for the most recently
-                             created file in a specific table or 0
+                             created file in a specific table or 0.
         fetch_data: Returns a dictionary with the contents of the database that
                     have been updated between the current time and the newest
-                    time
+                    time.
         write_data_to_csv: Converts the passed in dataframe to a csv file that
-                           is then stored in the ingestion S3 bucket
+                           is then stored in the ingestion s3 bucket.
 
     Args:
-        event (dict): Unused
-        context (dict): Unused
+        event (dict), context (dict):
+            Needed to correctly run the function as a lambda.
 
     Raises:
-        e: Errors that have been raised by utility functions
+        Exception: Errors that have been raised by utility functions.
     """
     try:
         unix_now = int(time.time())

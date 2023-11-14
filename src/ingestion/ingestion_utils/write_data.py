@@ -20,18 +20,18 @@ def write_data_to_csv(now, table_name, data):
     dictionary and writes it in a csv file to a
     with a name created by the parameters.
 
-
     Args:
-        now: (string) a timestamp of when the data is created
-        table_name(string): the name of the table a data
-        data (dictionary): the response data from fetch_data function
+        now: (string) a timestamp of when the data is created.
+        table_name(string):
+            the name of the table the data was ingested from.
+        data (dictionary): the response data from fetch_data function.
 
     Returns:
         none
 
     Raises:
-        KeyError: KeyError: key 'Headers/Rows' not found
-        csv.Error: csv.Error: invalid data type: iterable expected
+        KeyError: if 'Headers/Rows' not found.
+        csv.Error: invalid data type: if an iterable is expected but not found.
 
     """
     try:
@@ -51,22 +51,22 @@ def write_data_to_csv(now, table_name, data):
 
 def upload_object(now, table_name, file_name):
     """
-    This function takes the timestamp, the table name and
-    the dictionary of headers and rows as arguments, passed
-    in via write_data_to_csv function.
+    This function takes a timestamp, a table name and
+    a dictionary of headers and rows as arguments, passed
+    in via the write_data_to_csv function.
     It then uploads the file created to a pre-made bucket,
-    with a path created by the table name and timestamp.
+    giving it a path created by the table name and timestamp.
 
     Args:
-        now: (string) a timestamp of when the data is created
-        table_name(string): the name of the table a data
-        file_name: the file_name to be uploaded
+        now: (string) a timestamp of when the data was created.
+        table_name(string): the name of the table the data was ingested from.
+        file_name: the file_name to be uploaded.
 
     Returns:
         none
 
     Raises:
-        FileNotFoundError: File not found
+        FileNotFoundError: if the passed file_name cannot be found.
 
     """
     try:
@@ -74,6 +74,6 @@ def upload_object(now, table_name, file_name):
         s3.upload_file(
             file_name, "de-project-ingestion-bucket", f"{table_name}/{now}.csv"
         )
-    except FileNotFoundError as e:
+    except FileNotFoundError as f:
         logger.error("File not found")
-        raise e
+        raise f

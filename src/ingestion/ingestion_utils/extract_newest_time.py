@@ -28,7 +28,7 @@ def extract_newest_time(filenames, table):
 
     for item in filenames:
         try:
-            if table == re.search("(.*)(?=\/)", item).group(): # noqa
+            if table == re.search("(.*)(?=\\/)", item).group():
                 table_files.append(item)
         except AttributeError:
             pass
