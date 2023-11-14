@@ -1,3 +1,9 @@
+'''
+This script can be run to re-populate the dim_date table in the data warehouse.
+If a new sequence of dates is needed in future, replace the dates given on
+lines 35 and 36.
+'''
+
 from pg8000.native import Connection
 from dotenv import dotenv_values
 
