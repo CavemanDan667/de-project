@@ -23,8 +23,8 @@ def load_counterparty(parquet_file, conn):
         DatabaseError: if either the select or insert
         query fails to match up to the destination
         table.
-        KeyError: if the columns in the passed parquet file
-        do not match the expected columns.
+        KeyError/IndexError: if the columns in the passed
+        parquet file do not match the expected columns.
         Exception: if an unexpected error occurs.
     """
 
@@ -86,12 +86,12 @@ def load_counterparty(parquet_file, conn):
             print(insert_query)
             conn.run(insert_query)
         except DatabaseError as d:
-            logger.error(f'Load handler has raised an error: {d}')
+            logger.error(f'load_counterparty has raised an error: {d}')
             raise d
-        except ValueError as v:
-            logger.error(f'Load handler has raised an error: {v}')
-            raise v
+        except IndexError as x:
+            logger.error(f'load_counterparty has raised an error: {x}')
+            raise x
         except Exception as e:
-            logger.error(f'Load handler has raised an error: {e}')
+            logger.error(f'load_counterparty has raised an error: {e}')
             raise e
     return 'Data loaded successfully - dim_counterparty'
