@@ -1,9 +1,10 @@
 from src.loading.load_utils.load_address import load_address
 from src.loading.load_utils.get_credentials import get_credentials
-from pg8000.native import Connection
+from pg8000.native import Connection, DatabaseError
 from dotenv import dotenv_values
 import pytest
 import subprocess
+from unittest.mock import MagicMock
 
 identity = subprocess.check_output("whoami")
 
@@ -103,9 +104,48 @@ def test_function_does_not_duplicate_data(conn):
     assert len(result) == 5
 
 
-def test_function_returns_key_error_with_incorrect_data(conn):
+def test_function_returns_key_error_with_incorrect_data(conn, caplog):
     with pytest.raises(KeyError):
         load_address(
             "s3://de-project-test-data/parquet/test-currency.parquet",
             conn
         )
+    assert 'load_address was given an incorrect file' in caplog.text
+
+
+def test_function_returns_DatabaseError():
+    with pytest.raises(DatabaseError):
+        invalid_conn = Connection(
+            user='invalid',
+            password='invalid',
+            host='localhost',
+            port=5432,
+            database='invalid'
+        )
+        load_address(
+            "s3://de-project-test-data/parquet/test-address.parquet",
+            invalid_conn
+            )
+
+
+def test_function_calls_conn_with_correct_SQL_query():
+    mock_conn = MagicMock()
+    load_address(
+        "s3://de-project-test-data/parquet/test-address.parquet",
+        mock_conn
+        )
+    expected_insert_query_list = [
+        "INSERT INTO dim_location (",
+        "location_id, address_line_1,",
+        "address_line_2, district,",
+        "city, postal_code,",
+        "country, phone",
+        ") VALUES (",
+        ]
+    assert mock_conn.run.call_count == 10
+    assert expected_insert_query_list[0] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[1] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[2] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[3] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[4] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[5] in str(mock_conn.run.call_args)

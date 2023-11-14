@@ -2,9 +2,6 @@ import awswrangler as wr
 from pg8000.native import DatabaseError, literal
 import logging
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
 
 def load_address(parquet_file, conn):
     """This function reads a processed parquet file.
@@ -26,6 +23,9 @@ def load_address(parquet_file, conn):
         do not match the expected columns.
         Exception: if an unexpected error occurs.
     """
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+
     data = wr.s3.read_parquet(
         path=parquet_file, columns=[
             'address_id',
@@ -65,7 +65,7 @@ def load_address(parquet_file, conn):
                 conn.run(query)
         return "Data loaded successfully - dim_location"
     except DatabaseError as d:
-        logger.error(f"Load handler has raised a database error: {d}")
+        logger.error(f'Load handler has raised a database error: {d}')
         raise d
     except Exception as e:
         logger.error(f"Load handler has raised an error: {e}")
