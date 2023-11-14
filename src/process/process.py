@@ -82,7 +82,7 @@ def handler(event, context):
             process_table_name = f"dim_{table_name}"
 
         elif table_name == "counterparty":
-            for i in range(1,11):
+            for i in range(1, 11):
                 try:
                     data_frame = transform_counterparty(file_path, dw_conn)
                     process_table_name = f"dim_{table_name}"
@@ -104,9 +104,9 @@ def handler(event, context):
         elif table_name == "sales_order":
             data_frame = transform_sales_order(file_path)
             process_table_name = f"fact_{table_name}"
-        
+
         elif table_name == "transaction":
-            for i in range(1,11):
+            for i in range(1, 11):
                 try:
                     data_frame = transform_transaction(file_path)
                     process_table_name = f"dim_{table_name}"
@@ -118,7 +118,7 @@ def handler(event, context):
                 time_out = True
 
         elif table_name == "purchase_order":
-            for i in range(1,11):
+            for i in range(1, 11):
                 try:
                     data_frame = transform_purchase_order(file_path)
                     process_table_name = f"fact_{table_name}"
