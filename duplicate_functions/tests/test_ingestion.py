@@ -1,4 +1,4 @@
-# from ingestion.ingestion import handler
+# from duplicate_functions.ingestion import handler
 from pg8000.native import Connection
 from src.ingestion.ingestion_utils.get_credentials import get_credentials
 import pytest
