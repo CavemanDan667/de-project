@@ -152,3 +152,11 @@ def test_function_correctly_updates_department(conn):
         [1, 'NameA', 'SurnameA',
          'Dept3', 'LocationB',
          'namea.surnamea@terrifictotes.com']]
+
+
+def test_function_returns_key_error_with_incorrect_data(conn):
+    with pytest.raises(KeyError):
+        load_staff(
+            "s3://de-project-test-data/parquet/test-currency.parquet",
+            conn
+        )
