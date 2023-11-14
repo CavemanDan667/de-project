@@ -26,9 +26,12 @@ def transform_payment(csv_file):
         the expected columns.
         IndexError: if the datetime input does not match the expected length.
     """
-    
+
     payment_data = wr.s3.read_csv(path=csv_file, usecols=[
-        'payment_id', 'created_at', 'last_updated', 'transaction_id', 'counterparty_id', 'payment_amount' ,'currency_id', 'payment_type_id', 'paid', 'payment_date', 'company_ac_number', 'counterparty_ac_number'
+        'payment_id', 'created_at', 'last_updated',
+        'transaction_id', 'counterparty_id', 'payment_amount',
+        'currency_id', 'payment_type_id', 'paid',
+        'payment_date', 'company_ac_number', 'counterparty_ac_number'
     ])
 
     payment_list = payment_data.values.tolist()
@@ -56,5 +59,6 @@ def transform_payment(csv_file):
     fact_payment_df = pd.DataFrame(fact_payment_list, columns=[
         'payment_id', 'created_date', 'created_time',
         'last_updated_date', 'last_updated_time', 'transaction_id',
-        'counterparty_id', 'payment_amount', 'currency_id', 'payment_type_id', 'paid', 'payment_date'])
+        'counterparty_id', 'payment_amount', 'currency_id',
+        'payment_type_id', 'paid', 'payment_date'])
     return fact_payment_df
