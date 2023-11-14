@@ -23,6 +23,8 @@ def load_currency(parquet_file, conn):
         DatabaseError: if either the select or insert
         query fails to match up to the destination
         table, or if the parquet file contains null data.
+        KeyError/IndexError: if the columns in the passed parquet file
+        do not match the expected columns.
     """
     try:
         data = wr.s3.read_parquet(path=parquet_file, columns=[
@@ -46,7 +48,10 @@ def load_currency(parquet_file, conn):
                     {literal(value[2])}
                 );'''
                 conn.run(insert_query)
+    except IndexError as x:
+        logger.error(f"load_currency has raised an error: {x}")
+        raise x
     except DatabaseError as d:
-        logger.error(f"Load handler has raised an error: {d}")
+        logger.error(f"load_currency has raised an error: {d}")
         raise d
     return 'Data loaded successfully - dim_currency'

@@ -26,11 +26,29 @@ def load_purchase_order(parquet_file, conn):
         DatabaseError: if either the select or insert
         query fails to match up to the destination
         table.
+        KeyError/IndexError: if the columns in the passed parquet file
+        do not match the expected columns.
     """
-    purchase_order_data = wr.s3.read_parquet(path=parquet_file)
-
+    purchase_order_data = wr.s3.read_parquet(path=parquet_file, columns=[
+        'purchase_order_id',
+        'created_date',
+        'created_time',
+        'last_updated_date',
+        'last_updated_time',
+        'staff_id',
+        'counterparty_id',
+        'item_code',
+        'item_quantity',
+        'item_unit_price',
+        'currency_id',
+        'agreed_delivery_date',
+        'agreed_payment_date',
+        'agreed_delivery_location_id'
+    ])
     purchase_order_list = purchase_order_data.values.tolist()
-
+    if len(purchase_order_list) == 0:
+        logger.error("load_purchase_order was given an incorrect file")
+        raise KeyError
     for purchase in purchase_order_list:
         try:
             select_query = f'''
@@ -74,6 +92,9 @@ def load_purchase_order(parquet_file, conn):
                                 );'''
                 conn.run(insert_query)
         except DatabaseError as d:
-            logger.error(f"Load handler has raised an error: {d}")
+            logger.error(f"load_purchase_order has raised an error: {d}")
             raise d
+        except IndexError as x:
+            logger.error(f"load_purchase_order has raised an error: {x}")
+            raise x
     return 'Data loaded successfully - fact_purchase_order'
