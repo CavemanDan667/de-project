@@ -113,21 +113,6 @@ def test_function_returns_key_error_with_incorrect_data(conn, caplog):
     assert 'load_address was given an incorrect file' in caplog.text
 
 
-def test_function_returns_DatabaseError():
-    with pytest.raises(DatabaseError):
-        invalid_conn = Connection(
-            user='invalid',
-            password='invalid',
-            host='localhost',
-            port=5432,
-            database='invalid'
-        )
-        load_address(
-            "s3://de-project-test-data/parquet/test-address.parquet",
-            invalid_conn
-            )
-
-
 def test_function_calls_conn_with_correct_SQL_query():
     mock_conn = MagicMock()
     load_address(
@@ -149,3 +134,25 @@ def test_function_calls_conn_with_correct_SQL_query():
     assert expected_insert_query_list[3] in str(mock_conn.run.call_args)
     assert expected_insert_query_list[4] in str(mock_conn.run.call_args)
     assert expected_insert_query_list[5] in str(mock_conn.run.call_args)
+
+
+def test_function_raises_DatabaseError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = DatabaseError()
+    with pytest.raises(DatabaseError):
+        load_address(
+            's3://de-project-test-data/parquet/test-address.parquet',
+            mock_conn
+            )
+    assert 'load_address has raised a database error' in caplog.text
+
+
+def test_function_raises_IndexError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = IndexError()
+    with pytest.raises(IndexError):
+        load_address(
+            's3://de-project-test-data/parquet/test-address.parquet',
+            mock_conn
+            )
+    assert 'load_address has raised an error' in caplog.text
