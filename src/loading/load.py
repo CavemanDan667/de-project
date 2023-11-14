@@ -8,6 +8,7 @@ from load_utils.load_payment_type import load_payment_type
 from load_utils.load_sales_order import load_sales_order
 from load_utils.load_purchase_order import load_purchase_order
 from load_utils.load_staff import load_staff
+from load_utils.load_transaction import load_transaction
 from load_utils.get_credentials import get_credentials
 from load_utils.extract_event_data import extract_event_data
 from load_utils.extract_filepath import extract_filepath
@@ -76,6 +77,9 @@ def handler(event, context):
             logger.info(f"[UPDATED]: {table_name} has been updated")
         elif table_name == "fact_purchase_order":
             load_purchase_order(file_path, dw_conn)
+            logger.info(f"[UPDATED]: {table_name} has been updated")
+        elif table_name == "dim_transaction":
+            load_transaction(file_path, dw_conn)
             logger.info(f"[UPDATED]: {table_name} has been updated")
         else:
             logger.error(f"Table not recognised: {table_name}")

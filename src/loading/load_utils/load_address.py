@@ -19,9 +19,8 @@ def load_address(parquet_file, conn):
         DatabaseError: if either the select or insert
         query fails to match up to the destination
         table.
-        KeyError: if the columns in the passed parquet file
+        KeyError/IndexError: if the columns in the passed parquet file
         do not match the expected columns.
-        Exception: if an unexpected error occurs.
     """
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
@@ -65,8 +64,8 @@ def load_address(parquet_file, conn):
                 conn.run(query)
         return "Data loaded successfully - dim_location"
     except DatabaseError as d:
-        logger.error(f'Load handler has raised a database error: {d}')
+        logger.error(f'load_address has raised a database error: {d}')
         raise d
-    except Exception as e:
-        logger.error(f"Load handler has raised an error: {e}")
-        raise e
+    except IndexError as x:
+        logger.error(f"load_address has raised an error: {x}")
+        raise x
