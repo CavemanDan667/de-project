@@ -1,13 +1,20 @@
+'''
+This is a duplicate of the ingestion.py handler function
+for testing purposes. It has been created because
+the format of the import statements needed by the lambda
+would not match up to a local test suite.
+'''
+
 import logging
 import datetime
 import time
 from pg8000.native import Connection
+from src.ingestion.ingestion_utils.write_data import (
+    write_data_to_csv)
 from src.ingestion.ingestion_utils.fetch_data import (
     fetch_data)
 from src.ingestion.ingestion_utils.get_tables import (
     get_table_names)
-from src.ingestion.ingestion_utils.write_data import (
-    write_data_to_csv)
 from src.ingestion.ingestion_utils.extract_newest_time import (
     extract_newest_time)
 from src.ingestion.ingestion_utils.list_s3_contents import (
