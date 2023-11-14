@@ -6,6 +6,7 @@ from pg8000.native import Connection
 from dotenv import dotenv_values
 import pytest
 import subprocess
+from unittest.mock import MagicMock
 
 identity = subprocess.check_output('whoami')
 
@@ -87,3 +88,20 @@ def test_function_returns_key_error_with_incorrect_data(conn):
             's3://de-project-test-data/parquet/test-currency.parquet',
             conn
         )
+
+
+def test_function_calls_conn_with_correct_SQL_query():
+    mock_conn = MagicMock()
+    load_payment_type(
+        "s3://de-project-test-data/parquet/test-payment-type.parquet",
+        mock_conn
+        )
+    expected_insert_query_list = [
+        "INSERT INTO dim_payment_type",
+        "(payment_type_id, payment_type_name)",
+        "VALUES",
+        ]
+    assert mock_conn.run.call_count == 8
+    assert expected_insert_query_list[0] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[1] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[2] in str(mock_conn.run.call_args)

@@ -4,6 +4,7 @@ from pg8000.native import Connection
 from dotenv import dotenv_values
 import pytest
 import subprocess
+from unittest.mock import MagicMock
 
 
 identity = subprocess.check_output('whoami')
@@ -48,9 +49,7 @@ def test_function_correctly_populates_table(conn):
         conn
     )
 
-    result = conn.run(
-        'SELECT * FROM dim_staff ORDER BY staff_id;'
-    )
+    result = conn.run('SELECT * FROM dim_staff')
 
     assert result == [
         [1, 'NameA', 'SurnameA',
@@ -106,13 +105,8 @@ def test_function_correctly_updates_data(conn):
         's3://de-project-test-data/parquet/staff-update.parquet',
         conn
     )
-    result = conn.run(
-        'SELECT * FROM dim_staff ORDER BY staff_id;'
-    )
+    result = conn.run('SELECT * FROM dim_staff;')
     assert result == [
-        [1, 'NameA', 'MarriedSurname',
-         'Dept2', 'LocationA',
-         'namea.surnamea@terrifictotes.com'],
         [2, 'NameB', 'SurnameB',
          'Dept1', 'LocationA',
          'nameb.surnameb@terrifictotes.com'],
@@ -128,7 +122,9 @@ def test_function_correctly_updates_data(conn):
         [6, 'NameF', 'SurnameF',
          'Dept2', 'LocationA',
          'namef.surnamef@terrifictotes.com'],
-    ]
+        [1, 'NameA', 'MarriedSurname',
+         'Dept2', 'LocationA',
+         'namea.surnamea@terrifictotes.com']]
 
 
 def test_function_correctly_updates_department(conn):
@@ -138,8 +134,7 @@ def test_function_correctly_updates_department(conn):
         conn
     )
     result = conn.run(
-        'SELECT * FROM dim_staff ORDER BY staff_id;'
-    )
+        'SELECT * FROM dim_staff ORDER BY staff_id;')
     assert result == [
         [1, 'NameA', 'SurnameA',
          'Dept3', 'LocationB',
@@ -159,7 +154,7 @@ def test_function_correctly_updates_department(conn):
         [6, 'NameF', 'SurnameF',
          'Dept2', 'LocationA',
          'namef.surnamef@terrifictotes.com']
-    ]
+        ]
 
 
 def test_function_returns_key_error_with_incorrect_data(conn):
@@ -168,3 +163,28 @@ def test_function_returns_key_error_with_incorrect_data(conn):
             "s3://de-project-test-data/parquet/test-currency.parquet",
             conn
         )
+
+
+def test_function_calls_conn_with_correct_SQL_query():
+    mock_conn = MagicMock()
+    load_staff(
+        "s3://de-project-test-data/parquet/staff-test.parquet",
+        mock_conn
+        )
+    expected_insert_query_list = [
+        "staff_id,",
+        "first_name,",
+        "last_name,",
+        "department_name,",
+        "location,",
+        "email_address",
+        ") VALUES ("
+        ]
+    assert mock_conn.run.call_count == 10
+    assert expected_insert_query_list[0] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[1] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[2] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[3] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[4] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[5] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[6] in str(mock_conn.run.call_args)
