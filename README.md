@@ -1,7 +1,16 @@
 # de-project
+[![Security Checks and Testing](https://github.com/CavemanDan667/de-project/actions/workflows/checks_and_tests.yml/badge.svg)](https://github.com/CavemanDan667/de-project/actions/workflows/checks_and_tests.yml)
+[![Terraform Deployment](https://github.com/CavemanDan667/de-project/actions/workflows/terraform_deployment.yml/badge.svg)](https://github.com/CavemanDan667/de-project/actions/workflows/terraform_deployment.yml)
+
+### Contributors
+Dan Cox | 
+Jason Colville | 
+Jack Murphy | 
+Peter Konstantynov | 
+Helen Lyttle
 
 ## Overview
-This project aims to create a data platform that extracts data from an operational database, archives the ingested data in a data lake.
+This project creates a data platform that extracts data from an operational database, and archives the ingested data in a data lake.
 It then transforms this data, also archiving this as a parquet file, and finally loads it into a remodelled OLAP data warehouse.
 * It operates automatically on a schedule to extract any recently updated data from the existing database.
 * This data is stored in an s3 bucket on AWS, and a Cloudwatch log of the process is created.
@@ -9,7 +18,7 @@ It then transforms this data, also archiving this as a parquet file, and finally
 * The addition of data to this s3 bucket triggers the transformation process, in which this data is remodelled and stored as a parquet file.
 * The addition of transformed data into the second s3 bucket in turn triggers the load process.
 * The new warehouse has been created to separate data into dimension and fact tables, to improve readability and querying.
-* These transform and load process is also monitored and errors appropriately logged.
+* These transform and load processes are also monitored and errors are appropriately logged.
 * All Python code is unit tested, PEP8 compliant, checked for coverage levels, and checked for security vulnerabilities with safety and bandit packages.
 * These checks run automatically through GitHub Actions.
 
@@ -27,7 +36,6 @@ Included in this repo:
 8. A `.gitignore` file.
 9. A `requirements.txt` file listing all the library dependencies and version numbers.
 10. A `.python-version` file, created using `pyenv local`.
-
 
 ## Instructions
 To deploy this project locally:

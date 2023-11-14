@@ -10,11 +10,13 @@ def get_credentials(secret_name):
         secret_name (string): Name of the AWS Secret which contains
             the required database credentials.
 
-    Raises:
-        e: ClientError
-
     Returns:
-        dictionary: The database credentials in a dictionary.
+        credentials: The database credentials in a dictionary.
+
+    Raises:
+        ClientError: if connection to Secrets Manager fails.
+
+
     """
     client = boto3.client('secretsmanager')
 

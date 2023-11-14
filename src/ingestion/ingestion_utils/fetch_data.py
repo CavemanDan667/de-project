@@ -16,9 +16,7 @@ def fetch_data(conn, table_name, newest_time, time_now):
         time_now: a timestamp created in the parent function.
 
     Returns:
-        If successful, a dictionary
-        containing all headers and rows from the table.
-        In the case of an error, the function returns error codes.
+        A dictionary containing all headers and rows from the table.
 
     Raises:
         TypeError if parameters are missing.
