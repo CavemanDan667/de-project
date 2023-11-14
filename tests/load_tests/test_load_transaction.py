@@ -66,7 +66,7 @@ def test_function_returns_success_message(conn):
         "s3://de-project-test-data/parquet/test-transaction.parquet",
         conn
     )
-    
+
     assert result == "Data loaded successfully - dim_transaction"
 
 
@@ -112,7 +112,7 @@ def test_function_correctly_populates_table(conn):
                       [6, 'SALE', 2, None],
                       [7, 'SALE', 3, None],
                       [8, 'PURCHASE', None, 5],
-                      [9, 'SALE', 5, None], 
+                      [9, 'SALE', 5, None],
                       [10, 'SALE', 4, None]]
 
 
@@ -170,5 +170,5 @@ def test_function_does_not_duplicate_data(conn):
                       [6, 'SALE', 2, None],
                       [7, 'SALE', 3, None],
                       [8, 'PURCHASE', None, 5],
-                      [9, 'SALE', 5, None], 
+                      [9, 'SALE', 5, None],
                       [10, 'SALE', 4, None]]

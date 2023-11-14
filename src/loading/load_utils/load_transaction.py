@@ -39,7 +39,8 @@ def load_transaction(parquet_file, conn):
                     row[3] = None
                 print(row)
                 insert_query = f"""INSERT INTO dim_transaction
-                        (transaction_id, transaction_type, sales_order_id, purchase_order_id)
+                        (transaction_id, transaction_type,
+                        sales_order_id, purchase_order_id)
                         VALUES
                         ({literal(row[0])},
                          {literal(row[1])},
