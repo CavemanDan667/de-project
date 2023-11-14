@@ -22,7 +22,7 @@ requirements: create-environment
 
 ## Check for security issues with bandit
 run-bandit:
-	$(call execute_in_env, bandit -lll ./src/*/*/*.py ./src/*/*.py ./tests/*/*.py ./mock_database/*.py ./mock_data_warehouse/*.py)
+	$(call execute_in_env, bandit -lll ./src/*/*/*.py ./src/*/*.py ./tests/*/*.py ./duplicate_functions/*.py ./duplicate_functions/*/*.py ./mock_databases/*.py)
 
 ## Check for security vulnerabilities with safety
 run-safety:
@@ -37,7 +37,7 @@ run-flake:
 
 ## Run unit tests on ingestion utils
 test-ingestion:
-	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/ingestion_tests --ignore tests/ingestion_tests/test_ingestion.py)
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) pytest -v tests/ingestion_tests)
 
 ## Run unit tests on process utils
 test-process:
@@ -71,9 +71,9 @@ run-checks: requirements security-test run-flake unit-test check-coverage
 
 ## Re-seed the mock database
 seed-db:
-	$(call execute_in_env, PYTHONPATH=$(shell pwd) psql -f mock_database/seed.sql)
-	$(call execute_in_env, PYTHONPATH=$(shell pwd) psql -f mock_database/seed_empty.sql)
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) psql -f mock_databases/seed_mock_db.sql)
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) psql -f mock_databases/seed_empty_db.sql)
 
 ## Re-seed the mock data warehouse
 seed-dw:
-	$(call execute_in_env, PYTHONPATH=$(shell pwd) psql -f mock_data_warehouse/create_dw.sql)
+	$(call execute_in_env, PYTHONPATH=$(shell pwd) psql -f mock_databases/seed_mock_dw.sql)
