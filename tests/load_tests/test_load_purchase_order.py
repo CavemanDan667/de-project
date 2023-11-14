@@ -13,8 +13,8 @@ from decimal import Decimal
 
 identity = subprocess.check_output("whoami")
 
-if identity == b"runner\n":
-    config = get_credentials("test_totesys_db_creds")
+if identity == b'runner\n':
+    config = get_credentials("test_dw_creds")
 else:
     config = dotenv_values(".env")
 
@@ -84,6 +84,7 @@ def test_function_correctly_populates_table(conn):
 
 
 def test_function_does_not_repeat_duplicate_data(conn):
+    # ensure the reference tables are populated first
     load_staff(
        's3://de-project-test-data/parquet/staff-test.parquet',
        conn
@@ -100,6 +101,7 @@ def test_function_does_not_repeat_duplicate_data(conn):
         's3://de-project-test-data/parquet/test-currency.parquet',
         conn
     )
+    # run the load command multiple times with the same data
     load_purchase_order(
         's3://de-project-test-data/parquet/test-purchase-order.parquet',
         conn
@@ -108,8 +110,15 @@ def test_function_does_not_repeat_duplicate_data(conn):
         's3://de-project-test-data/parquet/test-purchase-order.parquet',
         conn
     )
-    purchase_order_result = conn.run('SELECT * FROM fact_purchase_order;')
-    assert len(purchase_order_result) == 7
+    load_purchase_order(
+        's3://de-project-test-data/parquet/test-purchase-order.parquet',
+        conn
+    )
+    # assert that there is only one entry in the table per ID
+    purchase_order_result = conn.run(
+        'SELECT * FROM fact_purchase_order WHERE purchase_order_id = 3;'
+    )
+    assert len(purchase_order_result) == 1
 
 
 def test_function_adds_updated_data_to_table(conn):
