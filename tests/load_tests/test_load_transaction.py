@@ -11,6 +11,7 @@ from pg8000.native import Connection
 from dotenv import dotenv_values
 import pytest
 import subprocess
+from unittest.mock import MagicMock
 
 identity = subprocess.check_output("whoami")
 
@@ -178,7 +179,7 @@ def test_function_does_not_duplicate_data(conn):
                       [10, 'SALE', 4, None]]
 
 
-def test_function_raises_error_with_incorrect_parquet_file(conn):
+def test_function_raises_error_with_incorrect_parquet_file(conn, caplog):
     with pytest.raises(KeyError):
         load_design(
             's3://de-project-test-data/parquet/test-design.parquet',
@@ -212,6 +213,7 @@ def test_function_raises_error_with_incorrect_parquet_file(conn):
             's3://de-project-test-data/parquet/test-payment-type.parquet',
             conn
         )
+    assert "load_transaction was given an incorrect file" in caplog.text
 
 
 def test_function_raises_error_on_null_data(conn):
@@ -248,3 +250,22 @@ def test_function_raises_error_on_null_data(conn):
             's3://de-project-test-data/parquet/test-fake-transaction.parquet',
             conn
         )
+
+
+def test_function_calls_conn_with_correct_SQL_query():
+    mock_conn = MagicMock()
+    load_transaction(
+        "s3://de-project-test-data/parquet/test-transaction.parquet",
+        mock_conn
+        )
+    expected_insert_query_list = [
+        "INSERT INTO dim_transaction",
+        "(transaction_id, transaction_type,",
+        "sales_order_id, purchase_order_id)",
+        "VALUES",
+        ]
+    assert mock_conn.run.call_count == 20
+    assert expected_insert_query_list[0] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[1] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[2] in str(mock_conn.run.call_args)
+    assert expected_insert_query_list[3] in str(mock_conn.run.call_args)
