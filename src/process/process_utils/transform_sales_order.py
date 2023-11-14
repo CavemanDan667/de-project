@@ -22,11 +22,24 @@ def transform_sales_order(csv_file):
         to be added to the new data warehouse created by the function.
 
     Raises:
-        IndexError: if the passed .csv file does not contain
-        the correct number of columns, or if the datetime input
-        does not match the expected length.
+        ValueError: if the passed .csv file does not contain
+        the expected columns.
+        IndexError: if the datetime input does not match the expected length.
     """
-    sales_order_data = wr.s3.read_csv(path=csv_file)
+    sales_order_data = wr.s3.read_csv(path=csv_file, usecols=[
+        'sales_order_id',
+        'created_at',
+        'last_updated',
+        'design_id',
+        'staff_id',
+        'counterparty_id',
+        'units_sold',
+        'unit_price',
+        'currency_id',
+        'agreed_delivery_date',
+        'agreed_payment_date',
+        'agreed_delivery_location_id'
+    ])
 
     sales_order_list = sales_order_data.values.tolist()
     fact_sales_order_list = []
@@ -49,6 +62,9 @@ def transform_sales_order(csv_file):
     except IndexError as x:
         logger.error(f"transform_sales_order has raised an error: {x}")
         raise x
+    except ValueError as v:
+        logger.error(f"transform_sales_order has raised an error: {v}")
+        raise v
 
     fact_sales_order_df = pd.DataFrame(fact_sales_order_list,
                                        columns=['sales_order_id',

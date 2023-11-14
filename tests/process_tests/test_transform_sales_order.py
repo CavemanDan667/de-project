@@ -26,7 +26,7 @@ def test_function_returns_correct_data():
 
 
 def test_function_raises_error_with_incorrect_csv():
-    with raises(IndexError):
+    with raises(ValueError):
         transform_sales_order(
             's3://de-project-test-data/csv/test-currency.csv'
         )

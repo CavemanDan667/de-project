@@ -64,3 +64,19 @@ def test_function_only_returns_new_data(mock_conn):
     assert result.values.tolist() == [[6, 'NameF', 'SurnameF',
                                        'Dept2', 'LocationA',
                                        'namef.surnamef@terrifictotes.com']]
+
+
+def test_function_raises_key_error_with_non_matching_info(mock_conn):
+    with pytest.raises(KeyError):
+        transform_staff(
+            "s3://de-project-test-data/csv/test-rogue-staff.csv",
+            mock_conn
+        )
+
+
+def test_function_raises_value_error_with_incorrect_file(mock_conn):
+    with pytest.raises(ValueError):
+        transform_staff(
+            "s3://de-project-test-data/csv/test-currency.csv",
+            mock_conn
+        )

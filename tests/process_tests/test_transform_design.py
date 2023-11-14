@@ -1,5 +1,6 @@
 from src.process.process_utils.transform_design import transform_design
 import pandas as pd
+import pytest
 
 
 def test_function_returns_data_frame():
@@ -16,3 +17,10 @@ def test_function_returns_correct_data():
         [4, "Name3", "/private/var", "name3-20000101-klmn.json"],
         [52, "Name2", "/lost+found", "name2-20000101-p123.json"],
     ]
+
+
+def test_function_raises_value_error_with_incorrect_file():
+    with pytest.raises(ValueError):
+        transform_design(
+            "s3://de-project-test-data/csv/test-currency.csv"
+        )
