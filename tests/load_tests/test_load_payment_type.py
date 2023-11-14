@@ -86,4 +86,4 @@ def test_function_returns_key_error_with_incorrect_data(conn):
         load_payment_type(
             's3://de-project-test-data/parquet/test-currency.parquet',
             conn
-         )
+        )
