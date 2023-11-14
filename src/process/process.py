@@ -12,6 +12,7 @@ from process_utils.transform_sales_order import transform_sales_order
 from process_utils.transform_staff import transform_staff
 from process_utils.transform_address import transform_address
 from process_utils.transform_purchase_order import transform_purchase_order
+from process_utils.transform_transaction import transform_transaction
 
 dw_config = get_credentials("data_warehouse_creds")
 totesys_config = get_credentials("totesys_database_creds")
@@ -81,12 +82,13 @@ def handler(event, context):
             process_table_name = f"dim_{table_name}"
 
         elif table_name == "counterparty":
-            for i in range(10):
+            for i in range(1,11):
                 try:
                     data_frame = transform_counterparty(file_path, dw_conn)
                     process_table_name = f"dim_{table_name}"
                     break
                 except KeyError or ValueError:
+                    logger.info(f'Attempt {i} failed. Retrying...')
                     continue
             if data_frame is None or process_table_name is None:
                 time_out = True
@@ -102,22 +104,34 @@ def handler(event, context):
         elif table_name == "sales_order":
             data_frame = transform_sales_order(file_path)
             process_table_name = f"fact_{table_name}"
+        
+        elif table_name == "transaction":
+            for i in range(1,11):
+                try:
+                    data_frame = transform_transaction(file_path)
+                    process_table_name = f"dim_{table_name}"
+                    break
+                except Exception:
+                    logger.info(f'Attempt {i} failed. Retrying...')
+                    continue
+            if data_frame is None or process_table_name is None:
+                time_out = True
 
         elif table_name == "purchase_order":
-            for i in range(10):
+            for i in range(1,11):
                 try:
                     data_frame = transform_purchase_order(file_path)
                     process_table_name = f"fact_{table_name}"
                     break
                 except Exception:
+                    logger.info(f'Attempt {i} failed. Retrying...')
                     continue
             if data_frame is None or process_table_name is None:
                 time_out = True
 
         elif table_name in [
             "department",
-            "payment",
-            "transaction"
+            "payment"
         ]:
             pass
 
