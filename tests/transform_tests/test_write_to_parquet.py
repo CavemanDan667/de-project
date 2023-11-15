@@ -1,4 +1,4 @@
-from src.process.process_utils.write_to_parquet import (
+from src.transform.transform_utils.write_to_parquet import (
     write_data_to_parquet
 )
 import os
@@ -25,7 +25,7 @@ def s3(aws_credentials):
 
 def test_writes_data_to_parquet_and_uploads_objects(s3):
     s3.create_bucket(
-        Bucket="de-project-processed-bucket",
+        Bucket="de-project-transformed-bucket",
         CreateBucketConfiguration={"LocationConstraint": "eu-west-2"},
     )
     data = {
@@ -38,10 +38,10 @@ def test_writes_data_to_parquet_and_uploads_objects(s3):
 
     write_data_to_parquet("0002", "currency", data_frame=test_data_frame)
     list_of_objects = s3.list_objects_v2(
-        Bucket="de-project-processed-bucket"
+        Bucket="de-project-transformed-bucket"
     )
     assert list_of_objects['Contents'][0]['Key'] == 'currency/0002.parquet'
 
-    object_body = s3.get_object(Bucket="de-project-processed-bucket",
+    object_body = s3.get_object(Bucket="de-project-transformed-bucket",
                                 Key='currency/0002.parquet')['Body'].read()
     assert b'PAR1' in object_body

@@ -8,7 +8,7 @@ logger.setLevel(logging.INFO)
 
 
 def load_transaction(parquet_file, conn):
-    """This function reads a processed file of transaction data.
+    """This function reads a transformed file of transaction data.
     It then uses a data warehouse connection to check whether
     each transaction_id in the data appears in the dim_transaction table.
     If the transaction_id is not found in dim_transaction, this function
@@ -16,7 +16,7 @@ def load_transaction(parquet_file, conn):
 
     Args:
         parquet_file: a filepath to a parquet file containing
-        data processed by a separate function.
+        data transformed by a separate function.
         conn: a connection to the new data warehouse.
     Returns:
         a message confirming successful insertion of data.

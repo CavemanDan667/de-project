@@ -1,4 +1,4 @@
-from src.process.process_utils.extract_event_data import extract_event_data
+from src.transform.transform_utils.extract_event_data import extract_event_data
 from test_event import s3_put, broken_s3_put
 import pytest
 

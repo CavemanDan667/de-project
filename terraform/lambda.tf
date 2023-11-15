@@ -10,14 +10,14 @@ resource "aws_lambda_function" "ingestion_lambda" {
   layers = [aws_lambda_layer_version.pg8000_layer.arn]
   source_code_hash = data.archive_file.zip_ingestion.output_base64sha256
 }
-# Creates process lambda using process.zip and the layers: pg8000, forex-Python, AWSSDKPandas
-resource "aws_lambda_function" "process_lambda" {
-  filename      = "./zipped/process.zip"
-  source_code_hash = data.archive_file.zip_process.output_base64sha256
-  function_name = "process_lambda"
-  role          = aws_iam_role.process_lambda_role.arn
+# Creates transformation lambda using transform.zip and the layers: pg8000, forex-Python, AWSSDKPandas
+resource "aws_lambda_function" "transform_lambda" {
+  filename      = "./zipped/transform.zip"
+  source_code_hash = data.archive_file.zip_transform.output_base64sha256
+  function_name = "transform_lambda"
+  role          = aws_iam_role.transform_lambda_role.arn
   runtime       = "python3.11"
-  handler = "process.handler"
+  handler = "transform.handler"
   timeout = 180
   layers = [aws_lambda_layer_version.pg8000_layer.arn,
             aws_lambda_layer_version.forex_layer.arn, 

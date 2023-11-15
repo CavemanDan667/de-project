@@ -27,20 +27,21 @@ logger.setLevel(logging.INFO)
 
 def handler(event, context):
     """
-    AWS Lambda handler function that calls
+    An AWS Lambda handler function that calls
     and manages utility functions for loading data
-    when parquet files of transformed data
-    are created in an s3 bucket.
+    from parquet files into a data warehouse.
 
     Args:
-        event (dict): AWS S3 PUT event object
+        event (dict): An AWS s3 PUT event object.
+        context (dict): Necessary to run the function
+        as a lambda.
 
     Actions:
-        invokes relevant load function, or logs an
-        error if given table does not exist
+        invokes the relevant load function, or logs an
+        error if the given table does not exist.
 
     Raises:
-        e: Any exception that is missed by the
+        Exception: Any exception that is missed by the
         utility functions should be caught here.
     """
     try:

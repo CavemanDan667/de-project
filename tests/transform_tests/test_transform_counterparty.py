@@ -1,4 +1,4 @@
-from src.process.process_utils.transform_counterparty import (
+from src.transform.transform_utils.transform_counterparty import (
     transform_counterparty
 )
 from src.loading.load_utils.load_address import (
@@ -7,7 +7,7 @@ from src.loading.load_utils.load_address import (
 from pg8000.native import Connection
 import pandas as pd
 import pytest
-from src.process.process_utils.get_credentials import get_credentials
+from src.transform.transform_utils.get_credentials import get_credentials
 import subprocess
 from dotenv import dotenv_values
 

@@ -3,11 +3,11 @@
 [![Terraform Deployment](https://github.com/CavemanDan667/de-project/actions/workflows/terraform_deployment.yml/badge.svg)](https://github.com/CavemanDan667/de-project/actions/workflows/terraform_deployment.yml)
 
 ### Contributors
-Dan Cox | 
-Jason Colville | 
-Jack Murphy | 
-Peter Konstantynov | 
-Helen Lyttle
+[Dan Cox](https://github.com/CavemanDan667) | 
+[Jason Colville](https://github.com/jcolville1) | 
+[Jack Murphy](https://github.com/Wander1ngPanda) | 
+[Peter Konstantynov](https://github.com/peterkonst) | 
+[Helen Lyttle](https://github.com/hlyttle)
 
 ## Overview
 This project creates a data platform that extracts data from an operational database, and archives the ingested data in a data lake.

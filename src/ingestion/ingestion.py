@@ -27,15 +27,15 @@ def handler(event, context):
     from a database and store it in an s3 bucket as a csv file.
 
     Calls:
-        list_contents: Returns a list of every item in an s3 bucket.
-        get_table_names: Returns a list of all table names from a database.
-        extract_newest_time: Returns the unix timestamp for the most recently
-                             created file in a specific table or 0.
-        fetch_data: Returns a dictionary with the contents of the database that
-                    have been updated between the current time and the newest
-                    time.
-        write_data_to_csv: Converts the passed in dataframe to a csv file that
-                           is then stored in the ingestion s3 bucket.
+        list_contents: to retrieve a list of every item in an s3 bucket.
+        get_table_names: to retrieve a list of all table names from a database.
+        extract_newest_time: to find the unix timestamp for the most recently
+            created file in a specific table.
+        fetch_data: to retrieve a dictionary with the contents of the
+            database that have been updated between the current time
+            and the newest time.
+        write_data_to_csv: to convert the passed in dataframe to a csv
+            file that is then stored in the ingestion s3 bucket.
 
     Args:
         event (dict), context (dict):

@@ -60,9 +60,9 @@ resource "aws_iam_role" "ingestion_lambda_role" {
     ]
   })
 }
-# Creates an process lambda IAM role
-resource "aws_iam_role" "process_lambda_role" {
-    name = "process_lambda_role"
+# Creates a transform lambda IAM role
+resource "aws_iam_role" "transform_lambda_role" {
+    name = "transform_lambda_role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -77,7 +77,7 @@ resource "aws_iam_role" "process_lambda_role" {
     ]
   })
 }
-# Creates an load lambda IAM role
+# Creates a load lambda IAM role
 resource "aws_iam_role" "load_lambda_role" {
     name = "load_lambda_role"
   assume_role_policy = jsonencode({
@@ -117,30 +117,30 @@ resource "aws_iam_role_policy_attachment" "admin_access_ingest_attach" {
   role = aws_iam_role.ingestion_lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
-############################### PROCESS ATTACHMENTS ###############################
-# Attaches secretsmanager read/write policy to process
-resource "aws_iam_role_policy_attachment" "secrets_read_write_process_attach" {
-  role = aws_iam_role.process_lambda_role.name
+############################### TRANSFORM ATTACHMENTS ###############################
+# Attaches secretsmanager read/write policy to transform
+resource "aws_iam_role_policy_attachment" "secrets_read_write_transform_attach" {
+  role = aws_iam_role.transform_lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
 }
-# Attaches the cloudwatch policy to process
-resource "aws_iam_role_policy_attachment" "cloudwatch_process_attach" {
-  role = aws_iam_role.process_lambda_role.name
+# Attaches the cloudwatch policy to transform
+resource "aws_iam_role_policy_attachment" "cloudwatch_transform_attach" {
+  role = aws_iam_role.transform_lambda_role.name
   policy_arn = aws_iam_policy.cloudwatch_logs_policy.arn
 }
-# Attaches the read/write policy to process
-resource "aws_iam_role_policy_attachment" "s3_read_write_process_attach" {
-  role = aws_iam_role.process_lambda_role.name
+# Attaches the read/write policy to transform
+resource "aws_iam_role_policy_attachment" "s3_read_write_transform_attach" {
+  role = aws_iam_role.transform_lambda_role.name
   policy_arn = aws_iam_policy.s3_read_write_policy.arn
 }
-# Attaches the full access policy to process
-resource "aws_iam_role_policy_attachment" "S3_Full_access_process_attach" {
-  role = aws_iam_role.process_lambda_role.name
+# Attaches the full access policy to transform
+resource "aws_iam_role_policy_attachment" "s3_full_access_transform_attach" {
+  role = aws_iam_role.transform_lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
-# Attaches admin access policy to process
-resource "aws_iam_role_policy_attachment" "admin_access_process_attach" {
-  role = aws_iam_role.process_lambda_role.name
+# Attaches admin access policy to transform
+resource "aws_iam_role_policy_attachment" "admin_access_transform_attach" {
+  role = aws_iam_role.transform_lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 ############################### LOADING ATTACHMENTS ###############################

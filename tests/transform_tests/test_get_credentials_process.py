@@ -1,4 +1,4 @@
-from src.process.process_utils.get_credentials import get_credentials
+from src.transform.transform_utils.get_credentials import get_credentials
 from moto import mock_secretsmanager
 import boto3
 from botocore.exceptions import ClientError
@@ -7,9 +7,6 @@ import pytest
 
 @mock_secretsmanager
 def test_get_credentials_can_retrieve_secret_as_a_dictionary():
-    """Test sets up mock secret to test if function can
-    retrieve said secret from AWS if a valid secret name is
-    passed and return result in a dictionary"""
     conn = boto3.client("secretsmanager", region_name="eu-west-2")
     conn.create_secret(
         Name="test-name",
