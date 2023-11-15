@@ -191,13 +191,34 @@ def test_function_calls_conn_with_correct_SQL_query():
     assert expected_insert_query_list[6] in str(mock_conn.run.call_args)
 
 
-def test_function_handles_connection_error():
+def test_function_handles_DatabaseError(caplog):
     mock_conn = MagicMock()
-    mock_conn.run.side_effect = DatabaseError(
-                                "load_staff has raised an error: "
-                                )
+    mock_conn.run.side_effect = DatabaseError()
 
     with pytest.raises(DatabaseError):
         load_staff(
             's3://de-project-test-data/parquet/staff-update.parquet',
             mock_conn)
+    assert 'load_staff has raised an error' in caplog.text
+
+
+def test_function_handles_ValueError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = ValueError()
+
+    with pytest.raises(ValueError):
+        load_staff(
+            's3://de-project-test-data/parquet/staff-update.parquet',
+            mock_conn)
+    assert 'load_staff has raised an error' in caplog.text
+
+
+def test_function_handles_IndexError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = IndexError()
+
+    with pytest.raises(IndexError):
+        load_staff(
+            's3://de-project-test-data/parquet/staff-update.parquet',
+            mock_conn)
+    assert 'load_staff has raised an error' in caplog.text

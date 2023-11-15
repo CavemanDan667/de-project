@@ -4,6 +4,7 @@ import pytest
 from src.loading.load_utils.get_credentials import get_credentials
 import subprocess
 from dotenv import dotenv_values
+from unittest.mock import MagicMock
 
 identity = subprocess.check_output('whoami')
 
@@ -75,3 +76,25 @@ def test_function_raises_error_with_incorrect_parquet_file(conn):
             's3://de-project-test-data/parquet/test-payment-type.parquet',
             conn
         )
+
+
+def test_function_handles_DatabaseError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = DatabaseError()
+
+    with pytest.raises(DatabaseError):
+        load_currency(
+            's3://de-project-test-data/parquet/test-currency.parquet',
+            mock_conn)
+    assert 'load_currency has raised an error' in caplog.text
+
+
+def test_function_handles_IndexError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = IndexError()
+
+    with pytest.raises(IndexError):
+        load_currency(
+            's3://de-project-test-data/parquet/test-currency.parquet',
+            mock_conn)
+    assert 'load_currency has raised an error' in caplog.text

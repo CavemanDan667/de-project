@@ -1,9 +1,10 @@
 from src.loading.load_utils.load_design import load_design
 from src.loading.load_utils.get_credentials import get_credentials
-from pg8000.native import Connection
+from pg8000.native import Connection, DatabaseError
 from dotenv import dotenv_values
 import pytest
 import subprocess
+from unittest.mock import MagicMock
 
 identity = subprocess.check_output("whoami")
 
@@ -94,3 +95,25 @@ def test_function_returns_key_error_with_incorrect_data(conn):
             "s3://de-project-test-data/parquet/test-currency.parquet",
             conn
         )
+
+
+def test_function_handles_DatabaseError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = DatabaseError()
+
+    with pytest.raises(DatabaseError):
+        load_design(
+            's3://de-project-test-data/parquet/test-design.parquet',
+            mock_conn)
+    assert 'load_design has raised an error' in caplog.text
+
+
+def test_function_handles_IndexError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = IndexError()
+
+    with pytest.raises(IndexError):
+        load_design(
+            's3://de-project-test-data/parquet/test-design.parquet',
+            mock_conn)
+    assert 'load_design has raised an error' in caplog.text

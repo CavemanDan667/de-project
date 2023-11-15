@@ -3,7 +3,7 @@ from src.loading.load_utils.get_credentials import get_credentials
 from src.loading.load_utils.load_address import (
     load_address
 )
-from pg8000.native import Connection
+from pg8000.native import Connection, DatabaseError
 from dotenv import dotenv_values
 import pytest
 import subprocess
@@ -152,3 +152,36 @@ def test_function_calls_conn_with_correct_SQL_query():
     assert expected_insert_query_list[8] in str(mock_conn.run.call_args)
     assert expected_insert_query_list[9] in str(mock_conn.run.call_args)
     assert expected_insert_query_list[10] in str(mock_conn.run.call_args)
+
+
+def test_function_handles_DatabaseError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = DatabaseError()
+
+    with pytest.raises(DatabaseError):
+        load_counterparty(
+            's3://de-project-test-data/parquet/test-counterparty.parquet',
+            mock_conn)
+    assert 'load_counterparty has raised an error' in caplog.text
+
+
+def test_function_handles_IndexError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = IndexError()
+
+    with pytest.raises(IndexError):
+        load_counterparty(
+            's3://de-project-test-data/parquet/test-counterparty.parquet',
+            mock_conn)
+    assert 'load_counterparty has raised an error' in caplog.text
+
+
+def test_function_handles_Exception(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = Exception()
+
+    with pytest.raises(Exception):
+        load_counterparty(
+            's3://de-project-test-data/parquet/test-counterparty.parquet',
+            mock_conn)
+    assert 'load_counterparty has raised an error' in caplog.text
