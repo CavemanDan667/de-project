@@ -7,7 +7,7 @@ from src.loading.load_utils.load_counterparty import load_counterparty
 from src.loading.load_utils.load_currency import load_currency
 from src.loading.load_utils.load_staff import load_staff
 from src.loading.load_utils.get_credentials import get_credentials
-from pg8000.native import Connection
+from pg8000.native import Connection, DatabaseError
 from dotenv import dotenv_values
 import pytest
 import subprocess
@@ -269,3 +269,25 @@ def test_function_calls_conn_with_correct_SQL_query():
     assert expected_insert_query_list[1] in str(mock_conn.run.call_args)
     assert expected_insert_query_list[2] in str(mock_conn.run.call_args)
     assert expected_insert_query_list[3] in str(mock_conn.run.call_args)
+
+
+def test_function_raises_DatabaseError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = DatabaseError()
+    with pytest.raises(DatabaseError):
+        load_transaction(
+            's3://de-project-test-data/parquet/test-transaction.parquet',
+            mock_conn
+            )
+    assert 'load_transaction has raised an error' in caplog.text
+
+
+def test_function_raises_IndexError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = IndexError()
+    with pytest.raises(IndexError):
+        load_transaction(
+            's3://de-project-test-data/parquet/test-transaction.parquet',
+            mock_conn
+            )
+    assert 'load_transaction has raised an error' in caplog.text

@@ -2,7 +2,7 @@ from src.loading.load_utils.load_payment_type import (
     load_payment_type
 )
 from src.loading.load_utils.get_credentials import get_credentials
-from pg8000.native import Connection
+from pg8000.native import Connection, DatabaseError
 from dotenv import dotenv_values
 import pytest
 import subprocess
@@ -105,3 +105,25 @@ def test_function_calls_conn_with_correct_SQL_query():
     assert expected_insert_query_list[0] in str(mock_conn.run.call_args)
     assert expected_insert_query_list[1] in str(mock_conn.run.call_args)
     assert expected_insert_query_list[2] in str(mock_conn.run.call_args)
+
+
+def test_function_handles_DatabaseError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = DatabaseError()
+
+    with pytest.raises(DatabaseError):
+        load_payment_type(
+            's3://de-project-test-data/parquet/test-payment-type.parquet',
+            mock_conn)
+    assert 'load_payment_type has raised an error' in caplog.text
+
+
+def test_function_handles_IndexError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = IndexError()
+
+    with pytest.raises(IndexError):
+        load_payment_type(
+            's3://de-project-test-data/parquet/test-payment-type.parquet',
+            mock_conn)
+    assert 'load_payment_type has raised an error' in caplog.text

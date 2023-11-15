@@ -4,12 +4,13 @@ from src.loading.load_utils.load_counterparty import load_counterparty
 from src.loading.load_utils.load_currency import load_currency
 from src.loading.load_utils.load_staff import load_staff
 from src.loading.load_utils.get_credentials import get_credentials
-from pg8000.native import Connection
+from pg8000.native import Connection, DatabaseError
 from dotenv import dotenv_values
 import pytest
 import subprocess
 import datetime
 from decimal import Decimal
+from unittest.mock import MagicMock
 
 identity = subprocess.check_output("whoami")
 
@@ -176,3 +177,14 @@ def test_function_returns_key_error_with_incorrect_data(conn):
             "s3://de-project-test-data/parquet/test-address.parquet",
             conn
         )
+
+
+def test_function_raises_DatabaseError(caplog):
+    mock_conn = MagicMock()
+    mock_conn.run.side_effect = DatabaseError()
+    with pytest.raises(DatabaseError):
+        load_purchase_order(
+            's3://de-project-test-data/parquet/test-purchase-order.parquet',
+            mock_conn
+            )
+    assert 'load_purchase_order has raised an error' in caplog.text
