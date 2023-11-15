@@ -18,7 +18,7 @@ resource "aws_lambda_function" "transform_lambda" {
   role          = aws_iam_role.transform_lambda_role.arn
   runtime       = "python3.11"
   handler = "transform.handler"
-  timeout = 180
+  timeout = 300
   layers = [aws_lambda_layer_version.pg8000_layer.arn,
             aws_lambda_layer_version.forex_layer.arn, 
             "arn:aws:lambda:eu-west-2:336392948345:layer:AWSSDKPandas-Python311:2"]
@@ -31,7 +31,7 @@ resource "aws_lambda_function" "load_lambda" {
   role          = aws_iam_role.load_lambda_role.arn
   runtime       = "python3.11"
   handler = "load.handler"
-  timeout = 180
+  timeout = 300
   layers = [aws_lambda_layer_version.pg8000_layer.arn,
             aws_lambda_layer_version.forex_layer.arn, 
             "arn:aws:lambda:eu-west-2:336392948345:layer:AWSSDKPandas-Python311:2"]
