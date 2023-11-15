@@ -17,7 +17,7 @@ resource "aws_sns_topic_subscription" "sns_subscription" {
 }
 
 
-############################### INGESTION LAMBA ###############################
+############################### INGESTION LAMBDA ###############################
 # Creates a CloudWatch Log Metric Filter resource - 'Error' Filter
 resource "aws_cloudwatch_log_metric_filter" "ingestion_error_filter" {
   name           = "IngestionErrorFilter"
@@ -45,36 +45,7 @@ resource "aws_cloudwatch_metric_alarm" "ingestion_error_alarm" {
   treat_missing_data = "notBreaching"
 }
 
-# Creates a CloudWatch Log Metric Filter resource - 'Created' Filter
-resource "aws_cloudwatch_log_metric_filter" "created_filter" {
-  name           = "IngestionCreatedFilter"
-  pattern        = "CREATED"
-  log_group_name = "/aws/lambda/ingestion_lambda"
-
-  metric_transformation {
-    name      = "IngestionCreatedCount"
-    namespace = "CustomLambdaMetrics"
-    value     = "1"
-  }
-}
-
-# Sets an alarm monitoring the Created metric
-resource "aws_cloudwatch_metric_alarm" "ingestion_created_alarm" {
-  alarm_name = "IngestionCreatedAlarm"
-  comparison_operator = "GreaterThanThreshold"
-  evaluation_periods = 6
-  datapoints_to_alarm = 5
-  threshold = 0
-  period = 600
-  metric_name = "IngestionCreatedCount"
-  statistic = "SampleCount"
-  alarm_actions = [aws_sns_topic.alerts.arn]
-  namespace = "CustomLambdaMetrics"
-  treat_missing_data = "notBreaching"
-}
-
-
-############################### TRANSFORMATION LAMBA ###############################
+############################### TRANSFORMATION LAMBDA ###############################
 # Creates a CloudWatch Log Metric Filter resource - 'Error' Filter
 resource "aws_cloudwatch_log_metric_filter" "transform_error_filter" {
   name           = "TransformErrorFilter"
@@ -104,7 +75,7 @@ resource "aws_cloudwatch_metric_alarm" "transform_error_alarm" {
 
 
 
-############################### LOAD LAMBA ###############################
+############################### LOAD LAMBDA ###############################
 # Creates a CloudWatch Log Metric Filter resource - 'Error' Filter
 resource "aws_cloudwatch_log_metric_filter" "load_error_filter" {
   name           = "LoadErrorFilter"

@@ -14,6 +14,7 @@ from transform_utils.transform_staff import transform_staff
 from transform_utils.transform_address import transform_address
 from transform_utils.transform_purchase_order import transform_purchase_order
 from transform_utils.transform_transaction import transform_transaction
+from transform_utils.transform_payment import transform_payment
 
 dw_config = get_credentials("data_warehouse_creds")
 totesys_config = get_credentials("totesys_database_creds")
@@ -54,6 +55,7 @@ def handler(event, context):
         transform_sales_order:
         transform_transaction:
         transform_purchase_order:
+        transform_payment:
             To transform the newly-ingested .csv file as required, and retrieve
             a dataframe of the transformed data.
         write_data_to_parquet: to convert the passed dataframe to a
@@ -157,9 +159,23 @@ def handler(event, context):
             if data_frame is None or transform_table_name is None:
                 time_out = True
 
+        elif table_name == "payment":
+            time.sleep(240)
+            for i in range(1, 11):
+                try:
+                    data_frame = transform_payment(file_path)
+                    transform_table_name = f"fact_{table_name}"
+                    break
+                except Exception:
+                    logger.info(
+                        f'{table_name} attempt {i} failed. Retrying...'
+                        )
+                    continue
+            if data_frame is None or transform_table_name is None:
+                time_out = True
+
         elif table_name in [
-            "department",
-            "payment"
+            "department"
         ]:
             pass
 
