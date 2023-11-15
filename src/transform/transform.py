@@ -158,7 +158,7 @@ def handler(event, context):
                     continue
             if data_frame is None or transform_table_name is None:
                 time_out = True
-        
+
         elif table_name == "payment":
             time.sleep(240)
             for i in range(1, 11):
