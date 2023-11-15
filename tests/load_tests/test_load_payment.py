@@ -122,17 +122,24 @@ def test_function_correctly_populates_table(conn):
         "s3://de-project-test-data/parquet/test-payment.parquet",
         conn
     )
-    payment_result = conn.run('SELECT * FROM fact_payment;')
-    assert payment_result[0:3] == [
-        [1, 1, datetime.date(2020, 1, 1), datetime.time(10, 0),
-         datetime.date(2020, 10, 10), datetime.time(11, 30), 1, 1,
-         Decimal('123.45'), 1, 1, False, datetime.date(2023, 10, 10)],
-        [2, 2, datetime.date(2020, 1, 1), datetime.time(10, 0),
-         datetime.date(2020, 10, 10), datetime.time(11, 30), 2, 2,
-         Decimal('3333.55'), 2, 3, True, datetime.date(2023, 10, 10)],
-        [3, 3, datetime.date(2020, 1, 1), datetime.time(10, 0),
-         datetime.date(2020, 10, 10), datetime.time(11, 30), 3, 3,
-         Decimal('60500.99'), 3, 1, False, datetime.date(2023, 10, 10)]]
+    payment_result_3 = conn.run(
+        'SELECT * FROM fact_payment WHERE payment_id = 3;'
+    )
+    assert payment_result_3[0] == [
+        3, 3, datetime.date(2020, 1, 1),
+        datetime.time(10, 0), datetime.date(2020, 10, 10),
+        datetime.time(11, 30), 3, 3, Decimal('60500.99'),
+        3, 1, False, datetime.date(2023, 10, 10)
+        ]
+    payment_result_2 = conn.run(
+        'SELECT * FROM fact_payment WHERE payment_id = 2;'
+    )
+    assert payment_result_2[0] == [
+        2, 2, datetime.date(2020, 1, 1),
+        datetime.time(10, 0), datetime.date(2020, 10, 10),
+        datetime.time(11, 30), 2, 2, Decimal('3333.55'),
+        2, 3, True, datetime.date(2023, 10, 10)
+        ]
 
 
 def test_function_does_not_repeat_duplicate_data(conn):
@@ -198,7 +205,9 @@ def test_function_adds_additional_data_to_table(conn):
         's3://de-project-test-data/parquet/test-payment-update.parquet',
         conn
     )
-    purchase_order_full_table = conn.run('SELECT * FROM fact_payment;')
+    purchase_order_full_table = conn.run(
+        'SELECT * FROM fact_payment ORDER BY payment_record_id;'
+        )
     assert purchase_order_full_table == [
         [1, 1, datetime.date(2020, 1, 1), datetime.time(10, 0),
          datetime.date(2020, 10, 10), datetime.time(11, 30),
@@ -211,7 +220,8 @@ def test_function_adds_additional_data_to_table(conn):
          3, 3, Decimal('60500.99'), 3, 1, False, datetime.date(2023, 10, 10)],
         [4, 4, datetime.date(2020, 1, 1), datetime.time(10, 0),
          datetime.date(2020, 10, 10), datetime.time(11, 30),
-         1, 3, Decimal('34564.23'), 2, 3, False, datetime.date(2023, 10, 10)]]
+         1, 3, Decimal('34564.23'), 2, 3, False, datetime.date(2023, 10, 10)]
+    ]
 
 
 def test_function_adds_updated_data_to_table(conn):

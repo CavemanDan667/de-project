@@ -8,15 +8,15 @@ logger.setLevel(logging.INFO)
 
 def load_payment(parquet_file, conn):
     """
-    This function reads parquet_file of transformed data.
+    This function reads a parquet file of transformed data.
     For each sale, it checks to see if that combination of payment_id,
     updated_time and updated_date are within the fact_payment table.
-    If it isn't, the function inserts the new payment data into the table,
+    If they aren't, the function inserts the new payment record into the table,
     whether it is a new payment, or an update to a previous payment.
 
     Args:
         parquet_file: a filepath to a parquet file containing
-        data transformed from the original database.
+            data transformed from the original database.
         conn: a connection to the new data warehouse.
 
      Returns:
@@ -36,7 +36,6 @@ def load_payment(parquet_file, conn):
         'payment_type_id', 'paid', 'payment_date'])
 
     payment_list = payment_data.values.tolist()
-    print(payment_list)
 
     if len(payment_list) == 0:
         logger.error("load_payment was given an incorrect file")
