@@ -22,7 +22,7 @@ logger.setLevel(logging.INFO)
 
 
 def write_data_to_parquet(now, table_name, data_frame):
-    """Writes a pandas DataFrame to Parquet format on S3 bucket.
+    """Writes a pandas DataFrame to Parquet format on s3 bucket.
 
     Args:
         now (str): A timestamp or identifier for the current operation.
@@ -34,7 +34,7 @@ def write_data_to_parquet(now, table_name, data_frame):
         None
     """
     try:
-        p = f's3://de-project-processed-bucket/{table_name}/{now}.parquet'
+        p = f's3://de-project-transformed-bucket/{table_name}/{now}.parquet'
         wr.s3.to_parquet(
             df=data_frame,
             path=p

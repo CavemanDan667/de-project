@@ -4,14 +4,14 @@ import logging
 
 
 def load_address(parquet_file, conn):
-    """This function reads a processed parquet file.
+    """This function reads a transformed parquet file.
     It then uses a connection to the data warehouse
     to populate the corresponding dim_location
     table with the data from that file.
 
     Args:
         parquet_file: a filepath to a parquet file containing
-        data processed in a separate function.
+        data transformed in a separate function.
         conn: a connection to the new data warehouse.
     Returns:
         a message confirming successful load of data.

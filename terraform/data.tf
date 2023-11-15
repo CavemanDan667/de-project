@@ -12,19 +12,19 @@ output "account_id" {
 }
 
 ############################### ZIP FUNCTIONS ###############################
-# Zips up the ingestion folder on terraform apply for use in the lambda
+# Zips up the ingestion folder for use in the lambda
 data "archive_file" "zip_ingestion" {
   type = "zip"
   source_dir = "../src/ingestion"
   output_path = "./zipped/ingestion.zip"
 }
-# Zips up the process folder on terraform apply for use in the lambda
-data "archive_file" "zip_process" {
+# Zips up the transform folder for use in the lambda
+data "archive_file" "zip_transform" {
   type = "zip"
-  source_dir = "../src/process"
-  output_path = "./zipped/process.zip"
+  source_dir = "../src/transform"
+  output_path = "./zipped/transform.zip"
 }
-# Zips up the loading folder on terraform apply for use in the lambda
+# Zips up the loading folder for use in the lambda
 data "archive_file" "zip_load" {
   type = "zip"
   source_dir = "../src/loading"

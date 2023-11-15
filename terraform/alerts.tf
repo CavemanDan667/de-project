@@ -74,28 +74,28 @@ resource "aws_cloudwatch_metric_alarm" "ingestion_created_alarm" {
 }
 
 
-############################### PROCESS LAMBA ###############################
+############################### TRANSFORMATION LAMBA ###############################
 # Creates a CloudWatch Log Metric Filter resource - 'Error' Filter
-resource "aws_cloudwatch_log_metric_filter" "process_error_filter" {
-  name           = "ProcessErrorFilter"
+resource "aws_cloudwatch_log_metric_filter" "transform_error_filter" {
+  name           = "TransformErrorFilter"
   pattern        = "ERROR"
-  log_group_name = "/aws/lambda/process_lambda"
+  log_group_name = "/aws/lambda/transform_lambda"
 
   metric_transformation {
-    name      = "ProcessErrorCount"
+    name      = "TransformErrorCount"
     namespace = "CustomLambdaMetrics"
     value     = "1"
   }
 }
 
 # Sets an alarm monitoring the Error metric
-resource "aws_cloudwatch_metric_alarm" "process_error_alarm" {
-  alarm_name = "ProcessErrorAlarm"
+resource "aws_cloudwatch_metric_alarm" "transform_error_alarm" {
+  alarm_name = "TransformErrorAlarm"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods = 1
   threshold = 0
   period = 600
-  metric_name = "ProcessErrorCount"
+  metric_name = "TransformErrorCount"
   statistic = "SampleCount"
   alarm_actions = [aws_sns_topic.alerts.arn]
   namespace = "CustomLambdaMetrics"

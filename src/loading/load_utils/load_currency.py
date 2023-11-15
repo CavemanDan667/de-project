@@ -7,7 +7,7 @@ logger.setLevel(logging.INFO)
 
 
 def load_currency(parquet_file, conn):
-    """This function reads a processed file of currency data.
+    """This function reads a transformed file of currency data.
     It then uses a data warehouse connection to check whether
     each currency_id in the data appears in the dim_currency table.
     If the currency_id is not found in dim_currency, this function
@@ -15,7 +15,7 @@ def load_currency(parquet_file, conn):
 
     Args:
         parquet_file: a filepath to a parquet file containing
-        data processed by a separate function.
+        data transformed by a separate function.
         conn: a connection to the new data warehouse.
     Returns:
         a message confirming successful insertion of data.

@@ -1,4 +1,4 @@
-from src.process.process_utils.extract_filepath import extract_filepath
+from src.transform.transform_utils.extract_filepath import extract_filepath
 from test_event import s3_put
 import pytest
 

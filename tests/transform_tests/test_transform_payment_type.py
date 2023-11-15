@@ -1,4 +1,4 @@
-from src.process.process_utils.transform_payment_type import (
+from src.transform.transform_utils.transform_payment_type import (
     transform_payment_type)
 import pandas as pd
 from pytest import raises
