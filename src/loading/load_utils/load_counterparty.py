@@ -83,7 +83,6 @@ def load_counterparty(parquet_file, conn):
                     counterparty_legal_country = {literal(row[7])},
                     counterparty_legal_phone_number = {literal(row[8])}
                     WHERE counterparty_id = {literal(row[0])}'''
-            print(insert_query)
             conn.run(insert_query)
         except DatabaseError as d:
             logger.error(f'load_counterparty has raised an error: {d}')
